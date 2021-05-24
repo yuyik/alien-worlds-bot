@@ -5,12 +5,9 @@ class bot{
     this.alertCaptcha = false;
     this.checkCpuPercent = 80;
     this.timerDelay = 810000;
-    this.timerDelayCpu = 60000;
     this.checkMinedelay = false;
     this.firstMine = true;
     this.previousMineDone = false;
-  //  this.lineToken = '';
-    //this.lineBypassUrl = 'https://notify-gateway.vercel.app/api/notify';
 }
 
 delay = (millis) =>
@@ -60,25 +57,24 @@ async checkCPU (userAccount){
     }
     
     if(result){
-      const randomTimer = Math.floor(Math.random() * 30001)
-      const delayCheckCpu = this.timerDelayCpu
-      this.appendMessage(`CPU delay check ${Math.ceil(delayCheckCpu/1000/60)} min`)
-      await this.delay(delayCheckCpu + randomTimer);
-      i ++;
+      const delayCheckCpu = 120000 + Math.floor(Math.random() * 30001)
+      console.log(`%c[Bot] delay ${(delayCheckCpu/1000/60)} min check cpu again`, 'color:yellow')
+      await this.delay(delayCheckCpu);
     }
   }
 }
 
 appendMessage(msg , box = ''){
-  const dateNow = moment().format(' hh:mm ');
+  const dateNow = moment().format('  hh:mm ');
   const boxMessage = document.getElementById("box-message"+box)
   boxMessage.value += '\n'+ `${dateNow} : ${msg}`
   boxMessage.scrollTop = boxMessage.scrollHeight;
 }
 
 countDown(countDown){
-  let countDownDisplay = countDown/1000;
-  var x = setInterval(function() {
+  var countDownDisplay = (parseFloat(countDown/1000)).toFixed(2);
+  
+  const x = setInterval(function() {
     document.getElementById("text-cooldown").innerHTML = countDownDisplay + " Sec"
     countDown = countDown - 1000;
     countDownDisplay = countDown/1000;
@@ -122,12 +118,14 @@ async start() {
       }else{
         minedelay = await getMineDelay(userAccount);
       }
-      // console.log(`%c[Bot] Cooldown for ${Math.ceil((minedelay / 1000)/60)} min`, 'color:green');
+      // console.log(`%c[Bot] Cooldown for ${Math.ceil((minedelay / 1000)/60)} min`, 'color:yellow');
       this.countDown(minedelay)
       const RandomTimeWait = minedelay + Math.floor(1000 + (Math.random() * 9000))
       this.appendMessage(`Cooldown for ${Math.ceil((RandomTimeWait / 1000)/60)} min`)
       await this.delay(RandomTimeWait);
-      minedelay = 0;      
+      minedelay = 0;
+      console.log("bot checkCPU1");
+      await this.checkCPU(userAccount);
     } while (minedelay !== 0 && (this.previousMineDone || this.firstMine));
     await this.mine(userAccount)
   }
@@ -136,8 +134,7 @@ async start() {
 async mine(userAccount){
   document.getElementById("btn-mine").disabled = true
   const balance = await getBalance(userAccount, wax.api.rpc);
-    // console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:green');
-    document.getElementById("text-balance").innerHTML = balance
+    console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:yellow');
     
     const mine_work = await background_mine(userAccount);
     unityInstance.SendMessage(
@@ -220,16 +217,12 @@ async mine(userAccount){
       this.checkMinedelay = false;
       console.log(`%c[Bot] Error:${err.message}`, 'color:red');
       this.appendMessage(`Error:${err.message}`)
-      //send bypass line notify
-  //    if(this.lineToken !== ''){
-     //   await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${userAccount} , Message:${err.message}` })
-      //}
     }
 
     const afterMindedBalance = await getBalance(userAccount, wax.api.rpc);
     this.appendMessage(`balance (after mined): ${afterMindedBalance}`)
     document.getElementById("text-balance").innerHTML = afterMindedBalance
-    // console.log(`%c[Bot] balance (after mined): ${afterMindedBalance}`, 'color:green');
+    // console.log(`%c[Bot] balance (after mined): ${afterMindedBalance}`, 'color:yellow');
     document.getElementById("btn-mine").disabled = false
 }
 
