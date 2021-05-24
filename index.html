@@ -10,7 +10,7 @@
       href="https://play.alienworlds.io/apple-touch-icon.png"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <!-- <link rel="manifest" href="https://awhelper.com/manifest.json" />-->
+    <link rel="manifest" href="https://awhelper.com/manifest.json" />
 
     <meta
       name="viewport"
@@ -44,7 +44,7 @@
         &nbsp;👜 :&nbsp;<span id="text-balance" style="color:#ffffff">0 TLM</span>
         &nbsp;⏳ :&nbsp;<span id="text-cooldown" style="color:#ffffff">0 Sec</span>
 		&nbsp;🕒 :&nbsp;<input type="number" id="timer" name="timer" value="0" style="width: 25px;"> min
-		CPU Time:<input type="number" id="cpu-timer" name="cpu-timer" value="1" style="width: 25px;"> <span onclick="addToken()">min</span>
+		
       </div>
 	<textarea id="box-message" rows="4" style="resize: none;width: 400px;background-color: #9e9e9e;"></textarea>
 	<textarea id="box-message2" rows="4" style="resize: none;width: 400px;background-color: darkkhaki;"></textarea>
@@ -62,7 +62,6 @@
       function botRunningController(){
         const checkCpu = parseInt(document.getElementById("cpu").value)
         const timer = parseFloat(document.getElementById("timer").value)
-		const cpuTimer = parseFloat(document.getElementById("cpu-timer").value)
         if(bott.isBotRunning == true){
           bott.stop()
           document.getElementById("btn-controller").innerHTML = "START"
@@ -72,7 +71,6 @@
           }
           try{
             bott.timerDelay = (timer * 60) * 1000;
-			bott.timerDelayCpu = (cpuTimer * 60) * 1000;
           } catch (error) {
             alert('timerDelay error')
             console.error(error)
@@ -168,7 +166,6 @@
 
       // Initial execution if needed
       //Resize();
-
     </script>
   </body>
 </html>
