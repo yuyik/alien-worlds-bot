@@ -15,45 +15,44 @@ delay = (millis) =>
     setTimeout((_) => resolve(), millis);
   });
 
-isEmptyObject(obj) {
-  return Object.keys(obj).length === 0 && obj.constructor === Object;
-}
-
-async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'application/json'}) {
-  try {
-    const init = (method == 'POST') ? {method: method,mode: 'cors', cache: 'no-cache',credentials: 'same-origin',headers: header,redirect: 'follow',referrerPolicy: 'no-referrer',body: JSON.stringify(data)} : {method: method,mode: 'cors', cache: 'no-cache',credentials: 'same-origin',headers: header,redirect: 'follow',referrerPolicy: 'no-referrer'}
-    const response = await fetch(url, init);
-
-    return response.json(); // parses JSON response into native JavaScript objects
-  }catch (err) {
-    this.appendMessage(`Error:${err.message}`)
-    //send bypass line notify
-  //  if(this.lineToken !== ''){
-   //   await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`Fetch:error, User:${userAccount}, Message:${err.message}` })
-  //  }
-    return false;
-  }
+async postData(url = '', data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
 }
 
 async checkCPU (userAccount){
-  let result = true
-  let i = 0;
-  let accountDetail = {}
+  let result = true;
   while(result){
-    if(i%2 > 0){
-      accountDetail = await this.postData('https://api.waxsweden.org/v1/chain/get_account', { account_name: userAccount })
-    }else{
-      accountDetail = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+userAccount, {}, 'GET')
-	  accountDetail = accountDetail.account;
-    }
-      console.log('accountDetail',accountDetail)
-    if(accountDetail){
-      const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
-      console.log(`%c[Bot] rawPercent : ${rawPercent}%`, 'color:yellow')
-      this.appendMessage(`CPU ${rawPercent}%`)
-      if(rawPercent < this.checkCpuPercent){
-        result = false;
+    try {
+      const accountDetail = await this.postData('https://api.waxsweden.org/v1/chain/get_account', { account_name: userAccount })
+      
+      if(accountDetail.cpu_limit != null){
+        const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
+        console.log(`%c[Bot] Raw CPU Percent : ${rawPercent}%`, 'color:yellow')
+        this.appendMessage(`CPU ${rawPercent}%`)
+        if(rawPercent < this.checkCpuPercent){
+          result = false;
+        }
       }
+    }catch (err) {
+      console.log(err.message);
+	  this.appendMessage(`Error:${err.message}`)
+	  this.appendMessage(`Error:${err.message}`)
+	  
+      result = false;
     }
     
     if(result){
