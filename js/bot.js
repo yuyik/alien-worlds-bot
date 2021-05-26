@@ -9,6 +9,7 @@ class bot{
     this.firstMine = true;
     this.previousMineDone = false;
 	this.serverGetNonce = 'alien';
+	this.interval;
 }
 
 delay = (millis) =>
@@ -85,15 +86,16 @@ appendMessage(msg , box = ''){
 }
 
 countDown(countDown){
+	clearInterval(this.interval);
 	let countDownDisplay = (parseFloat(countDown/1000)).toFixed(2);
   
-	const x = setInterval(function() {
+	this.interval = setInterval(function() {
     document.getElementById("text-cooldown").innerHTML = countDownDisplay + " Sec"
     countDown = countDown - 1000;
     countDownDisplay = countDown/1000;
     if (countDown < 0) {
-      clearInterval(x);
-      document.getElementById("text-cooldown").innerHTML = "Go mine";
+	clearInterval(this.interval);
+	document.getElementById("text-cooldown").innerHTML = "Go mine";
     }
   }, 1000);
 }
