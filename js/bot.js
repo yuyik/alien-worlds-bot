@@ -8,6 +8,7 @@ class bot{
     this.checkMinedelay = false;
     this.firstMine = true;
     this.previousMineDone = false;
+	this.serverGetNonce = 'alien';
 }
 
 delay = (millis) =>
@@ -15,22 +16,35 @@ delay = (millis) =>
     setTimeout((_) => resolve(), millis);
   });
 
-async postData(url = '', data = {}) {
-  // Default options are marked with *
-  const response = await fetch(url, {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
-    headers: {
-      'Content-Type': 'application/json'
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    redirect: 'follow', // manual, *follow, error
-    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
-  });
-  return response.json(); // parses JSON response into native JavaScript objects
+async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'application/json'},returnMode = 'json') {
+  try {
+    const init = (method == 'POST') ? {method: method,mode: 'cors', cache: 'no-cache',credentials: 'same-origin',headers: header,redirect: 'follow',referrerPolicy: 'no-referrer',body: JSON.stringify(data)} : {method: method,mode: 'cors', cache: 'no-cache',credentials: 'same-origin',headers: header,redirect: 'follow',referrerPolicy: 'no-referrer'}
+    if(returnMode == 'json'){
+      const response = await fetch(url, init);
+      return response.json(); // parses JSON response into native JavaScript objects
+    }else{
+      const response = await fetch(url, init).then(function(response) {
+          if(response.ok)
+          {
+            return response.text(); 
+          }
+
+          throw new Error('Something went wrong.');
+      })  
+      .then(function(text) {
+        console.log('Request successful', text);
+        return text;
+      })  
+      .catch(function(error) {
+        console.log('Request failed', error);
+        return '';
+      });
+
+      return response
+    }
+  }catch (err) {
+    this.appendMessage(`Error:${err.message}`)
+}
 }
 
 async checkCPU (userAccount){
@@ -71,9 +85,9 @@ appendMessage(msg , box = ''){
 }
 
 countDown(countDown){
-  var countDownDisplay = (parseFloat(countDown/1000)).toFixed(2);
+	let countDownDisplay = (parseFloat(countDown/1000)).toFixed(2);
   
-  const x = setInterval(function() {
+	const x = setInterval(function() {
     document.getElementById("text-cooldown").innerHTML = countDownDisplay + " Sec"
     countDown = countDown - 1000;
     countDownDisplay = countDown/1000;
@@ -95,6 +109,7 @@ async stop() {
 }
 
 async start() {
+  console.log('this.serverGetNonce',this.serverGetNonce)
   const userAccount = await wax.login();
   document.getElementById("text-user").innerHTML = userAccount
   console.log('timerDelay',this.timerDelay,'checkCpuPercent',this.checkCpuPercent)
@@ -133,22 +148,24 @@ async start() {
 async mine(userAccount){
   document.getElementById("btn-mine").disabled = true
   const balance = await getBalance(userAccount, wax.api.rpc);
-    console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:yellow');
+	console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:yellow');
+	document.getElementById("text-balance").innerHTML = balance
     
-    const mine_work = await background_mine(userAccount);
-	console.log('mine_work =' , mine_work);
-	//const mine_work1 = fetch ('https://server-mine-b7clrv20.an.gateway.dev/server_mine?wallet=' + userAccount);
-	//console.log('mine_work1 =' , mine_work1);
-   
-   // unityInstance.SendMessage(
-    //  "Controller",
-   //   "Server_Response_Mine",
-//      JSON.stringify(mine_work)
-   // );
+    const mine_work = await background_mine(userAccount)
+    let nonce = "";
+    if(this.serverGetNonce == 'ninjamine'){
+      nonce = await this.postData('https://gateway-cors.herokuapp.com/https://server-mine-b7clrv20.an.gateway.dev/server_mine?wallet='+userAccount, {}, 'GET',{Origin : ""}, 'raw')     
+      console.log('nonceNinjamine',nonce)
+      if(nonce == ''){      
+        nonce = mine_work.rand_str
+      }
+    }else{
+      nonce = mine_work.rand_str
+    }
 
     const mine_data = {
       miner: mine_work.account,
-      nonce: mine_work.rand_str,
+      nonce: nonce,
     };
     const actions = [
       {
