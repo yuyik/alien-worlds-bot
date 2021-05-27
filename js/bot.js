@@ -5,11 +5,12 @@ class bot{
     this.alertCaptcha = false;
     this.checkCpuPercent = 80;
     this.timerDelay = 810000;
+    this.timerDelayCpu = 180000;
     this.checkMinedelay = false;
     this.firstMine = true;
     this.previousMineDone = false;
-	this.serverGetNonce = 'alien';
-	this.interval;
+    this.serverGetNonce = 'alien';
+    this.interval;
 }
 
 delay = (millis) =>
