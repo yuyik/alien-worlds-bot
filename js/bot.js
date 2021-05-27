@@ -99,7 +99,7 @@ appendMessage(msg , box = ''){
 
 countDown(countDown){
   clearInterval(this.interval);
-  var countDownDisplay = Math.floor(countDown/1000)
+  let countDownDisplay = Math.floor(countDown/1000)
   var hours = Math.floor((countDownDisplay % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   var minutes = Math.floor((countDownDisplay % (1000 * 60 * 60)) / (1000 * 60));
   var seconds = Math.floor((countDownDisplay % (1000 * 60)) / 1000);
