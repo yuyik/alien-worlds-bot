@@ -3,7 +3,7 @@ class bot{
   constructor() {
     this.isBotRunning = false;
     this.alertCaptcha = false;
-    this.checkCpuPercent = 90;
+    this.checkCpuPercent = 80;
     this.timerDelay = 810000;
     this.timerDelayCpu = 180000;
     this.checkMinedelay = false;
