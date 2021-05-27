@@ -76,6 +76,7 @@ async checkCPU (userAccount){
       console.log(`%c[Bot] CPU raw Percent : ${rawPercent}%`, 'color:yellow')
       this.appendMessage(`CPU ${rawPercent}%`)
      // document.getElementById("progress-track").innerHTML = (`${rawPercent}%`)
+      document.getElementById("progress-track").setAttribute("style", "height: " + rawPercent + "%;");
       if(rawPercent < this.checkCpuPercent){
         result = false;
       }
