@@ -52,8 +52,8 @@ async checkCPU (userAccount){
   let result = true;
   while(result){
     try {
-      //const accountDetail = await this.postData('https://api.waxsweden.org/v1/chain/get_account', { account_name: userAccount })
-	  const accountDetail = await this.postData('https://wax.pink.gg/v1/chain/get_account', { account_name: userAccount })
+      const accountDetail = await this.postData('https://api.waxsweden.org/v1/chain/get_account', { account_name: userAccount })
+	//const accountDetail = await this.postData('https://wax.pink.gg/v1/chain/get_account', { account_name: userAccount })
       
       if(accountDetail.cpu_limit != null){
         const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
