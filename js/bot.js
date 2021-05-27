@@ -63,7 +63,7 @@ async checkCPU (userAccount){
       accountDetail = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+userAccount, {}, 'GET')
       accountDetail = accountDetail.account;
     }else{
-      accountDetail = await this.postData('https://api.waxsweden.org/v1/chain/get_account', { account_name: userAccount })
+      accountDetail = await this.postData('https://wax.pink.gg/v1/chain/get_account', { account_name: userAccount })
     }
     if(accountDetail){
       const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
@@ -230,7 +230,7 @@ async mine(userAccount){
           //amounts.get(mine_work.account)
         //);
         //this.appendMessage(amounts.get(mine_work.account),'2')
-		const claimBounty = await getBountyFromTx(transaction_id, userAccount, ["https://api.waxsweden.org","https://wax.eosrio.io"])        
+		const claimBounty = await getBountyFromTx(transaction_id, userAccount, ["wax.pink.gg","https://wax.eosrio.io"])        
         this.appendMessage(claimBounty.toString(),'2')
 		
         this.firstMine = false;
