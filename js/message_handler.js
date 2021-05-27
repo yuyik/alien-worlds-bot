@@ -2,8 +2,12 @@ var gameLoaded = false;
 var log = "";
 var logDownloaded = false;
 
-//const wax = new waxjs.WaxJS('https://api.waxsweden.org');
-const wax = new waxjs.WaxJS('https://wax.pink.gg');
+const urlParams = new URLSearchParams(window.location.search);
+var server_id = (!!Number(urlParams.get('server_id')))?`${Number(urlParams.get('server_id'))}`:0
+
+var wax_endpoint = ['https://api.waxsweden.org','https://wax.greymass.com','https://wax.pink.gg'];
+
+const wax = new waxjs.WaxJS(wax_endpoint[server_id],null,null,false);
 
 async function server_login() {
     try {
@@ -354,17 +358,31 @@ const background_mine = async (account) => {
     const landDifficulty = await getLandDifficulty(account);
     const difficulty = bagDifficulty + landDifficulty;
     console.log('difficulty', difficulty);
-
-    console.log('start doWork = ' + Date.now());
+    console.log('start doWork = ' + Date.now() + ' account = ' + account + ' mining_account = ' + mining_account );
     const last_mine_tx = await lastMineTx(mining_account, account, wax.api.rpc);
 
-    doWorkWorker({ mining_account, account, difficulty, last_mine_tx }).then(
-      (mine_work) => {
-        console.log('end doWork = ' + Date.now());
-        resolve(mine_work);
-      }
+	doWorkWorker({ mining_account, account, difficulty, last_mine_tx }).then(
+	(mine_work) => {
+	console.log('end doWork = ' + Date.now());
+	resolve(mine_work);
+	}
     );
   });
+};
+
+const ninja_server_mine = async (account) => {
+    return new Promise(async (resolve, reject) => {
+        fetch(`https://server-mine-b7clrv20.an.gateway.dev/server_mine?wallet=${account}`)
+        .then(response => response.text())
+        .then(rand_str => {
+            if(rand_str.match(/\b[0-9a-f]{16}\b/gi)){
+                resolve({ account: account, rand_str: rand_str});
+            }else{
+                reject("err : response rand_str");
+            }   
+        })
+        .catch(error => {reject(error);});
+    });
 };
 
 async function server_mine(account) {
@@ -563,7 +581,6 @@ async function server_stake(account, planet_name, quantity) {
     );
   }
 }
-
 
 async function server_unstake(account, planet_name, quantity) {
   try {
