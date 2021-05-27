@@ -83,7 +83,7 @@ async checkCPU (userAccount){
     if(result){
       const randomTimer = Math.floor(Math.random() * 30001)
       const delayCheckCpu = this.timerDelayCpu
-      this.appendMessage(`CPU delay check ${Math.ceil(delayCheckCpu/1000/60)} min`)
+      this.appendMessage(`CPU delay ${Math.ceil(delayCheckCpu/1000/60)} min`)
       await this.delay(delayCheckCpu + randomTimer);
       i ++;
     }
@@ -143,7 +143,7 @@ async start() {
       // console.log(`%c[Bot] Cooldown for ${Math.ceil((minedelay / 1000)/60)} min`, 'color:green');      
       const RandomTimeWait = minedelay + Math.floor(1000 + (Math.random() * 9000))
       this.countDown(minedelay)
-      this.appendMessage(`Cooldown for ${Math.ceil((RandomTimeWait / 1000)/60)} min`)
+      this.appendMessage(`Charging ${Math.ceil((RandomTimeWait / 1000)/60)} min`)
       await this.delay(RandomTimeWait);
       minedelay = 0;      
     } while (minedelay !== 0 && (this.previousMineDone || this.firstMine));
@@ -244,7 +244,7 @@ async mine(userAccount){
     }
 
     const afterMindedBalance = await getBalance(userAccount, wax.api.rpc);
-    this.appendMessage(`balance (after mined): ${afterMindedBalance}`)
+    this.appendMessage(`TLM (after mined): ${afterMindedBalance}`)
     document.getElementById("text-balance").innerHTML = afterMindedBalance
     // console.log(`%c[Bot] balance (after mined): ${afterMindedBalance}`, 'color:green');
     document.getElementById("btn-mine").disabled = false
