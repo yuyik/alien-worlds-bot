@@ -77,9 +77,9 @@ async checkCPU (userAccount){
       this.appendMessage(`CPU ${rawPercent}%`)
       
      // document.getElementById("progress-track").innerHTML = (`${rawPercent}%`)
-      document.getElementById("progress-track").setAttribute("style", "height: " + rawPercent + "%;")
+      document.getElementsByClassName("progress-fill").setAttribute("style", "height: " + rawPercent + "%;")
       //document.getElementById("progressbar").setAttribute("style", "width: " + value + "%;");
-      document.getElementById("progress-track").innerHTML = rawPercent + "%"
+      document.getElementsByClassName("progress-fill").innerHTML = rawPercent + "%"
         if(rawPercent < this.checkCpuPercent){
         result = false;
       }
