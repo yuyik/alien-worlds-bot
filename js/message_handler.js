@@ -2,14 +2,7 @@ var gameLoaded = false;
 var log = "";
 var logDownloaded = false;
 
-//const wax = new waxjs.WaxJS('https://api.waxsweden.org');
-const wax = new waxjs.WaxJS('https://wax.pink.gg');
-
-//const urlParams = new URLSearchParams(window.location.search);
-//var server_id = (!!Number(urlParams.get('server_id')))?`${Number(urlParams.get('server_id'))}`:3
-//var wax_endpoint = ['https://api.waxsweden.org','https://wax.greymass.com','https://wax.pink.gg'];
-
-//const wax = new waxjs.WaxJS(wax_endpoint[server_id],null,null,false);
+const wax = new waxjs.WaxJS('https://wax.pink.gg'); //old url https://api.waxsweden.org
 
 async function server_login() {
     try {
@@ -361,14 +354,14 @@ const background_mine = async (account) => {
     const difficulty = bagDifficulty + landDifficulty;
     console.log('difficulty', difficulty);
 
-    console.log('start doWork = ' + Date.now() + ' account = ' + account + ' mining_account = ' + mining_account );
+    console.log('start doWork = ' + Date.now());
     const last_mine_tx = await lastMineTx(mining_account, account, wax.api.rpc);
 
-	doWorkWorker({ mining_account, account, difficulty, last_mine_tx }).then(
-	(mine_work) => {
-	console.log('end doWork = ' + Date.now());
-	resolve(mine_work);
-	}
+    doWorkWorker({ mining_account, account, difficulty, last_mine_tx }).then(
+      (mine_work) => {
+        console.log('end doWork = ' + Date.now());
+        resolve(mine_work);
+      }
     );
   });
 };
@@ -569,6 +562,7 @@ async function server_stake(account, planet_name, quantity) {
     );
   }
 }
+
 
 async function server_unstake(account, planet_name, quantity) {
   try {
