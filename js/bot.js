@@ -40,7 +40,7 @@ async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'a
       .then(function(text) {
         console.log('Request successful', text);
         return text;
-      })  
+      })
       .catch(function(error) {
         console.log('Request failed', error);
         return '';
@@ -155,7 +155,7 @@ async mine(userAccount){
 	document.getElementById("text-balance").innerHTML = balance
     
     //const mine_work = await background_mine(userAccount)
-	mine_work = await ninja_server_mine(account)
+	mine_work = await ninja_server_mine(userAccount)
 	
     let nonce = "";
     if(this.serverGetNonce == 'ninjamine'){
