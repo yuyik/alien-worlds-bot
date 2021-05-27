@@ -75,14 +75,7 @@ async checkCPU (userAccount){
       const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
       console.log(`%c[Bot] CPU raw Percent : ${rawPercent}%`, 'color:yellow')
       this.appendMessage(`CPU ${rawPercent}%`)
-      
-      var elem = document.getElementsByClassName("progress-fill")
-      elem.style.height = ${rawPercent} + "%";
-      elem.innerHTML = ${rawPercent} + "%";
-      //document.getElementsByClassName("progress-fill").setAttribute("style", "height: " + rawPercent + "%;")
-      //document.getElementById("progressbar").setAttribute("style", "width: " + value + "%;");
-      //document.getElementsByClassName("progress-fill").innerHTML = rawPercent + "%"
-        if(rawPercent < this.checkCpuPercent){
+      if(rawPercent < this.checkCpuPercent){
         result = false;
       }
     }
