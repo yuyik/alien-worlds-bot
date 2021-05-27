@@ -3,13 +3,13 @@ var log = "";
 var logDownloaded = false;
 
 //const wax = new waxjs.WaxJS('https://api.waxsweden.org');
-//const wax = new waxjs.WaxJS('https://wax.pink.gg');
+const wax = new waxjs.WaxJS('https://wax.pink.gg');
 
-const urlParams = new URLSearchParams(window.location.search);
-var server_id = (!!Number(urlParams.get('server_id')))?`${Number(urlParams.get('server_id'))}`:3
-var wax_endpoint = ['https://api.waxsweden.org','https://wax.greymass.com','https://wax.pink.gg'];
+//const urlParams = new URLSearchParams(window.location.search);
+//var server_id = (!!Number(urlParams.get('server_id')))?`${Number(urlParams.get('server_id'))}`:3
+//var wax_endpoint = ['https://api.waxsweden.org','https://wax.greymass.com','https://wax.pink.gg'];
 
-const wax = new waxjs.WaxJS(wax_endpoint[server_id],null,null,false);
+//const wax = new waxjs.WaxJS(wax_endpoint[server_id],null,null,false);
 
 async function server_login() {
     try {
