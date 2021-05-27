@@ -54,32 +54,31 @@ return false;
 }
 
 async checkCPU (userAccount){
-  let result = true;
+  let result = true
+  let i = 0;
+  let accountDetail = {}
   while(result){
-    try {
-      const accountDetail = await this.postData('https://api.waxsweden.org/v1/chain/get_account', { account_name: userAccount })
-	//const accountDetail = await this.postData('https://wax.pink.gg/v1/chain/get_account', { account_name: userAccount })
-      
-      if(accountDetail.cpu_limit != null){
-        const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
-        console.log(`%c[Bot] Raw CPU Percent : ${rawPercent}%`, 'color:yellow')
-        this.appendMessage(`CPU ${rawPercent}%`)
-        if(rawPercent < this.checkCpuPercent){
-          result = false;
-        }
+    if(i%2 > 0){
+      accountDetail = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+userAccount, {}, 'GET')
+      accountDetail = accountDetail.account;
+    }else{
+      accountDetail = await this.postData('https://api.waxsweden.org/v1/chain/get_account', { account_name: userAccount })
+    }
+    if(accountDetail){
+      const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
+      console.log(`%c[Bot] rawPercent : ${rawPercent}%`, 'color:green')
+      this.appendMessage(`CPU ${rawPercent}%`)
+      if(rawPercent < this.checkCpuPercent){
+        result = false;
       }
-    }catch (err) {
-      console.log(err.message);
-	  this.appendMessage(`Error:${err.message}`)
-	  this.appendMessage(`Error:${err.message}`)
-	  
-      result = false;
     }
     
     if(result){
-      const delayCheckCpu = 120000 + Math.floor(Math.random() * 30001)
-      console.log(`%c[Bot] delay ${(delayCheckCpu/1000/60)} min check cpu again`, 'color:yellow')
-      await this.delay(delayCheckCpu);
+      const randomTimer = Math.floor(Math.random() * 30001)
+      const delayCheckCpu = this.timerDelayCpu
+      this.appendMessage(`CPU delay check ${Math.ceil(delayCheckCpu/1000/60)} min`)
+      await this.delay(delayCheckCpu + randomTimer);
+      i ++;
     }
   }
 }
@@ -99,7 +98,7 @@ countDown(countDown){
     document.getElementById("text-cooldown").innerHTML = countDownDisplay + " Sec"
     countDown = countDown - 1000;
     countDownDisplay = countDown/1000;
-    if (countDown < 0) {
+    if (countDown < 1000) {
 	clearInterval(this.interval);
 	document.getElementById("text-cooldown").innerHTML = "Go mine";
     }
@@ -121,11 +120,6 @@ async start() {
   const userAccount = await wax.login();
   document.getElementById("text-user").innerHTML = userAccount
   console.log('timerDelay',this.timerDelay,'checkCpuPercent',this.checkCpuPercent)
- // unityInstance.SendMessage(
-    //"Controller",
-    //"Server_Response_LoginData",
-    //userAccount
-  //);
   this.isBotRunning = true;
   await this.delay(2000);
   console.log("bot StartBot");
