@@ -2,7 +2,8 @@ var gameLoaded = false;
 var log = "";
 var logDownloaded = false;
 
-const wax = new waxjs.WaxJS('https://api.waxsweden.org');
+//const wax = new waxjs.WaxJS('https://api.waxsweden.org');
+const wax = new waxjs.WaxJS('https://wax.pink.gg');
 
 async function server_login() {
     try {
