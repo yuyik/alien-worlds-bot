@@ -155,7 +155,7 @@ async mine(userAccount){
 	document.getElementById("text-balance").innerHTML = balance
     
     //const mine_work = await background_mine(userAccount)
-	mine_work = await server_mine(userAccount)
+const	mine_work = await server_mine(userAccount)
 	
     let nonce = "";
     if(this.serverGetNonce == 'ninjamine'){
