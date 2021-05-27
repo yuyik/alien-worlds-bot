@@ -99,10 +99,10 @@ appendMessage(msg , box = ''){
 
 countDown(countDown){
   clearInterval(this.interval);
-  let countDownDisplay = Math.floor(countDown/1000)
-  let hours = Math.floor((countDownDisplay % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  let minutes = Math.floor((countDownDisplay % (1000 * 60 * 60)) / (1000 * 60));
-  let seconds = Math.floor((countDownDisplay % (1000 * 60)) / 1000);
+  var countDownDisplay = Math.floor(countDown/1000)
+  var hours = Math.floor((countDownDisplay % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((countDownDisplay % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((countDownDisplay % (1000 * 60)) / 1000);
   
   this.interval = setInterval(function() {
     document.getElementById("text-cooldown").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
