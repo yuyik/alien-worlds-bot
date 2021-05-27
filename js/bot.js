@@ -77,8 +77,8 @@ async checkCPU (userAccount){
       this.appendMessage(`CPU ${rawPercent}%`)
       
       var elem = document.getElementsByClassName("progress-fill")
-      elem.style.height = rawPercent + "%";
-      elem.innerHTML = rawPercent + "%";
+      elem.style.height = ${rawPercent} + "%";
+      elem.innerHTML = ${rawPercent} + "%";
       //document.getElementsByClassName("progress-fill").setAttribute("style", "height: " + rawPercent + "%;")
       //document.getElementById("progressbar").setAttribute("style", "width: " + value + "%;");
       //document.getElementsByClassName("progress-fill").innerHTML = rawPercent + "%"
