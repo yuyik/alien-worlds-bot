@@ -153,15 +153,16 @@ async mine(userAccount){
   const balance = await getBalance(userAccount, wax.api.rpc);
 	console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:yellow');
 	document.getElementById("text-balance").innerHTML = balance
-    
-    //const mine_work = await background_mine(userAccount)
-const	mine_work = await server_mine(userAccount)
-	
+    	//const mine_work = await background_mine(userAccount)
+	//const mine_work = await server_mine(userAccount)
     let nonce = "";
     if(this.serverGetNonce == 'ninjamine'){
-      nonce = await this.postData('https://gateway-cors.herokuapp.com/https://server-mine-b7clrv20.an.gateway.dev/server_mine?wallet='+userAccount, {}, 'GET',{Origin : ""}, 'raw')     
-      console.log('nonceNinjamine',nonce)
-      if(nonce == ''){      
+      nonce = await this.postData('https://server-mine-b7clrv20.an.gateway.dev/server_mine?wallet='+userAccount, {}, 'GET',{Origin : ""}, 'raw')     
+      console.log('nonceNinjamine', nonce)
+    }
+
+    if(this.serverGetNonce !== 'ninjamine' || nonce == ''){
+      const mine_work = await background_mine(userAccount)
         nonce = mine_work.rand_str
       }
     }else{
@@ -169,16 +170,16 @@ const	mine_work = await server_mine(userAccount)
     }
 
     const mine_data = {
-      miner: mine_work.account,
+      miner: userAccount,
       nonce: nonce,
     };
     const actions = [
       {
-        account: mining_account,
+        account: "m.federation",
         name: "mine",
         authorization: [
           {
-            actor: mine_work.account,
+            actor: userAccount,
             permission: "active",
           },
         ],
