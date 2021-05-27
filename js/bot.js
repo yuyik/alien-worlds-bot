@@ -3,7 +3,7 @@ class bot{
   constructor() {
     this.isBotRunning = false;
     this.alertCaptcha = false;
-    this.checkCpuPercent = 90;
+    this.checkCpuPercent = 80;
     this.timerDelay = 810000;
     this.timerDelayCpu = 180000;
     this.checkMinedelay = false;
@@ -91,7 +91,7 @@ async checkCPU (userAccount){
 }
 
 appendMessage(msg , box = ''){
-  const dateNow = moment().format('DD/MM/YYYY h:mm:ss');
+  const dateNow = moment().format(' HH:mm:ss');
   const boxMessage = document.getElementById("box-message"+box)
   boxMessage.value += '\n'+ `${dateNow} : ${msg}`
   boxMessage.scrollTop = boxMessage.scrollHeight;
