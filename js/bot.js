@@ -17,6 +17,10 @@ delay = (millis) =>
     setTimeout((_) => resolve(), millis);
   });
 
+isEmptyObject(obj) {
+  return Object.keys(obj).length === 0 && obj.constructor === Object;
+}
+
 async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'application/json'},returnMode = 'json') {
   try {
     const init = (method == 'POST') ? {method: method,mode: 'cors', cache: 'no-cache',credentials: 'same-origin',headers: header,redirect: 'follow',referrerPolicy: 'no-referrer',body: JSON.stringify(data)} : {method: method,mode: 'cors', cache: 'no-cache',credentials: 'same-origin',headers: header,redirect: 'follow',referrerPolicy: 'no-referrer'}
@@ -45,6 +49,7 @@ async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'a
     }
   }catch (err) {
     this.appendMessage(`Error:${err.message}`)
+return false;
 }
 }
 
