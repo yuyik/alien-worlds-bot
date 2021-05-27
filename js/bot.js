@@ -3,14 +3,14 @@ class bot{
   constructor() {
     this.isBotRunning = false;
     this.alertCaptcha = false;
-    this.checkCpuPercent = 80;
+    this.checkCpuPercent = 90;
     this.timerDelay = 810000;
     this.timerDelayCpu = 180000;
     this.checkMinedelay = false;
     this.firstMine = true;
     this.previousMineDone = false;
-  //  this.lineToken = '';
-//    this.lineBypassUrl = 'https://notify-gateway.vercel.app/api/notify';
+ //   this.lineToken = '';
+  //  this.lineBypassUrl = 'https://notify-gateway.vercel.app/api/notify';
     this.serverGetNonce = 'alien';
     this.interval;
 }
@@ -53,9 +53,9 @@ async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'a
   }catch (err) {
     this.appendMessage(`Error:${err.message}`)
     //send bypass line notify
-  //  if(this.lineToken !== ''){
-   //   await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`Fetch:error, User:${userAccount}, Message:${err.message}` })
-  //  }
+//    if(this.lineToken !== ''){
+  //    await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`Fetch:error, User:${userAccount}, Message:${err.message}` })
+   // }
     return false;
   }
 }
@@ -73,7 +73,7 @@ async checkCPU (userAccount){
     }
     if(accountDetail){
       const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
-      console.log(`%c[Bot] rawPercent : ${rawPercent}%`, 'color:green')
+      console.log(`%c[Bot] CPU raw Percent : ${rawPercent}%`, 'color:yellow')
       this.appendMessage(`CPU ${rawPercent}%`)
       if(rawPercent < this.checkCpuPercent){
         result = false;
@@ -157,28 +157,29 @@ async mine(userAccount){
     // console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:green');
     document.getElementById("text-balance").innerHTML = balance
 
-    let nonce = '';
+    const mine_work = await background_mine(userAccount)
+    let nonce = "";
     if(this.serverGetNonce == 'ninjamine'){
       nonce = await this.postData('https://server-mine-b7clrv20.an.gateway.dev/server_mine?wallet='+userAccount, {}, 'GET',{Origin : ""}, 'raw')     
-      console.log('nonceNinjamine', nonce)
-    }
-
-    if(this.serverGetNonce !== 'ninjamine' || nonce == ''){
-      const mine_work = await background_mine(userAccount)
+      console.log('nonceNinjamine',nonce)
+      if(nonce == ''){      
+        nonce = mine_work.rand_str
+      }
+    }else{
       nonce = mine_work.rand_str
     }
 
     const mine_data = {
-      miner: userAccount,
+      miner: mine_work.account,
       nonce: nonce,
     };
     const actions = [
       {
-        account: "m.federation",
+        account: mining_account,
         name: "mine",
         authorization: [
           {
-            actor: userAccount,
+            actor: mine_work.account,
             permission: "active",
           },
         ],
@@ -203,14 +204,14 @@ async mine(userAccount){
           expireSeconds: 360,
         }
       );
-      console.log(`%c[Bot] result is = ${result}`, 'color:green');
+      console.log(`%c[Bot] result is = ${result}`, 'color:yellow');
       var amounts = new Map();
       var transaction_id = "";
       if (result && result.processed) {
         result.processed.action_traces[0].inline_traces.forEach((t) => {
           if (t.act.data.quantity) {
             const mine_amount = t.act.data.quantity;
-            console.log(`%c[Bot] ${mine_work.account} Mined ${mine_amount}`, 'color:green');
+            console.log(`%c[Bot] ${mine_work.account} Mined ${mine_amount}`, 'color:yellow');
             if (amounts.has(t.act.data.to)) {
               let obStr = amounts.get(t.act.data.to);
               obStr = obStr.substring(0, obStr.length - 4);
@@ -237,9 +238,9 @@ async mine(userAccount){
       console.log(`%c[Bot] Error:${err.message}`, 'color:red');
       this.appendMessage(`Error:${err.message}`)
       //send bypass line notify
-     // if(this.lineToken !== ''){
-       // await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${userAccount} , Message:${err.message}` })
-     // }
+   //   if(this.lineToken !== ''){
+     //   await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${userAccount} , Message:${err.message}` })
+      //}
     }
 
     const afterMindedBalance = await getBalance(userAccount, wax.api.rpc);
