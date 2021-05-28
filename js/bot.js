@@ -102,7 +102,7 @@ countDown(countDown){
   let countDownDisplay = Math.floor(countDown/1000)
  
   this.interval = setInterval(function() {
-    document.getElementById("text-cooldown").innerHTML = countDownDisplay + "s ";
+    document.getElementById("text-cooldown").innerHTML = countDownDisplay + " Sec. ";
     countDown = countDown - 1000;
    countDownDisplay = Math.floor(countDown/1000)
     if (countDown < 1000) {
