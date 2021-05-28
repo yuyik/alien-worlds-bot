@@ -215,10 +215,10 @@ async mine(userAccount){
             console.log(`%c[Bot] ${mine_work.account} Mined ${mine_amount}`, 'color:yellow');
             if (amounts.has(t.act.data.to)) {
               let obStr = amounts.get(t.act.data.to);
-              obStr = obStr.substring(0, obStr.length - 4);
+              obStr = obStr.substring(0, obStr.length - 3);
               let nbStr = t.act.data.quantity;
-              nbStr = nbStr.substring(0, nbStr.length - 4);
-              let balance = (parseFloat(obStr) + parseFloat(nbStr)).toFixed(4);
+              nbStr = nbStr.substring(0, nbStr.length - 3);
+              let balance = (parseFloat(obStr) + parseFloat(nbStr)).toFixed(3);
               amounts.set(t.act.data.to, balance.toString() + " TLM");
             } else {
               amounts.set(t.act.data.to, t.act.data.quantity);
@@ -245,7 +245,7 @@ async mine(userAccount){
     }
 
     const afterMindedBalance = await getBalance(userAccount, wax.api.rpc);
-    this.appendMessage(`TLM (after mined): ${afterMindedBalance}`)
+    this.appendMessage(`After mined: ${afterMindedBalance}`)
     document.getElementById("text-balance").innerHTML = afterMindedBalance
     // console.log(`%c[Bot] balance (after mined): ${afterMindedBalance}`, 'color:green');
     document.getElementById("btn-mine").disabled = false
