@@ -43,19 +43,44 @@
 		CPU Timer:<input type="number" id="cpu-timer" name="cpu-timer" value="3" style="width: 50px;"> <span onclick="addToken()">min</span>
 	</div>
 	<div>
-		<textarea id="box-message2" rows="8" style="resize: none;width: 200px;background-color: LightGreen;float:left"></textarea>
-		<textarea id="box-message" rows="8" style="resize: none;width: 245px;background-color: LightPink;float:right"></textarea>
+		<textarea id="box-message2" rows="8" style="resize: none;width: 200px; background-color: LightGreen;float:left"></textarea>
+		<textarea id="box-message" rows="8" style="resize: none;width: 245px; background-color: LightPink;float:right"></textarea>
+		
+	</div>
+	<div style="margin-top: 5px;">
+	<textarea id="box-message3" rows="4" style="resize: none;width: 455px; background-color: #9e9e9e;float:left"></textarea>
 	</div>
 	<div>
-		<fieldset>
-		<div>
-			<button id="btn-claimn-nft" onclick="botClaimnNft()">Claim NFT</button>
-			<input type="checkbox" id="auto-claimnfts" name="auto-claimnfts" checked onchange="autoClaimnNft()"> Auto Claim NFT/12hour
+		<fieldset style="margin-top: 5px;">
+		<div style="margin-top: 5px;">
+		<button id="btn-claimn-nft" onclick="botClaimnNft()">Claim NFT</button>
+		<input type="checkbox" id="auto-claimnfts" name="auto-claimnfts" checked onchange="autoClaimnNft()"> Auto Claim NFT/12hour
+		<div style="margin-top: 5px;">
+			<div>
+			<span class="input-group-text">Set Bag</span>
+			<input type="text" id="text_set_bag_1" style="width: 100px;">
+			<input type="text" id="text_set_bag_2" style="width: 100px;">
+			<input type="text" id="text_set_bag_3" style="width: 100px;">
+			<button class="btn btn-outline-secondary" type="button" id="btn_set_bag">Save</button>
+			</div>
+			<div style="margin-top: 5px;">
+				<span class="input-group-text">Set Stake (CPU,NET)</span>
+				<input type="text" id="text_stake_cpu"  style="width: 115px;" value="0.01">
+				<input type="text" id="text_stake_net"   style="width: 115px;"value="0.00">
+				<button class="btn btn-outline-secondary" type="button" id="btn_stake">Stake</button>
+			</div>
+			<div style="margin-top: 5px;">
+				<span class="input-group-text">Set Land</span>
+				<input type="text" class="form-control" id="text_set_land">
+				<button class="btn btn-outline-secondary" type="button" id="btn_set_land">Save</button>
+			</div>
 		</div>
-		<legend> Claim NFT </legend>
-			<textarea id="box-message3" rows="4" style="resize: none;width: 430px;background-color: #9e9e9e;float:left"></textarea>
+		</div>
 		</fieldset>
 	</div>
+	
+
+	
 	<div id="coinmarketcap-widget-marquee" coins="2300,9119" currency="THB" theme="light" transparent="false" show-symbol-logo="true" style="margin-top: 5px;">
 	</div>
 	</div>
