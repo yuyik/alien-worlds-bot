@@ -6,9 +6,10 @@
   transform: translate(-50%, -50%);*/
 }
 
-#textare{
+textarea{
   resize: none;
-  width: 200px;
   display: flex;
   flex-direction:column-reverse;
+  margin-top: 5px;
 }
+
