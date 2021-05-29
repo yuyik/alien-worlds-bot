@@ -3,14 +3,14 @@ class bot{
   constructor() {
     this.isBotRunning = false;
     this.alertCaptcha = false;
-    this.checkCpuPercent = 85;
+    this.checkCpuPercent = 90;
     this.timerDelay = 810000;
     this.timerDelayCpu = 180000;
     this.checkMinedelay = false;
     this.firstMine = true;
     this.previousMineDone = false;
- //   this.lineToken = '';
-  //  this.lineBypassUrl = 'https://notify-gateway.vercel.app/api/notify';
+//    this.lineToken = '';
+   // this.lineBypassUrl = 'https://notify-gateway.vercel.app/api/notify';
     this.serverGetNonce = 'alien';
     this.interval;
     this.autoClaimnfts;
@@ -54,9 +54,9 @@ async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'a
   }catch (err) {
     this.appendMessage(`Error:${err.message}`)
     //send bypass line notify
-    //if(this.lineToken !== ''){
-      //await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`Fetch:error, User:${userAccount}, Message:${err.message}` })
-    //}
+//    if(this.lineToken !== ''){
+ //     await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`Fetch:error, User:${userAccount}, Message:${err.message}` })
+ //   }
     return false;
   }
 }
@@ -92,7 +92,7 @@ async checkCPU (){
 }
 
 appendMessage(msg , box = ''){
-  const dateNow = moment().format('HH:mm');
+  const dateNow = moment().format('DD/MM/YYYY h:mm:ss');
   const boxMessage = document.getElementById("box-message"+box)
   boxMessage.value += '\n'+ `${dateNow} : ${msg}`
   boxMessage.scrollTop = boxMessage.scrollHeight;
@@ -202,8 +202,8 @@ async mine(){
       console.log(`%c[Bot] Error:${err.message}`, 'color:red');
       this.appendMessage(`Error:${err.message}`)
       //send bypass line notify
-      //if(this.lineToken !== ''){
-        //await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${wax.userAccount} , Message:${err.message}` })
+  //    if(this.lineToken !== ''){
+     //   await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${wax.userAccount} , Message:${err.message}` })
       //}
       if(this.checkCpuPercent == 0){
         this.appendMessage(`Delay error CPU ${Math.ceil((this.timerDelayCpu / 1000)/60)} min`)
@@ -246,8 +246,6 @@ async mine(){
     } catch (err) {
       console.log(`%cError:${err.message}`, 'color:red');
     }
-  const nonce = await this.getNonce()
-  console.log('nonce',nonce)
     let actions = [
         {
           account: 'm.federation',
@@ -257,8 +255,7 @@ async mine(){
             permission: 'active',
           }],
           data: {
-           miner: wax.userAccount
-			nonce: nonce,
+            miner: wax.userAccount
           },
         }
       ];
@@ -276,8 +273,6 @@ async mine(){
       );
 
       console.log('result',result)
-	  
-	  this.appendMessage('Claim NFT : '+nonce,'3')
       document.getElementById("btn-claimn-nft").disabled = false
   }
 
