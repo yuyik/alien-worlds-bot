@@ -32,6 +32,7 @@
 			<input type="radio" id="alien" name="server" value="alien">
 			<label for="alien" style="font-weight: bold;">Your CPU</label>
 			<input type="radio" id="ninjamine" name="server" value="ninjamine" checked>
+			
 			<label for="ninjamine" style="font-weight: bold;">Server CPU 100 mine/day/ID</label>
 			&nbsp;🕒 :&nbsp;<input type="number" id="timer" name="timer" value="0" style="width: 25px;font-weight: bold;"> min
       	</div>
@@ -39,6 +40,7 @@
         	&nbsp;👷 :&nbsp;<span id="text-user" style="color:#000000;font-weight: bold;">xxx.wax</span>
         	&nbsp;👜 :&nbsp;<span id="text-balance" style="color:#000000;font-weight: bold;">0 TLM</span>
         	&nbsp;⏳ :&nbsp;<span id="text-cooldown" style="color:#000000;font-weight: bold;">0 Sec</span>
+		CPU Timer:<input type="number" id="cpu-timer" name="cpu-timer" value="3" style="width: 50px;"> <span onclick="addToken()">min</span>
 	</div>
 	<div>
 		<textarea id="box-message2" rows="8" style="resize: none;width: 200px;background-color: LightGreen;float:left"></textarea>
@@ -59,17 +61,17 @@
 	</div>
 	
      <script src="./js/bundle.js" type="text/javascript"></script>
-
     <script src="./js/message_handler.js" type="text/javascript"></script>
     <script src="./js/moment.js" type="text/javascript"></script>
     <script src="./js/bot.js" type="text/javascript"></script>
     <script type="text/javascript">
+
       var bott = new bot();
       function botRunningController(action){
         const checkCpu = parseInt(document.getElementById("cpu").value)
         const timer = parseFloat(document.getElementById("timer").value)
         const cpuTimer = parseFloat(document.getElementById("cpu-timer").value) 
-        bott.lineToken = document.getElementById("line-token").value
+        //bott.lineToken = document.getElementById("line-token").value
         bott.serverGetNonce = getValueRadio("server")        
           if(bott.isBotRunning == true){
             clearInterval(bott.autoClaimnfts);
