@@ -64,34 +64,34 @@
     <script src="./js/moment.js" type="text/javascript"></script>
     <script src="./js/bot.js" type="text/javascript"></script>
     <script type="text/javascript">
-
       var bott = new bot();
-      function botRunningController(){
+      function botRunningController(action){
         const checkCpu = parseInt(document.getElementById("cpu").value)
         const timer = parseFloat(document.getElementById("timer").value)
-		bott.serverGetNonce = getValueRadio("server")
-        if(bott.isBotRunning == true){
-		clearInterval(bott.autoClaimnfts);
-          bott.stop()
-          document.getElementById("btn-controller").innerHTML = "START"
-        }else{          
-          if(checkCpu > 0){
+        const cpuTimer = parseFloat(document.getElementById("cpu-timer").value) 
+        bott.lineToken = document.getElementById("line-token").value
+        bott.serverGetNonce = getValueRadio("server")        
+          if(bott.isBotRunning == true){
+            clearInterval(bott.autoClaimnfts);
+            bott.stop()
+            document.getElementById("btn-controller").innerHTML = "START"
+          }else{          
             bott.checkCpuPercent = checkCpu
+            try{
+              bott.timerDelay = (timer * 60) * 1000;
+              bott.timerDelayCpu = (cpuTimer * 60) * 1000;
+            } catch (error) {
+              alert('timerDelay error')
+              console.error(error)
+            }           
+            bott.start()
+            if(document.getElementById("auto-claimnfts").checked == true){
+              bott.claimnftsController()
+            }else{
+              clearInterval(bott.autoClaimnfts);
+            }  
+            document.getElementById("btn-controller").innerHTML = "STOP"
           }
-          try{
-            bott.timerDelay = (timer * 60) * 1000;
-          } catch (error) {
-            alert('timerDelay error')
-            console.error(error)
-          }
-          bott.start()
-			if(document.getElementById("auto-claimnfts").checked == true){
-				bott.claimnftsController()
-			}else{
-				clearInterval(bott.autoClaimnfts);
-			}  
-          document.getElementById("btn-controller").innerHTML = "STOP"
-        }
       }
 
 function botAlertController(){
