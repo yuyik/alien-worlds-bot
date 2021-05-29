@@ -11,7 +11,7 @@ class bot{
     this.previousMineDone = false;
  //   this.lineToken = '';
   //  this.lineBypassUrl = 'https://notify-gateway.vercel.app/api/notify';
-    this.serverGetNonce = 'ninjamine';
+    this.serverGetNonce = 'alien';
     this.interval;
     this.autoClaimnfts;
 }
