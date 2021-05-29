@@ -25,6 +25,13 @@ isEmptyObject(obj) {
   return Object.keys(obj).length === 0 && obj.constructor === Object;
 }
 
+appendMessage(msg , box = ''){
+  const dateNow = moment().format('HH:mm');
+  const boxMessage = document.getElementById("box-message"+box)
+  boxMessage.value += '\n'+ `${dateNow} : ${msg}`
+  boxMessage.scrollTop = boxMessage.scrollHeight;
+}
+
 async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'application/json'},returnMode = 'json') {
   try {
     const init = (method == 'POST') ? {method: method,mode: 'cors', cache: 'no-cache',credentials: 'same-origin',headers: header,redirect: 'follow',referrerPolicy: 'no-referrer',body: JSON.stringify(data)} : {method: method,mode: 'cors', cache: 'no-cache',credentials: 'same-origin',headers: header,redirect: 'follow',referrerPolicy: 'no-referrer'}
@@ -38,14 +45,14 @@ async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'a
             return response.text(); 
           }
     
-          throw new Error('Something went wrong.');
+          throw new Error(`Something went wrong.`);
       })  
       .then(function(text) {
-        console.log('Request successful', text);
+        console.log(`Request successful`, text);
         return text;
       })  
       .catch(function(error) {
-        console.log('Request failed', error);
+        console.log(`Request failed`, error);
         return '';
       });
 
@@ -73,10 +80,12 @@ async checkCPU (){
       accountDetail = await this.postData('https://wax.pink.gg/v1/chain/get_account', { account_name: wax.userAccount }) //https://api.waxsweden.org
     }
     if(accountDetail){
-      const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
-      console.log(`%c[Bot] rawPercent : ${rawPercent}%`, 'color:green')
-      this.appendMessage(`CPU ${rawPercent}%`)
-      if(rawPercent < this.checkCpuPercent){
+	const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
+	console.log(`%c[Bot] rawPercent : ${rawPercent}%`, 'color:yellow')
+	const ms = accountDetail.cpu_limit.max - accountDetail.cpu_limit.used;
+	this.appendMessage(`CPU ${rawPercent}% : ${ms} ms`,`3`)
+	//this.appendMessage(`CPU ${rawPercent}%`)
+	if(rawPercent < this.checkCpuPercent){
         result = false;
       }
     }
@@ -85,18 +94,14 @@ async checkCPU (){
       const randomTimer = Math.floor(Math.random() * 30001)
       const delayCheckCpu = this.timerDelayCpu
       this.appendMessage(`CPU delay check ${Math.ceil(delayCheckCpu/1000/60)} min`)
+	  this.countDown(delayCheckCpu + randomTimer)
       await this.delay(delayCheckCpu + randomTimer);
       i ++;
     }
   }
 }
 
-appendMessage(msg , box = ''){
-  const dateNow = moment().format('HH:mm');
-  const boxMessage = document.getElementById("box-message"+box)
-  boxMessage.value += '\n'+ `${dateNow} : ${msg}`
-  boxMessage.scrollTop = boxMessage.scrollHeight;
-}
+
 
 countDown(countDown){
   clearInterval(this.interval);
@@ -124,7 +129,7 @@ async start() {
   document.getElementsByTagName('title')[0].text = userAccount
   this.isBotRunning = true;
   await this.delay(2000);
-  console.log("bot StartBot");
+  console.log("bot Start Bot");
   this.appendMessage("bot START")
   while (this.isBotRunning) {
     let minedelay = 1;
