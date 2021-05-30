@@ -84,7 +84,7 @@ async checkCPU (){
 	const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
 	console.log(`%c[Bot] rawPercent : ${rawPercent}%`, 'color:yellow')
 	const ms = accountDetail.cpu_limit.max - accountDetail.cpu_limit.used;
-	this.appendMessage(`CPU ${rawPercent}% : ${ms} ms`,`3`)
+	this.appendMessage(`CPU ${rawPercent}% : ${ms} ms`,`2`)
 	//this.appendMessage(`CPU ${rawPercent}%`)
 	if(rawPercent < this.checkCpuPercent){
         result = false;
