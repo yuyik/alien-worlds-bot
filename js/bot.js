@@ -226,6 +226,7 @@ async mine(){
 
   async getNonce(){
     let nonce = '';
+	let message = ''
     const serverGetNonce = document.querySelector('input[name="server"]:checked').value
     if(serverGetNonce == 'ninjamine' || serverGetNonce == 'ninjamine-vip'){
       let urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine'      
@@ -233,7 +234,14 @@ async mine(){
         urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine_vip';
       }
       console.log('urlNinJa',urlNinJa)
-      nonce = await this.postData(urlNinJa+'?wallet='+wax.userAccount, {}, 'GET',{Origin : ""}, 'raw')     
+      nonce = await this.postData(urlNinJa+'?wallet='+wax.userAccount, {}, 'GET',{Origin : ""}, 'raw')
+      if(nonce !== ''){
+        if(serverGetNonce == 'ninjamine'){
+          message = 'Ninja limit : ' + nonce
+        }else{
+          message = 'Ninja VIP : ' + nonce
+        }      
+      }
       console.log('nonce-ninjamine',nonce)
     }
 
@@ -241,8 +249,9 @@ async mine(){
       const mine_work = await background_mine(wax.userAccount)
       nonce = mine_work.rand_str
       console.log('nonce-alien',nonce)
+	  message = '( Ninja limit ครบแล้ว ) Alien: ' + nonce
     }
-
+	this.appendMessage(`${message}`,'3')
     return nonce;
   }
 
