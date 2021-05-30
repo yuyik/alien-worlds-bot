@@ -9,9 +9,9 @@ class bot{
     this.checkMinedelay = false;
     this.firstMine = true;
     this.previousMineDone = false;
-//    this.lineToken = '';
-   // this.lineBypassUrl = 'https://notify-gateway.vercel.app/api/notify';
-    this.serverGetNonce = 'alien';
+    this.lineToken = '';
+    this.lineBypassUrl = 'https://notify-gateway.vercel.app/api/notify';
+    // this.serverGetNonce = 'alien';
     this.interval;
     this.autoClaimnfts;
 }
@@ -25,15 +25,9 @@ isEmptyObject(obj) {
   return Object.keys(obj).length === 0 && obj.constructor === Object;
 }
 
-appendMessage(msg , box = ''){
-  const dateNow = moment().format('HH:mm');
-  const boxMessage = document.getElementById("box-message"+box)
-  boxMessage.value += '\n'+ `${dateNow} : ${msg}`
-  boxMessage.scrollTop = boxMessage.scrollHeight;
-}
-
 async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'application/json'},returnMode = 'json') {
   try {
+    // Object.assign(header,{'pragma':'no-cache' ,'cache-control':'no-cache'})
     const init = (method == 'POST') ? {method: method,mode: 'cors', cache: 'no-cache',credentials: 'same-origin',headers: header,redirect: 'follow',referrerPolicy: 'no-referrer',body: JSON.stringify(data)} : {method: method,mode: 'cors', cache: 'no-cache',credentials: 'same-origin',headers: header,redirect: 'follow',referrerPolicy: 'no-referrer'}
     if(returnMode == 'json'){
       const response = await fetch(url, init);
@@ -45,14 +39,14 @@ async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'a
             return response.text(); 
           }
     
-          throw new Error(`Something went wrong.`);
+          throw new Error('Something went wrong.');
       })  
       .then(function(text) {
-        console.log(`Request successful`, text);
+        console.log('Request successful', text);
         return text;
       })  
       .catch(function(error) {
-        console.log(`Request failed`, error);
+        console.log('Request failed', error);
         return '';
       });
 
@@ -61,9 +55,9 @@ async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'a
   }catch (err) {
     this.appendMessage(`Error:${err.message}`)
     //send bypass line notify
-//    if(this.lineToken !== ''){
- //     await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`Fetch:error, User:${userAccount}, Message:${err.message}` })
- //   }
+    if(this.lineToken !== ''){
+      await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`Fetch:error, User:${userAccount}, Message:${err.message}` })
+    }
     return false;
   }
 }
@@ -80,29 +74,35 @@ async checkCPU (){
       accountDetail = await this.postData('https://wax.pink.gg/v1/chain/get_account', { account_name: wax.userAccount }) //https://api.waxsweden.org
     }
     if(accountDetail){
-		
-	const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
-	console.log(`%c[Bot] rawPercent : ${rawPercent}%`, 'color:yellow')
-	const ms = accountDetail.cpu_limit.max - accountDetail.cpu_limit.used;
-	this.appendMessage(`CPU ${rawPercent}% : ${ms/1000} ms`,`1`)
-	//this.appendMessage(`CPU ${rawPercent}%`)
-	if(rawPercent < this.checkCpuPercent){
+      i ++;
+      const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
+      console.log(`%c[Bot] rawPercent : ${rawPercent}%`, 'color:green')
+      const ms = accountDetail.cpu_limit.max - accountDetail.cpu_limit.used;
+      this.appendMessage(`CPU ${rawPercent}% : ${ms} ms`)
+      if(rawPercent < this.checkCpuPercent){
         result = false;
-      }
+      }else if(i > 2){
+        result = false;
+        this.appendMessage(`Check CPU ${i} times --> mine`)    
+      }  
     }
     
     if(result && accountDetail){
       const randomTimer = Math.floor(Math.random() * 30001)
       const delayCheckCpu = this.timerDelayCpu
       this.appendMessage(`CPU delay check ${Math.ceil(delayCheckCpu/1000/60)} min`)
-	  this.countDown(delayCheckCpu + randomTimer)
+      this.countDown(delayCheckCpu + randomTimer)
       await this.delay(delayCheckCpu + randomTimer);
-      i ++;
     }
   }
 }
 
-
+appendMessage(msg , box = ''){
+  const dateNow = moment().format(' HH:mm');
+  const boxMessage = document.getElementById("box-message"+box)
+  boxMessage.value += '\n'+ `${dateNow} : ${msg}`
+  boxMessage.scrollTop = boxMessage.scrollHeight;
+}
 
 countDown(countDown){
   clearInterval(this.interval);
@@ -130,7 +130,7 @@ async start() {
   document.getElementsByTagName('title')[0].text = userAccount
   this.isBotRunning = true;
   await this.delay(2000);
-  console.log("bot Start Bot");
+  console.log("bot StartBot");
   this.appendMessage("bot START")
   while (this.isBotRunning) {
     let minedelay = 1;
@@ -208,9 +208,9 @@ async mine(){
       console.log(`%c[Bot] Error:${err.message}`, 'color:red');
       this.appendMessage(`Error:${err.message}`)
       //send bypass line notify
-  //    if(this.lineToken !== ''){
-     //   await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${wax.userAccount} , Message:${err.message}` })
-      //}
+      if(this.lineToken !== ''){
+        await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${wax.userAccount} , Message:${err.message}` })
+      }
       if(this.checkCpuPercent == 0){
         this.appendMessage(`Delay error CPU ${Math.ceil((this.timerDelayCpu / 1000)/60)} min`)
         this.countDown(this.timerDelayCpu)        
@@ -226,35 +226,42 @@ async mine(){
 
   async getNonce(){
     let nonce = '';
-    if(this.serverGetNonce == 'ninjamine'){
-      nonce = await this.postData('https://server-mine-b7clrv20.an.gateway.dev/server_mine?wallet='+wax.userAccount, {}, 'GET',{Origin : ""}, 'raw')     
-      console.log('nonceNinjamine',nonce)
+    const serverGetNonce = document.querySelector('input[name="server"]:checked').value
+    if(serverGetNonce == 'ninjamine' || serverGetNonce == 'ninjamine-vip'){
+      let urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine'      
+      if(serverGetNonce == 'ninjamine-vip'){
+        urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine_vip';
+      }
+      console.log('urlNinJa',urlNinJa)
+      nonce = await this.postData(urlNinJa+'?wallet='+wax.userAccount, {}, 'GET',{Origin : ""}, 'raw')     
+      console.log('nonce-ninjamine',nonce)
     }
 
-    if(this.serverGetNonce !== 'ninjamine' || nonce == ''){
+    if(this.serverGetNonce == 'alien' || nonce == ''){
       const mine_work = await background_mine(wax.userAccount)
       nonce = mine_work.rand_str
+      console.log('nonce-alien',nonce)
     }
 
     return nonce;
   }
 
   claimnftsController(){
+    console.log('claimnftsController')
     clearInterval(this.autoClaimnfts);
     this.autoClaimnfts = setInterval(function() {
-    //this.getClaimnfts()
-		var newBot = new bot()
-		newBot.getClaimnfts()
-    }, 43200000); //12 hours 
+      var newBot = new bot()
+      newBot.getClaimnfts('auto')
+    }, 3600000);
   }
 
-  async getClaimnfts(){
-    try {
-      document.getElementById("btn-claimn-nft").disabled = true
-    } catch (err) {
-      console.log(`%cError:${err.message}`, 'color:red');
-    }
-    let actions = [
+  async getClaimnfts(mode){
+    document.getElementById("btn-claimn-nft").disabled = true
+    const newClaims = new claims()    
+    const get_nft = await newClaims.getNFT(wax.userAccount, wax.api.rpc, aa_api) 
+    console.log('get_nft',get_nft)
+    if(get_nft.length > 0){
+      let actions = [
         {
           account: 'm.federation',
           name: 'claimnfts',
@@ -266,22 +273,20 @@ async mine(){
             miner: wax.userAccount
           },
         }
-      ];
-      console.log('actionssss',actions)
+      ];      
 
-      // const result = await wax.api.transact(actions, { blocksBehind: 3, expireSeconds: 90});
-      let result = await wax.api.transact(
-        {
-          actions,
-        },
-        {
-          blocksBehind: 3,
-          expireSeconds: 90,
-        }
-      );
-
-      console.log('result',result)
-    //document.getElementById("btn-claimn-nft").disabled = false
+      await wax.api.transact({actions},{blocksBehind: 3,expireSeconds: 90});
+      for(const item of get_nft){
+        this.appendMessage(item.name,'3')
+        await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${wax.userAccount} , NFT Name:${item.name}` })
+      }      
+    }else{
+      if(mode !== 'auto'){
+        this.appendMessage('NFT Nothing...','3')
+      }
+    }
+    
+    document.getElementById("btn-claimn-nft").disabled = false
   }
 
 }
