@@ -80,6 +80,7 @@ async checkCPU (){
       accountDetail = await this.postData('https://wax.pink.gg/v1/chain/get_account', { account_name: wax.userAccount }) //https://api.waxsweden.org
     }
     if(accountDetail){
+		i ++;
 	const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
 	console.log(`%c[Bot] rawPercent : ${rawPercent}%`, 'color:yellow')
 	const ms = accountDetail.cpu_limit.max - accountDetail.cpu_limit.used;
@@ -87,7 +88,10 @@ async checkCPU (){
 	//this.appendMessage(`CPU ${rawPercent}%`)
 	if(rawPercent < this.checkCpuPercent){
         result = false;
-      }
+		}else if(i > 2){
+        result = false;
+        this.appendMessage(`Check CPU ${i} times --> mine`)    
+      }  
     }
     
     if(result && accountDetail){
