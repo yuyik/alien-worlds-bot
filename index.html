@@ -29,33 +29,63 @@
 			font-size: 14px;
 			background-color: rgb(30, 144, 255);
 		}
+		.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
 	</style>
 
 </head>
 
 <body>
 	<div class="webgl-content">
-		<button id="btn-controller" onclick="botRunningController()">START</button>
+		<button id="btn-controller" onclick="botRunningController()" title="
+		- เมื่อเข้า function mine  แล้วถ้าเกิน 5 นาทีไม่ขุดให้ reload page เลย
+		- แก้ไขตั้งค่าต่างๆได้เลยไม่ต้อง stop แล้ว start ">START</button>
 		<button id="btn-alert" onclick="botAlertController()">🔊 ON</button>
 		<button id="btn-check-mine-delay" onclick="botCheckDelay()">CheckDelay</button>
-		CPU: <input type="number" id="cpu" name="cpu" value="85" style="width: 40px;"> %
-		&nbsp;🕒 :&nbsp;<input type="number" id="timer" name="timer" value="0" style="width: 25px;font-weight: bold;"> min
+		<button id="btn-mine" onclick="botMine()">ขุดเลย</button>
+		&nbsp;🕒 เวลาบอท :&nbsp;<input type="number" id="timer" name="timer" value="0" style="width: 25px;font-weight: bold;"> min
+		
 		<div>
-			<button id="btn-mine" onclick="botMine()">ขุดเลย</button>
 			<input type="radio" id="alien" name="server" value="alien">
 			<label for="alien" style="font-weight: bold;">CPU คอม</label>
 			<input type="radio" id="ninjamine" name="server" value="ninjamine" checked>
 			<label for="ninjamine" style="font-weight: bold;">CPU ฟรี (42)</label>
 			<input type="radio" id="ninjamine-vip" name="server" value="ninjamine-vip">
 			<label for="ninjamine-vip" style="font-weight: bold;">CPU VIP</label>
-
-
+		</div>
+		<div>
+			<button id="save-config" onclick="saveConfig()">SaveConfig</button>
+			<button id="save-config" onclick="localStorage.clear();setTimeout((() => {loadConfig()}), 300)">Reset</button>
+			CPU Timer:<input type="number" id="cpu-timer" name="cpu-timer" value="3" style="width: 50px;"> <span>min</span>
+			CPU: <input type="number" id="cpu" name="cpu" value="85" style="width: 40px;"> %
+			
 		</div>
 		<div>
 			&nbsp;👷 :&nbsp;<span id="text-user" style="color:#000000;font-weight: bold;">xxx.wax</span>
 			&nbsp;👜 :&nbsp;<span id="text-balance" style="color:#000000;font-weight: bold;">0 TLM</span>
 			&nbsp;⏳ :&nbsp;<span id="text-cooldown" style="color:#000000;font-weight: bold;">0 Sec</span>
-			CPU Timer:<input type="number" id="cpu-timer" name="cpu-timer" value="3" style="width: 50px;"> <span>min</span>
+			
 		</div>
 		<div style="margin-top: 5px;">
 			<textarea id="box-message2" rows="8" style="resize: none;width: 200px; background-color: LightGreen;float:left"></textarea>
@@ -104,102 +134,159 @@
 	<script src="./js/moment.js" type="text/javascript"></script>
 	<script src="./js/bot.js" type="text/javascript"></script>
 	<script type="text/javascript">
-		var bott = new bot();
+      var bott = new bot();
+      document.addEventListener("DOMContentLoaded", function(event) {
+        loadConfig();
+        setTimeout((() => {botRunningController()}), 500)        
+      });
+      function botRunningController(action){
+        // const checkCpu = parseInt(document.getElementById("cpu").value)
+        // const timer = parseFloat(document.getElementById("timer").value)
+        // const cpuTimer = parseFloat(document.getElementById("cpu-timer").value) 
+        //bott.lineToken = document.getElementById("line-token").value
+        // bott.serverGetNonce = getValueRadio("server")    
+          if(bott.isBotRunning == true){
+            clearInterval(bott.autoClaimnfts);
+            bott.stop()
+            document.getElementById("btn-controller").innerHTML = "START"
+          }else{          
+            // bott.checkCpuPercent = checkCpu
+            try{
+              // bott.timerDelay = (timer * 60) * 1000;
+              // bott.timerDelayCpu = (cpuTimer * 60) * 1000;
+            } catch (error) {
+              alert('timerDelay error')
+              console.error(error)
+            }           
+            bott.start()
+            if(document.getElementById("auto-claimnfts").checked == true){
+              bott.claimnftsController()
+            }else{
+              clearInterval(bott.autoClaimnfts);
+            }  
+            document.getElementById("btn-controller").innerHTML = "STOP"
+          }
+      }
 
-		function botRunningController(action) {
-			const checkCpu = parseInt(document.getElementById("cpu").value)
-			const timer = parseFloat(document.getElementById("timer").value)
-			const cpuTimer = parseFloat(document.getElementById("cpu-timer").value)
-			//bott.lineToken = document.getElementById("line-token").value
-			bott.serverGetNonce = getValueRadio("server")
-			if (bott.isBotRunning == true) {
-				clearInterval(bott.autoClaimnfts);
-				bott.stop()
-				document.getElementById("btn-controller").innerHTML = "START"
-			} else {
-				bott.checkCpuPercent = checkCpu
-				try {
-					bott.timerDelay = (timer * 60) * 1000;
-					bott.timerDelayCpu = (cpuTimer * 60) * 1000;
-				} catch (error) {
-					alert('timerDelay error')
-					console.error(error)
-				}
-				bott.start()
-				if (document.getElementById("auto-claimnfts").checked == true) {
-					bott.claimnftsController()
-				} else {
-					clearInterval(bott.autoClaimnfts);
-				}
-				document.getElementById("btn-controller").innerHTML = "STOP"
-			}
-		}
+      function botAlertController(){
+        if(bott.alertCaptcha == true){
+          bott.alertCaptcha = false
+          document.getElementById("btn-alert").innerHTML = "Alert ON"
+        }else{
+          bott.alertCaptcha = true
+          document.getElementById("btn-alert").innerHTML = "Alert OFF"
+        }
+      }
 
-		function botAlertController() {
-			if (bott.alertCaptcha == true) {
-				bott.alertCaptcha = false
-				document.getElementById("btn-alert").innerHTML = "Alert ON"
-			} else {
-				bott.alertCaptcha = true
-				document.getElementById("btn-alert").innerHTML = "Alert OFF"
-			}
-		}
+      // function botMine(){
+      //   const userAccount = document.getElementById("text-user").innerHTML
+      //   if(userAccount != '' && userAccount != 'xxx.wax'){
+      //     bott.mine()
+      //   }else{
+      //     alert("userAccount isEmpty")
+      //   }
+      // }
 
-		function botMine(){
-		const userAccount = document.getElementById("text-user").innerHTML
-		if(userAccount != '' && userAccount != 'xxx.wax'){
-			bott.mine(userAccount)
-			}else{
-				alert("userAccount isEmpty")
-			}
-		}
+      function botClaimnNft(){
+        const userAccount = document.getElementById("text-user").innerHTML
+        if(userAccount != '' && userAccount != 'xxx.wax'){          
+          bott.getClaimnfts()
+        }else{
+          alert("userAccount isEmpty")
+        }
+      }
 
-		function botClaimnNft() {
-			const userAccount = document.getElementById("text-user").innerHTML
-			if (userAccount != '' && userAccount != 'xxx.wax') {
-				bott.getClaimnfts()
-			} else {
-				alert("userAccount isEmpty")
-			}
-		}
+      function autoClaimnNft(){
+        const userAccount = document.getElementById("text-user").innerHTML
+        if(userAccount != '' && userAccount != 'xxx.wax'){
+          console.log('autoClaimnNft',document.getElementById("auto-claimnfts").checked)
+          if(document.getElementById("auto-claimnfts").checked == true){
+            bott.claimnftsController()
+          }else{
+            clearInterval(bott.autoClaimnfts);
+          }         
+        }else{
+          alert("userAccount isEmpty")
+        }
+      }
 
-		function autoClaimnNft() {
-			const userAccount = document.getElementById("text-user").innerHTML
-			if (userAccount != '' && userAccount != 'xxx.wax') {
-				console.log('autoClaimnNft', document.getElementById("auto-claimnfts").checked)
-				if (document.getElementById("auto-claimnfts").checked == true) {
-					bott.claimnftsController()
-				} else {
-					clearInterval(bott.autoClaimnfts);
-				}
-			} else {
-				alert("userAccount isEmpty")
-			}
-		}
+      async function botCheckDelay(){
+        const userAccount = document.getElementById("text-user").innerHTML
+        if(userAccount != '' && userAccount != 'xxx.wax'){
+          const delay = await bott.getUserMineDelay()
+          alert('MineDelay : ' + delay + ' ms')
+        }else{
+          alert("userAccount isEmpty")
+        }
+      }
 
-		async function botCheckDelay() {
-			const userAccount = document.getElementById("text-user").innerHTML
-			if (userAccount != '' && userAccount != 'xxx.wax') {
-				const delay = await bott.getUserMineDelay()
-				alert('MineDelay : ' + delay + ' ms')
-			} else {
-				alert("userAccount isEmpty")
-			}
-		}
+      function getValueRadio(name){
+        const radios = document.getElementsByName(name);
+        let result = '';
+        for (var i = 0, length = radios.length; i < length; i++) {
+          if (radios[i].checked) {
+            result = radios[i].value;
+            break;
+          }
+        }
 
-		function getValueRadio(name) {
-			const radios = document.getElementsByName(name);
-			let result = '';
-			for (var i = 0, length = radios.length; i < length; i++) {
-				if (radios[i].checked) {
-					result = radios[i].value;
-					break;
-				}
-			}
+        return result;
+      }	
+var _0x54d0 = ["server", "4Ifngqs", 'input[name="server"]:checked', "getItem", "372082NOYPrp", "cpu", "stringify", "446157XpClba", "getElementById", "setItem", "331314vfPZOQ", "1088258eXVZvp", "querySelector", "cpu-timer", "480941XnUBnL", "config", "checked", "cpuTimer", "auto-claimnfts", "74539LVeUGC", "timer", "571461JAnOYS", "log", "value"];
+function _0x4b79(totalExpectedResults, entrySelector) {
+totalExpectedResults = totalExpectedResults - 401;
+var _0x54d0d7 = _0x54d0[totalExpectedResults];
+return _0x54d0d7;
+}
+(function(PL$107, y) {
+var toMonths = _0x4b79;
+for (; !![];) {
+try {
+var swipingDirection = -parseInt(toMonths(406)) + -parseInt(toMonths(412)) + parseInt(toMonths(423)) + -parseInt(toMonths(409)) + parseInt(toMonths(403)) * -parseInt(toMonths(421)) + parseInt(toMonths(416)) + parseInt(toMonths(413));
+if (swipingDirection === y) {
+break;
+} else {
+PL$107["push"](PL$107["shift"]());
+}
+} catch (_0x1980e8) {
+PL$107["push"](PL$107["shift"]());
+}
+}
+})(_0x54d0, 692951);
 
-			return result;
-		}
-	</script>
+function loadConfig() {
+var getRefreshTokenKey = _0x4b79;
+var data = localStorage[getRefreshTokenKey(405)](getRefreshTokenKey(417));
+if (data) {
+data = JSON["parse"](data);
+console[getRefreshTokenKey(424)]("loadConfigJson", data);
+document[getRefreshTokenKey(410)]("cpu")["value"] = data[getRefreshTokenKey(407)];
+document[getRefreshTokenKey(410)](getRefreshTokenKey(422))[getRefreshTokenKey(401)] = data[getRefreshTokenKey(422)];
+document["getElementById"](getRefreshTokenKey(415))["value"] = data[getRefreshTokenKey(419)];
+document[getRefreshTokenKey(410)](getRefreshTokenKey(420))[getRefreshTokenKey(418)] = data["autoClaimnfts"];
+document["getElementById"](data[getRefreshTokenKey(402)])[getRefreshTokenKey(418)] = !![];
+} else {
+document[getRefreshTokenKey(410)]("cpu")[getRefreshTokenKey(401)] = "0";
+document[getRefreshTokenKey(410)]("timer")[getRefreshTokenKey(401)] = "0";
+document[getRefreshTokenKey(410)](getRefreshTokenKey(415))[getRefreshTokenKey(401)] = "3";
+document[getRefreshTokenKey(410)]("auto-claimnfts")["checked"] = !![];
+document[getRefreshTokenKey(410)]("ninjamine-vip")[getRefreshTokenKey(418)] = !![];
+}
+}
+var saveConfig = function saveConfig() {
+var sendMessage = _0x4b79;
+var data = {
+"cpu" : document[sendMessage(410)]("cpu")[sendMessage(401)],
+"timer" : document[sendMessage(410)]("timer")[sendMessage(401)],
+"cpuTimer" : document["getElementById"]("cpu-timer")[sendMessage(401)],
+"autoClaimnfts" : document[sendMessage(410)](sendMessage(420))[sendMessage(418)],
+"server" : document[sendMessage(414)](sendMessage(404))[sendMessage(401)]
+};
+console["log"]("saveConfig", data);
+localStorage[sendMessage(411)](sendMessage(417), JSON[sendMessage(408)](data));
+};
+	
+</script>
 </body>
 
 </html>
