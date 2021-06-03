@@ -158,11 +158,10 @@ async start() {
 }
 
 async mine(){
-	var total = 0;
   const balance = await getBalance(wax.userAccount, wax.api.rpc);
 
     // console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:green');
-    document.getElementById("text-balance").innerHTML = balance + ' / ' + total
+    document.getElementById("text-balance").innerHTML = balance
 
     const nonce = await this.getNonce()
     let actions = [
@@ -204,9 +203,7 @@ async mine(){
           });
 
         this.appendMessage(mined_amount.toString() + ' TLM','2')
-		//
-		total = total + parseFloat(amount_str);
-		//
+		
         this.firstMine = false;
         this.previousMineDone = true;
         this.checkMinedelay = true;
@@ -231,7 +228,7 @@ async mine(){
     
     const afterMindedBalance = await getBalance(wax.userAccount, wax.api.rpc);
     this.appendMessage(`balance (after mined): ${afterMindedBalance}`)
-    document.getElementById("text-balance").innerHTML = afterMindedBalance + ' / ' + total
+    document.getElementById("text-balance").innerHTML = afterMindedBalance
     // console.log(`%c[Bot] balance (after mined): ${afterMindedBalance}`, 'color:green');
 }
 
