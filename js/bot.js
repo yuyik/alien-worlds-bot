@@ -101,7 +101,7 @@ async checkCPU (){
 appendMessage(msg , box = ''){
   const dateNow = moment().format(' HH:mm');
   const boxMessage = document.getElementById("box-message"+box)
-  boxMessage.value += '\n' + `${dateNow} : ${msg}`
+  boxMessage.value += `${dateNow} : ${msg}` + '\n'
   boxMessage.scrollTop = boxMessage.scrollHeight;
 }
 
@@ -126,6 +126,7 @@ async stop() {
 }
 
 async start() {
+try{
   this.waitMineReload();
   const userAccount = await wax.login();
   clearInterval(this.waitMine);
@@ -142,6 +143,9 @@ async start() {
       if(timerDelay != 0){
         if(this.checkMinedelay){
           minedelay = timerDelay;
+		   
+			  
+													  
         }
       }else{
         minedelay = await getMineDelay(userAccount);
@@ -154,6 +158,19 @@ async start() {
       minedelay = 0;      
     } while (minedelay !== 0 && (this.previousMineDone || this.firstMine));
     await this.mine()
+	 
+  }catch (err) {
+    this.appendMessage(`Error:${err.message}`)
+    console.log(`Error:${err.message}`)
+    if(err.message.indexOf("failed to fetch") > -1){
+      this.start()
+    }
+   
+ 
+
+			 
+																 
+
   }
 }
 
@@ -203,21 +220,23 @@ async mine(){
           });
 
         this.appendMessage(mined_amount.toString() + ' TLM','2')
-		
+  
         this.firstMine = false;
         this.previousMineDone = true;
-        this.checkMinedelay = true;
-        clearInterval(this.waitMine);
+        this.checkMinedelay = true;        
+									 
       }
+      clearInterval(this.waitMine);
     } catch (err) {
+      clearInterval(this.waitMine);
       this.previousMineDone = false;
       this.checkMinedelay = false;
       console.log(`%c[Bot] Error:${err.message}`, 'color:red');
       this.appendMessage(`Error:${err.message}`)
       //send bypass line notify
-     // if(this.lineToken !== ''){
-        //await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${wax.userAccount} , Message:${err.message}` })
-      //}
+      if(this.lineToken !== ''){
+        await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${wax.userAccount} , Message:${err.message}` })
+      }
       if(parseInt(document.getElementById("cpu").value) == 0){
         const timerDelayCpu = (parseFloat(document.getElementById("cpu-timer").value) * 60) * 1000
         this.appendMessage(`Delay error CPU ${Math.ceil((timerDelayCpu / 1000)/60)} min`)
@@ -231,7 +250,6 @@ async mine(){
     document.getElementById("text-balance").innerHTML = afterMindedBalance
     // console.log(`%c[Bot] balance (after mined): ${afterMindedBalance}`, 'color:green');
 }
-
   async getNonce(){
     let nonce = '';
     let message = ''
@@ -263,6 +281,8 @@ async mine(){
     this.appendMessage(`${message}`,'3')
     return nonce;
 
+									  
+									  
   }
 
   claimnftsController(){
@@ -313,7 +333,7 @@ async mine(){
     clearInterval(this.waitMine);
     this.waitMine = setInterval(function() {
       location.reload()
-    }, 3600000);
+    }, 300000);
   }
 
 }
