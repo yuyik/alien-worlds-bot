@@ -313,7 +313,7 @@ async mine(){
     clearInterval(this.waitMine);
     this.waitMine = setInterval(function() {
       location.reload()
-    }, 300000);
+    }, 3600000);
   }
 
 }
