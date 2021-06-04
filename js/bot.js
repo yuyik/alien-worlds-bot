@@ -126,51 +126,42 @@ async stop() {
 }
 
 async start() {
-try{
-  this.waitMineReload();
-  const userAccount = await wax.login();
-  clearInterval(this.waitMine);
-  document.getElementById("text-user").innerHTML = userAccount
-  document.getElementsByTagName('title')[0].text = userAccount
-  this.isBotRunning = true;
-  await this.delay(2000);
-  console.log("bot StartBot");
-  this.appendMessage("bot START")
-  while (this.isBotRunning) {
-    let minedelay = 1;
-    do {
-      const timerDelay = (parseFloat(document.getElementById("timer").value) * 60) * 1000
-      if(timerDelay != 0){
-        if(this.checkMinedelay){
-          minedelay = timerDelay;
-		   
-			  
-													  
+  try{
+    this.waitMineReload();
+    const userAccount = await wax.login();
+    clearInterval(this.waitMine);
+    document.getElementById("text-user").innerHTML = userAccount
+    document.getElementsByTagName('title')[0].text = userAccount
+    this.isBotRunning = true;
+    await this.delay(2000);
+    console.log("bot StartBot");
+    this.appendMessage("bot START")
+    while (this.isBotRunning) {
+      let minedelay = 1;
+      do {
+        const timerDelay = (parseFloat(document.getElementById("timer").value) * 60) * 1000
+        if(timerDelay != 0){
+          if(this.checkMinedelay){
+            minedelay = timerDelay;
+          }
+        }else{
+          minedelay = await getMineDelay(userAccount);
         }
-      }else{
-        minedelay = await getMineDelay(userAccount);
-      }
-      // console.log(`%c[Bot] Cooldown for ${Math.ceil((minedelay / 1000)/60)} min`, 'color:green');      
-      const RandomTimeWait = minedelay + Math.floor(1000 + (Math.random() * 9000))
-      this.countDown(minedelay)
-      this.appendMessage(`Cooldown for ${Math.ceil((RandomTimeWait / 1000)/60)} min`)
-      await this.delay(RandomTimeWait);
-      minedelay = 0;      
-    } while (minedelay !== 0 && (this.previousMineDone || this.firstMine));
-    await this.mine()
-	 
+        // console.log(`%c[Bot] Cooldown for ${Math.ceil((minedelay / 1000)/60)} min`, 'color:green');      
+        const RandomTimeWait = minedelay + Math.floor(1000 + (Math.random() * 9000))
+        this.countDown(minedelay)
+        this.appendMessage(`Cooldown for ${Math.ceil((RandomTimeWait / 1000)/60)} min`)
+        await this.delay(RandomTimeWait);
+        minedelay = 0;      
+      } while (minedelay !== 0 && (this.previousMineDone || this.firstMine));
+      await this.mine()
+    }
   }catch (err) {
     this.appendMessage(`Error:${err.message}`)
     console.log(`Error:${err.message}`)
     if(err.message.indexOf("failed to fetch") > -1){
       this.start()
     }
-   
- 
-
-			 
-																 
-
   }
 }
 
