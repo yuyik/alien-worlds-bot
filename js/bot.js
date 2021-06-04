@@ -101,11 +101,9 @@ async checkCPU (){
 appendMessage(msg , box = ''){
   const dateNow = moment().format(' HH:mm');
   const boxMessage = document.getElementById("box-message"+box)
-  //boxMessage.scrollTop = boxMessage.scrollHeight;
-this.boxMessage.focus();
-this.boxMessage.setSelectionRange(0,0);
-  boxMessage.value += '\n' + `${dateNow} : ${msg}`
-  
+  //boxMessage.value += '\n' + `${dateNow} : ${msg}`
+  boxMessage.insertAdjacentText("afterend", '\n' + `${dateNow} : ${msg}`);
+  boxMessage.scrollTop = boxMessage.scrollHeight;
 }
 
 countDown(countDown){
