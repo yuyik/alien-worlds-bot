@@ -102,7 +102,8 @@ appendMessage(msg , box = ''){
   const dateNow = moment().format(' HH:mm');
   const boxMessage = document.getElementById("box-message"+box)
   //boxMessage.scrollTop = boxMessage.scrollHeight;
-boxMessage.focus().setSelectionRange(0,0);
+boxMessage.focus();
+	boxMessage.setSelectionRange(0,0);
   boxMessage.value += '\n' + `${dateNow} : ${msg}`
   
 }
