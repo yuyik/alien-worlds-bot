@@ -101,7 +101,7 @@ async checkCPU (){
 appendMessage(msg , box = ''){
   const dateNow = moment().format(' HH:mm:ss');
   const boxMessage = document.getElementById("box-message"+box)
-  boxMessage.value += '\n'+ `${dateNow} : ${msg}`
+  boxMessage.value += `${dateNow} : ${msg}` + '\n'
   boxMessage.scrollTop = boxMessage.scrollHeight;
 }
 
