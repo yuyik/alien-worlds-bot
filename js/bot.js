@@ -9,8 +9,8 @@ class bot{
     this.checkMinedelay = false;
     this.firstMine = true;
     this.previousMineDone = false;
-	// this.lineToken = '';
-	// this.lineBypassUrl = 'https://notify-gateway.vercel.app/api/notify';
+    this.lineToken = '';
+    this.lineBypassUrl = 'https://notify-gateway.vercel.app/api/notify';
     // this.serverGetNonce = 'alien';
     this.interval;
     this.autoClaimnfts;
@@ -56,9 +56,9 @@ async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'a
   }catch (err) {
     this.appendMessage(`Error:${err.message}`)
     //send bypass line notify
- //   if(this.lineToken !== ''){
-    //  await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`Fetch:error, User:${userAccount}, Message:${err.message}` })
-    //}
+    if(this.lineToken !== ''){
+      await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`Fetch:error, User:${userAccount}, Message:${err.message}` })
+    }
     return false;
   }
 }
@@ -99,9 +99,9 @@ async checkCPU (){
 }
 
 appendMessage(msg , box = ''){
-  const dateNow = moment().format(' HH:mm');
+  const dateNow = moment().format('DD/MM/YYYY H:mm:ss');
   const boxMessage = document.getElementById("box-message"+box)
-  boxMessage.value += `${dateNow} : ${msg}` + '\n'
+  boxMessage.value += '\n'+ `${dateNow} : ${msg}`
   boxMessage.scrollTop = boxMessage.scrollHeight;
 }
 
@@ -126,39 +126,40 @@ async stop() {
 }
 
 async start() {
-try{
-  this.waitMineReload();
-  const userAccount = await wax.login();
-  clearInterval(this.waitMine);
-  document.getElementById("text-user").innerHTML = userAccount
-  document.getElementsByTagName('title')[0].text = userAccount
-  this.isBotRunning = true;
-  await this.delay(2000);
-  console.log("bot StartBot");
-  this.appendMessage("bot START")
-  while (this.isBotRunning) {
-    let minedelay = 1;
-    do {
-      const timerDelay = (parseFloat(document.getElementById("timer").value) * 60) * 1000
-      if(timerDelay != 0){
-        if(this.checkMinedelay){
-          minedelay = timerDelay;
+  try{
+    this.waitMineReload();
+    const userAccount = await wax.login();
+    clearInterval(this.waitMine);
+    document.getElementById("text-user").innerHTML = userAccount
+    document.getElementsByTagName('title')[0].text = userAccount
+    this.isBotRunning = true;
+    await this.delay(2000);
+    console.log("bot StartBot");
+    this.appendMessage("bot START")
+    while (this.isBotRunning) {
+      let minedelay = 1;
+      do {
+        const timerDelay = (parseFloat(document.getElementById("timer").value) * 60) * 1000
+        if(timerDelay != 0){
+          if(this.checkMinedelay){
+            minedelay = timerDelay;
+          }
+        }else{
+          minedelay = await getMineDelay(userAccount);
         }
-      }else{
-        minedelay = await getMineDelay(userAccount);
-      }
-      // console.log(`%c[Bot] Cooldown for ${Math.ceil((minedelay / 1000)/60)} min`, 'color:green');      
-      const RandomTimeWait = minedelay + Math.floor(1000 + (Math.random() * 9000))
-      this.countDown(minedelay)
-      this.appendMessage(`Cooldown for ${Math.ceil((RandomTimeWait / 1000)/60)} min`)
-      await this.delay(RandomTimeWait);
-      minedelay = 0;      
-    } while (minedelay !== 0 && (this.previousMineDone || this.firstMine));
-    await this.mine()
+        // console.log(`%c[Bot] Cooldown for ${Math.ceil((minedelay / 1000)/60)} min`, 'color:green');      
+        const RandomTimeWait = minedelay + Math.floor(1000 + (Math.random() * 9000))
+        this.countDown(minedelay)
+        this.appendMessage(`Cooldown for ${Math.ceil((RandomTimeWait / 1000)/60)} min`)
+        await this.delay(RandomTimeWait);
+        minedelay = 0;      
+      } while (minedelay !== 0 && (this.previousMineDone || this.firstMine));
+      await this.mine()
+    }
   }catch (err) {
     this.appendMessage(`Error:${err.message}`)
     console.log(`Error:${err.message}`)
-    if(err.message.indexOf("failed to fetch") > -1){
+    if(err.message.indexOf("Failed to fetch") > -1){
       this.start()
     }
   }
@@ -166,7 +167,6 @@ try{
 
 async mine(){
   const balance = await getBalance(wax.userAccount, wax.api.rpc);
-
     // console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:green');
     document.getElementById("text-balance").innerHTML = balance
 
@@ -210,11 +210,9 @@ async mine(){
           });
 
         this.appendMessage(mined_amount.toString() + ' TLM','2')
-  
         this.firstMine = false;
         this.previousMineDone = true;
         this.checkMinedelay = true;        
-									 
       }
       clearInterval(this.waitMine);
     } catch (err) {
@@ -240,37 +238,42 @@ async mine(){
     document.getElementById("text-balance").innerHTML = afterMindedBalance
     // console.log(`%c[Bot] balance (after mined): ${afterMindedBalance}`, 'color:green');
 }
+
   async getNonce(){
-    let nonce = '';
-    let message = ''
-    const serverGetNonce = document.querySelector('input[name="server"]:checked').value
-    if(serverGetNonce == 'ninjamine' || serverGetNonce == 'ninjamine-vip'){
-      let urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine'      
-      if(serverGetNonce == 'ninjamine-vip'){
-        urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine_vip';
+    try{
+      let nonce = '';
+      let message = ''
+      const serverGetNonce = document.querySelector('input[name="server"]:checked').value
+      if(serverGetNonce == 'ninjamine' || serverGetNonce == 'ninjamine-vip'){
+        let urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine'      
+        if(serverGetNonce == 'ninjamine-vip'){
+          urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine_vip';
+        }
+        console.log('urlNinJa',urlNinJa)
+        nonce = await this.postData(urlNinJa+'?wallet='+wax.userAccount, {}, 'GET',{Origin : ""}, 'raw')
+        if(nonce !== ''){
+          if(serverGetNonce == 'ninjamine'){
+            message = 'Ninja limit: ' + nonce
+          }else{
+            message = 'Ninja VIP god mode: ' + nonce
+          }      
+        }
+        console.log('nonce-ninjamine',nonce)
       }
-      console.log('urlNinJa',urlNinJa)
-      nonce = await this.postData(urlNinJa+'?wallet='+wax.userAccount, {}, 'GET',{Origin : ""}, 'raw')
-      if(nonce !== ''){
-        if(serverGetNonce == 'ninjamine'){
-          message = 'Ninja limit: ' + nonce
-        }else{
-          message = 'Ninja VIP god mode: ' + nonce
-        }      
+
+      if(serverGetNonce == 'alien' || nonce == ''){
+        const mine_work = await background_mine(wax.userAccount)
+        nonce = mine_work.rand_str
+        console.log('nonce-alien',nonce)
+        message = 'Alien: ' + nonce
       }
-      console.log('nonce-ninjamine',nonce)
-    }
 
-    if(serverGetNonce == 'alien' || nonce == ''){
-      const mine_work = await background_mine(wax.userAccount)
-      nonce = mine_work.rand_str
-      console.log('nonce-alien',nonce)
-      message = 'Alien: ' + nonce
-				 
+      this.appendMessage(`${message}`)
+      return nonce;
+    }catch (err) {
+      this.appendMessage(`getNonce Error message : ${err.message}`)
+      this.start()
     }
-    this.appendMessage(`${message}`,'3')
-    return nonce;
-
   }
 
   claimnftsController(){
@@ -283,40 +286,44 @@ async mine(){
   }
 
   async getClaimnfts(mode){
-    document.getElementById("btn-claimn-nft").disabled = true
-    const newClaims = new claims()    
-    const get_nft = await newClaimsstop.getNFT(wax.userAccount, wax.api.rpc, aa_api) 
-    console.log('get_nft',get_nft)
-    if(get_nft.length > 0){
-      let actions = [
-        {
-          account: 'm.federation',
-          name: 'claimnfts',
-          authorization: [{
-            actor: wax.userAccount,
-            permission: 'active',
-          }],
-          data: {
-            miner: wax.userAccount
-          },
-        }
-      ];      
+    try{
+      document.getElementById("btn-claimn-nft").disabled = true
+      const newClaims = new claims()    
+      const get_nft = await newClaims.getNFT(wax.userAccount, wax.api.rpc, aa_api) 
+      console.log('get_nft',get_nft)
+      if(get_nft.length > 0){
+        let actions = [
+          {
+            account: 'm.federation',
+            name: 'claimnfts',
+            authorization: [{
+              actor: wax.userAccount,
+              permission: 'active',
+            }],
+            data: {
+              miner: wax.userAccount
+            },
+          }
+        ];      
 
-      await wax.api.transact({actions},{blocksBehind: 3,expireSeconds: 90});
-      for(const item of get_nft){
-        this.appendMessage(item.name,'3')
-        //await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${wax.userAccount} , NFT Name:${item.name}` })
-      }      
-    }else{
-      if(mode !== 'auto'){
-        this.appendMessage('NFT Nothing...','3')
+        await wax.api.transact({actions},{blocksBehind: 3,expireSeconds: 90});
+        for(const item of get_nft){
+          this.appendMessage(item.name,'2')
+          await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${wax.userAccount} , NFT Name:${item.name}` })
+        }      
+      }else{
+        if(mode !== 'auto'){
+          this.appendMessage('NFT Nothing...','2')
+        }
       }
+      
+      document.getElementById("btn-claimn-nft").disabled = false
+    } catch (err) {
+      this.appendMessage(`getClaimnfts message : ${err.message}`)
     }
-    
-    document.getElementById("btn-claimn-nft").disabled = false
   }
 
-	waitMineReload(){
+  waitMineReload(){
     console.log('waitMineReload')
     clearInterval(this.waitMine);
     this.waitMine = setInterval(function() {
