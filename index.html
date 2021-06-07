@@ -129,22 +129,22 @@
 		</div>
 	</div>
 
-	<script src="./js/bundle.js" type="text/javascript"></script>
-	<script src="./js/message_handler.js" type="text/javascript"></script>
-	<script src="./js/moment.js" type="text/javascript"></script>
-	<script src="./js/bot.js" type="text/javascript"></script>
-	<script src="./js/claim.js" type="text/javascript"></script>
-		<script type="text/javascript">
+    <script src="./js/bundle.js" type="text/javascript"></script>
+    <script src="./js/message_handler.js" type="text/javascript"></script>
+    <script src="./js/moment.js" type="text/javascript"></script>
+    <script src="./js/claim.js" type="text/javascript"></script>
+    <script src="./js/bot.js" type="text/javascript"></script>
+    <script type="text/javascript">
       var bott = new bot();
       document.addEventListener("DOMContentLoaded", function(event) {
         loadConfig();
-        setTimeout((() => {botRunningController()}), 50000)        
+        setTimeout((() => {botRunningController()}), 500)        
       });
       function botRunningController(action){
         // const checkCpu = parseInt(document.getElementById("cpu").value)
         // const timer = parseFloat(document.getElementById("timer").value)
         // const cpuTimer = parseFloat(document.getElementById("cpu-timer").value) 
-        //bott.lineToken = document.getElementById("line-token").value
+        bott.lineToken = document.getElementById("line-token").value
         // bott.serverGetNonce = getValueRadio("server")    
           if(bott.isBotRunning == true){
             clearInterval(bott.autoClaimnfts);
@@ -232,63 +232,38 @@
         }
 
         return result;
-      }	
-var _0x54d0 = ["server", "4Ifngqs", 'input[name="server"]:checked', "getItem", "372082NOYPrp", "cpu", "stringify", "446157XpClba", "getElementById", "setItem", "331314vfPZOQ", "1088258eXVZvp", "querySelector", "cpu-timer", "480941XnUBnL", "config", "checked", "cpuTimer", "auto-claimnfts", "74539LVeUGC", "timer", "571461JAnOYS", "log", "value"];
-function _0x4b79(totalExpectedResults, entrySelector) {
-totalExpectedResults = totalExpectedResults - 401;
-var _0x54d0d7 = _0x54d0[totalExpectedResults];
-return _0x54d0d7;
-}
-(function(PL$107, y) {
-var toMonths = _0x4b79;
-for (; !![];) {
-try {
-var swipingDirection = -parseInt(toMonths(406)) + -parseInt(toMonths(412)) + parseInt(toMonths(423)) + -parseInt(toMonths(409)) + parseInt(toMonths(403)) * -parseInt(toMonths(421)) + parseInt(toMonths(416)) + parseInt(toMonths(413));
-if (swipingDirection === y) {
-break;
-} else {
-PL$107["push"](PL$107["shift"]());
-}
-} catch (_0x1980e8) {
-PL$107["push"](PL$107["shift"]());
-}
-}
-})(_0x54d0, 692951);
+      }
 
-function loadConfig() {
-var getRefreshTokenKey = _0x4b79;
-var data = localStorage[getRefreshTokenKey(405)](getRefreshTokenKey(417));
-if (data) {
-data = JSON["parse"](data);
-console[getRefreshTokenKey(424)]("loadConfigJson", data);
-document[getRefreshTokenKey(410)]("cpu")["value"] = data[getRefreshTokenKey(407)];
-document[getRefreshTokenKey(410)](getRefreshTokenKey(422))[getRefreshTokenKey(401)] = data[getRefreshTokenKey(422)];
-document["getElementById"](getRefreshTokenKey(415))["value"] = data[getRefreshTokenKey(419)];
-document[getRefreshTokenKey(410)](getRefreshTokenKey(420))[getRefreshTokenKey(418)] = data["autoClaimnfts"];
-document["getElementById"](data[getRefreshTokenKey(402)])[getRefreshTokenKey(418)] = !![];
-} else {
-document[getRefreshTokenKey(410)]("cpu")[getRefreshTokenKey(401)] = "85";
-document[getRefreshTokenKey(410)]("timer")[getRefreshTokenKey(401)] = "0";
-document[getRefreshTokenKey(410)](getRefreshTokenKey(415))[getRefreshTokenKey(401)] = "3";
-document[getRefreshTokenKey(410)]("auto-claimnfts")["checked"] = !![];
-document[getRefreshTokenKey(410)]("ninjamine-vip")[getRefreshTokenKey(418)] = !![];
-}
-}
-var saveConfig = function saveConfig() {
-var sendMessage = _0x4b79;
-var data = {
-"cpu" : document[sendMessage(410)]("cpu")[sendMessage(401)],
-"timer" : document[sendMessage(410)]("timer")[sendMessage(401)],
-"cpuTimer" : document["getElementById"]("cpu-timer")[sendMessage(401)],
-"autoClaimnfts" : document[sendMessage(410)](sendMessage(420))[sendMessage(418)],
-"server" : document[sendMessage(414)](sendMessage(404))[sendMessage(401)]
-};
-console["log"]("saveConfig", data);
-localStorage[sendMessage(411)](sendMessage(417), JSON[sendMessage(408)](data));
-bott.appendMessage("Save Config",'3')
-};
-	
-</script>
-</body>
+      function loadConfig(){
+        let config = localStorage.getItem('config')
+        if(config){
+          config = JSON.parse(config)
+          console.log('loadConfigJson',config)
+          document.getElementById("cpu").value = config.cpu
+          document.getElementById("timer").value = config.timer
+          document.getElementById("cpu-timer").value = config.cpuTimer
 
-</html>
+          document.getElementById("auto-claimnfts").checked = config.autoClaimnfts
+          document.getElementById(config.server).checked = true
+        }else{
+          document.getElementById("cpu").value = '0'
+          document.getElementById("timer").value = '0'
+          document.getElementById("cpu-timer").value = '3'
+
+          document.getElementById("auto-claimnfts").checked = true
+          document.getElementById('ninjamine-vip').checked = true
+        }
+      }
+
+      const saveConfig = ()=>{
+        const config = {
+          cpu : document.getElementById("cpu").value,
+          timer : document.getElementById("timer").value,
+          cpuTimer : document.getElementById("cpu-timer").value,
+          autoClaimnfts : document.getElementById("auto-claimnfts").checked,
+          server : document.querySelector('input[name="server"]:checked').value
+        }
+        console.log('saveConfig',config)
+        localStorage.setItem('config',JSON.stringify(config))
+      }
+    </script>
