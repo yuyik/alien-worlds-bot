@@ -150,7 +150,11 @@ async start() {
         // console.log(`%c[Bot] Cooldown for ${Math.ceil((minedelay / 1000)/60)} min`, 'color:green');      
         const RandomTimeWait = minedelay + Math.floor(1000 + (Math.random() * 9000))
         this.countDown(minedelay)
-        this.appendMessage(`Cooldown for ${Math.ceil((RandomTimeWait / 1000)/60)} min`)
+		
+		var d = new Date();
+		var n = d.toLocaleTimeString(d.setMilliseconds(RandomTimeWait));
+		
+        this.appendMessage(`Cooldown for ${Math.ceil((RandomTimeWait / 1000)/60)} min ( ` + n + `)`)
         await this.delay(RandomTimeWait);
         minedelay = 0;      
       } while (minedelay !== 0 && (this.previousMineDone || this.firstMine));
