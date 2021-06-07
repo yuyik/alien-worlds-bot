@@ -8,8 +8,8 @@
 
 textarea{
   resize: none;
-  display: flex;
-  flex-direction:column-reverse;
+ /* display: flex;
+  flex-direction:column-reverse; */
   margin-top: 5px;
 }
 
