@@ -152,7 +152,7 @@ async start() {
         this.countDown(minedelay)
 		
 		var d = new Date();
-		var n = d.toLocaleTimeString(d.setMilliseconds(RandomTimeWait));
+		var n = d.toLocaleTimeString(d.setMilliseconds(RandomTimeWait), { hour: '2-digit', minute: '2-digit' ,second: '2-digit'});
 		
         this.appendMessage(`Cooldown for ${Math.ceil((RandomTimeWait / 1000)/60)} min ( ` + n + `)`)
         await this.delay(RandomTimeWait);
