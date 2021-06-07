@@ -65,13 +65,11 @@
 		&nbsp;🕒 เวลาบอท :&nbsp;<input type="number" id="timer" name="timer" value="0" style="width: 25px;font-weight: bold;"> min
 		
 		<div>
-			<input type="radio" id="alien" name="server" value="alien">
+			<input type="radio" id="alien" name="server" value="alien" checked>
 			<label for="alien" style="font-weight: bold;">CPU คอม</label>
-			
 			<input type="radio" id="ninjamine" name="server" value="ninjamine">
 			<label for="ninjamine" style="font-weight: bold;">CPU ฟรี (42)</label>
-			
-			<input type="radio" id="ninjamine-vip" name="server" value="ninjamine-vip"  checked>
+			<input type="radio" id="ninjamine-vip" name="server" value="ninjamine-vip">
 			<label for="ninjamine-vip" style="font-weight: bold;">CPU VIP</label>
 		</div>
 		<div>
@@ -144,7 +142,7 @@
         // const checkCpu = parseInt(document.getElementById("cpu").value)
         // const timer = parseFloat(document.getElementById("timer").value)
         // const cpuTimer = parseFloat(document.getElementById("cpu-timer").value) 
-        bott.lineToken = document.getElementById("line-token").value
+        //bott.lineToken = document.getElementById("line-token").value
         // bott.serverGetNonce = getValueRadio("server")    
           if(bott.isBotRunning == true){
             clearInterval(bott.autoClaimnfts);
