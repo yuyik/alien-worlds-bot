@@ -234,7 +234,7 @@ async mine(){
     }
     
     const afterMindedBalance = await getBalance(wax.userAccount, wax.api.rpc);
-    this.appendMessage(`balance (after mined): ${afterMindedBalance}`)
+    this.appendMessage(`TLM หลังขุด: ${afterMindedBalance}`)
     document.getElementById("text-balance").innerHTML = afterMindedBalance
     // console.log(`%c[Bot] balance (after mined): ${afterMindedBalance}`, 'color:green');
 }
