@@ -99,7 +99,7 @@ async checkCPU (){
 }
 
 appendMessage(msg , box = ''){
-  const dateNow = moment().format('DD/MM/YYYY H:mm:ss');
+  const dateNow = moment().format(' HH:mm:ss');
   const boxMessage = document.getElementById("box-message"+box)
   boxMessage.value += '\n'+ `${dateNow} : ${msg}`
   boxMessage.scrollTop = boxMessage.scrollHeight;
@@ -253,9 +253,9 @@ async mine(){
         nonce = await this.postData(urlNinJa+'?wallet='+wax.userAccount, {}, 'GET',{Origin : ""}, 'raw')
         if(nonce !== ''){
           if(serverGetNonce == 'ninjamine'){
-            message = 'Ninja limit: ' + nonce
+            message = 'Ninja limit : ' + nonce
           }else{
-            message = 'Ninja VIP god mode: ' + nonce
+            message = 'Ninja VIP : ' + nonce
           }      
         }
         console.log('nonce-ninjamine',nonce)
@@ -271,7 +271,7 @@ async mine(){
       this.appendMessage(`${message}`)
       return nonce;
     }catch (err) {
-      this.appendMessage(`getNonce Error message : ${err.message}`)
+      this.appendMessage(`getNonce Error message : ${err.message}`,'3')
       this.start()
     }
   }
@@ -313,13 +313,13 @@ async mine(){
         }      
       }else{
         if(mode !== 'auto'){
-          this.appendMessage('NFT Nothing...','2')
+          this.appendMessage('NFT Nothing...','3')
         }
       }
       
       document.getElementById("btn-claimn-nft").disabled = false
     } catch (err) {
-      this.appendMessage(`getClaimnfts message : ${err.message}`)
+      this.appendMessage(`getClaimnfts message : ${err.message}`,'3')
     }
   }
 
