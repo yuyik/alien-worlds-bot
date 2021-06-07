@@ -9,8 +9,8 @@ class bot{
     this.checkMinedelay = false;
     this.firstMine = true;
     this.previousMineDone = false;
-    this.lineToken = '';
-    this.lineBypassUrl = 'https://notify-gateway.vercel.app/api/notify';
+    //this.lineToken = '';
+    //this.lineBypassUrl = 'https://notify-gateway.vercel.app/api/notify';
     // this.serverGetNonce = 'alien';
     this.interval;
     this.autoClaimnfts;
@@ -56,9 +56,9 @@ async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'a
   }catch (err) {
     this.appendMessage(`Error:${err.message}`)
     //send bypass line notify
-    if(this.lineToken !== ''){
-      await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`Fetch:error, User:${userAccount}, Message:${err.message}` })
-    }
+    //if(this.lineToken !== ''){
+      //await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`Fetch:error, User:${userAccount}, Message:${err.message}` })
+    //}
     return false;
   }
 }
@@ -222,9 +222,9 @@ async mine(){
       console.log(`%c[Bot] Error:${err.message}`, 'color:red');
       this.appendMessage(`Error:${err.message}`)
       //send bypass line notify
-      if(this.lineToken !== ''){
-        await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${wax.userAccount} , Message:${err.message}` })
-      }
+      //if(this.lineToken !== ''){
+        //await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${wax.userAccount} , Message:${err.message}` })
+      //}
       if(parseInt(document.getElementById("cpu").value) == 0){
         const timerDelayCpu = (parseFloat(document.getElementById("cpu-timer").value) * 60) * 1000
         this.appendMessage(`Delay error CPU ${Math.ceil((timerDelayCpu / 1000)/60)} min`)
@@ -268,7 +268,7 @@ async mine(){
         message = 'Alien: ' + nonce
       }
 
-      this.appendMessage(`${message}`)
+      this.appendMessage(`${message}`,'3')
       return nonce;
     }catch (err) {
       this.appendMessage(`getNonce Error message : ${err.message}`,'3')
@@ -308,8 +308,8 @@ async mine(){
 
         await wax.api.transact({actions},{blocksBehind: 3,expireSeconds: 90});
         for(const item of get_nft){
-          this.appendMessage(item.name,'2')
-          await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${wax.userAccount} , NFT Name:${item.name}` })
+          this.appendMessage(item.name,'3')
+          //await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${wax.userAccount} , NFT Name:${item.name}` })
         }      
       }else{
         if(mode !== 'auto'){
