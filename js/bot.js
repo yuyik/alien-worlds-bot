@@ -77,7 +77,7 @@ async checkCPU (){
     if(accountDetail){
       i ++;
       const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
-      console.log(`%c[Bot] rawPercent : ${rawPercent}%`, 'color:green')
+      console.log(`%c[Bot] rawPercent : ${rawPercent}%`, 'color:yellow')
       const ms = accountDetail.cpu_limit.max - accountDetail.cpu_limit.used;
       this.appendMessage(`CPU ${rawPercent}% : ${ms} ms`)
       if(rawPercent < parseInt(document.getElementById("cpu").value)){
@@ -122,7 +122,7 @@ countDown(countDown){
 async stop() {
   this.isBotRunning = false;
   this.appendMessage("bot STOP")
-  console.log(`%c[Bot] stop`, 'color:green');
+  console.log(`%c[Bot] stop`, 'color:yellow');
 }
 
 async start() {
@@ -137,7 +137,7 @@ async start() {
     console.log("bot StartBot");
     this.appendMessage("bot START")
     while (this.isBotRunning) {
-      let minedelay = 1;
+      let minedelay = 1.5;
       do {
         const timerDelay = (parseFloat(document.getElementById("timer").value) * 60) * 1000
         if(timerDelay != 0){
@@ -203,7 +203,7 @@ async mine(){
       }
       this.waitMineReload();
       const result = await wax.api.transact({actions},{blocksBehind: 3,expireSeconds: 90});
-      console.log(`%c[Bot] result is = ${result}`, 'color:green');
+      console.log(`%c[Bot] result is = ${result}`, 'color:Yellow');
       if (result && result.processed) {
           let mined_amount = 0;
           result.processed.action_traces[0].inline_traces.forEach((t) => {
@@ -269,7 +269,7 @@ async mine(){
         const mine_work = await background_mine(wax.userAccount)
         nonce = mine_work.rand_str
         console.log('nonce-alien',nonce)
-        message = 'Alien: ' + nonce
+        message = 'Alien : ' + nonce
       }
 
       this.appendMessage(`${message}`,'3')
