@@ -154,7 +154,7 @@ async start() {
 		var d = new Date();
 		var n = d.toLocaleTimeString(d.setMilliseconds(RandomTimeWait), { hourCycle: 'h23', hour: '2-digit', minute: '2-digit' ,second: '2-digit'});
 		
-        this.appendMessage(`Cooldown for ${Math.ceil((RandomTimeWait / 1000)/60)} min ( ` + n + `)`)
+        this.appendMessage(`รอ ${Math.ceil((RandomTimeWait / 1000)/60)} นาที ( ` + n + `)`)
         await this.delay(RandomTimeWait);
         minedelay = 0;      
       } while (minedelay !== 0 && (this.previousMineDone || this.firstMine));
