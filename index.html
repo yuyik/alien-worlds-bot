@@ -187,14 +187,14 @@
         }
       }
 
-      // function botMine(){
-      //   const userAccount = document.getElementById("text-user").innerHTML
-      //   if(userAccount != '' && userAccount != 'xxx.wax'){
-      //     bott.mine()
-      //   }else{
-      //     alert("userAccount isEmpty")
-      //   }
-      // }
+      function botMine(){
+	const userAccount = document.getElementById("text-user").innerHTML
+	if(userAccount != '' && userAccount != 'xxx.wax'){
+		bott.mine()
+      		}else{
+      			alert("userAccount isEmpty")
+      		}
+	}
 
       function botClaimnNft(){
         const userAccount = document.getElementById("text-user").innerHTML
@@ -256,7 +256,7 @@
         }else{
           document.getElementById("cpu").value = '0'
           document.getElementById("timer").value = '0'
-          document.getElementById("cpu-timer").value = '5'
+          document.getElementById("cpu-timer").value = '3'
 
           document.getElementById("auto-claimnfts").checked = true
           document.getElementById('ninjamine-vip').checked = true
