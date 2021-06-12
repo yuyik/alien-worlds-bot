@@ -1,1 +1,80 @@
-const _0x364d=['86446zRfXZa','458727IrLCbm','length','getTemplate','794729uKmWEf','alien.worlds','6SmOtNp','1NITBBU','template_ids','claims','17swUSEu','all','184767FnvScy','rows','460687SFAxGE','83448dRNfly','611273vosZtA','1bvcjnG'];(function(_0xaa73d0,_0x204aff){const _0x21bebf=_0x1db2;while(!![]){try{const _0x26ad31=parseInt(_0x21bebf(0x94))+-parseInt(_0x21bebf(0x8e))*parseInt(_0x21bebf(0x97))+parseInt(_0x21bebf(0x8c))+parseInt(_0x21bebf(0x98))*parseInt(_0x21bebf(0x99))+parseInt(_0x21bebf(0x96))+parseInt(_0x21bebf(0x8f))*parseInt(_0x21bebf(0x89))+-parseInt(_0x21bebf(0x92))*parseInt(_0x21bebf(0x88));if(_0x26ad31===_0x204aff)break;else _0xaa73d0['push'](_0xaa73d0['shift']());}catch(_0xff1a8a){_0xaa73d0['push'](_0xaa73d0['shift']());}}}(_0x364d,0x83d09));function _0x1db2(_0x5afe45,_0x5eba71){_0x5afe45=_0x5afe45-0x88;let _0x364dec=_0x364d[_0x5afe45];return _0x364dec;}class claims{async['getNFT'](_0x2b71a9,_0x27b9b9,_0x166552){const _0x554511=_0x1db2,_0x41e20e=await _0x27b9b9['get_table_rows']({'code':mining_account,'scope':mining_account,'table':_0x554511(0x91),'limit':0x64,'lower_bound':_0x2b71a9,'upper_bound':_0x2b71a9}),_0x4ddbc5=[];if(_0x41e20e[_0x554511(0x95)][_0x554511(0x8a)]){const _0x5750a7=_0x41e20e[_0x554511(0x95)][0x0][_0x554511(0x90)]['map'](_0x360e86=>{const _0x3b827a=_0x554511;return _0x166552[_0x3b827a(0x8b)](_0x3b827a(0x8d),_0x360e86);});return await Promise[_0x554511(0x93)](_0x5750a7);}return _0x4ddbc5;}}
+class claims{
+    async getNFT(account, eos_rpc, aa_api) {
+        const nft_res = await eos_rpc.get_table_rows({
+            code: mining_account, 
+            scope: mining_account, 
+            table: 'claims', 
+            limit: 100,
+            lower_bound: account, 
+            upper_bound: account
+        });
+        const nft = [];
+        if (nft_res.rows.length){
+            const items_p = nft_res.rows[0].template_ids.map((template_id) => {
+                return aa_api.getTemplate("alien.worlds",template_id)
+            });
+            return await Promise.all(items_p);
+        }
+        return nft;
+    }
+
+    async stake(account, amount) {
+        try {
+            console.log(`Staking ${amount} WAX to CPU...`);
+            const stake = {
+                'from': account,
+                'receiver': account,
+                'stake_net_quantity': `0.00000000 WAX`,
+                'stake_cpu_quantity': `${parseFloat(amount).toFixed(8)} WAX`,
+                'transfer': false
+            };
+            const actions = [{
+                'account': 'eosio',
+                'name': 'delegatebw',
+                'authorization': [{
+                    'actor': account,
+                    'permission': 'active'
+                }],
+                'data': stake
+            }];
+            let result = await wax.api.transact({
+                actions,
+            }, {
+                blocksBehind: 3,
+                expireSeconds: 90,
+            });
+            if (result && result.processed) {
+                return `Complete stake ${amount} WAX `
+            }
+            return 0;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async swap(amount_sell = "0.0001 TLM",amount_get = "0.00000000" ) {
+        try {
+            let actions = []
+            actions.push({
+                account: 'alien.worlds',
+                name: 'transfer',
+                authorization: [{
+                actor: wax.userAccount,
+                permission: 'active',
+                }],
+                data: {
+                    from: wax.userAccount,
+                    to:"alcordexmain",
+                    // quantity:`${amount_sell.toFixed(4)} TLM`,
+                    quantity:amount_sell,  
+                    memo:`${parseFloat(amount_get).toFixed(8)} WAX@eosio.token`   
+                },
+            });
+        console.log('actions',actions)
+            const result = await wax.api.transact({actions},{blocksBehind: 3,expireSeconds: 1200});
+            return result
+        } catch (err) {
+            return {processed : false, message : 'Swap Error : ' + err.message}
+        }
+    }
+}
