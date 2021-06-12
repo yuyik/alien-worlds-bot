@@ -184,6 +184,18 @@ async start() {
 }
 
 async mine(){
+/// temp mod
+	let accountDetail1 = {}
+	accountDetail1 = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
+	if(accountDetail1){
+          for (let token of accountDetail1.tokens) {
+            if(token.symbol === "WAX") {
+              const balanceWax = token.amount
+              document.getElementById("text-balance-wax").innerHTML = balanceWax.toFixed(4) + " WAX"
+            }
+        }
+      }
+/// temp mod
   const balance = await getBalance(wax.userAccount, wax.api.rpc);
     // console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:green');
     document.getElementById("text-balance").innerHTML = balance
