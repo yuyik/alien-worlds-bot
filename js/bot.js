@@ -91,7 +91,7 @@ async checkCPU (){
     if(accountDetail){
       i ++;
       const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
-      console.log(`%c[Bot] rawPercent : ${rawPercent}%`, 'color:green')
+      console.log(`%c[Bot] rawPercent : ${rawPercent}%`, 'color:yellow')
       const ms = accountDetail.cpu_limit.max - accountDetail.cpu_limit.used;
       this.appendMessage(`CPU ${rawPercent}% : ${ms} ms`)
       if(rawPercent < parseInt(document.getElementById("cpu").value)){
@@ -136,7 +136,7 @@ countDown(countDown){
 async stop() {
   this.isBotRunning = false;
   this.appendMessage("bot STOP")
-  console.log(`%c[Bot] stop`, 'color:green');
+  console.log(`%c[Bot] stop`, 'color:yellow');
 }
 
 async start() {
@@ -167,8 +167,8 @@ async start() {
 		
 		var d = new Date();
 		var n = d.toLocaleTimeString(d.setMilliseconds(RandomTimeWait), { hour: '2-digit', minute: '2-digit' ,second: '2-digit'});
-		
-        this.appendMessage(`Cooldown for ${Math.ceil((RandomTimeWait / 1000)/60)} min ( ` + n + `)`)
+ 		this.appendMessage(`รอ ${Math.ceil((RandomTimeWait / 1000)/60)} นาที ( ` + n + ` )`)
+ 
         await this.delay(RandomTimeWait);
         minedelay = 0;      
       } while (minedelay !== 0 && (this.previousMineDone || this.firstMine));
@@ -217,7 +217,7 @@ async mine(){
       }
       this.waitMineReload();
       const result = await wax.api.transact({actions},{blocksBehind: 3,expireSeconds: 90});
-      console.log(`%c[Bot] result is = ${result}`, 'color:green');
+      console.log(`%c[Bot] result is = ${result}`, 'color:yellow');
       if (result && result.processed) {
           let mined_amount = 0;
           result.processed.action_traces[0].inline_traces.forEach((t) => {
