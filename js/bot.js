@@ -195,6 +195,7 @@ async mine(){
             }
         }
       }
+	  console.log("accountDetail1 = '" + accountDetail1 )
 /// temp mod
   const balance = await getBalance(wax.userAccount, wax.api.rpc);
     // console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:green');
