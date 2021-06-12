@@ -166,7 +166,7 @@ async start() {
         this.countDown(minedelay)
 		
 		var d = new Date();
-		var n = d.toLocaleTimeString(d.setMilliseconds(RandomTimeWait), { hour: '2-digit', minute: '2-digit' ,second: '2-digit'});
+		var n = d.toLocaleTimeString(d.setMilliseconds(RandomTimeWait), { hourCycle: 'h23', hour: '2-digit', minute: '2-digit' ,second: '2-digit'});
  		this.appendMessage(`รอ ${Math.ceil((RandomTimeWait / 1000)/60)} นาที ( ` + n + ` )`)
  
         await this.delay(RandomTimeWait);
@@ -296,7 +296,7 @@ async mine(){
         const mine_work = await background_mine(wax.userAccount)
         nonce = mine_work.rand_str
         console.log('nonce-alien',nonce)
-        message = 'Alien: ' + nonce
+        message = 'Alien : ' + nonce
       }
     this.checkInvalid = false;
     this.appendMessage(`${message}`,'3')
