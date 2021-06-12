@@ -74,8 +74,7 @@ async checkCPU (){
       accountDetail = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
 	if(accountDetail){
           for (let token of accountDetail.tokens) {
-            if(token.symbol =ธศ?
-			== "WAX") {
+            if(token.symbol === "WAX") {
               const balanceWax = token.amount
               document.getElementById("text-balance-wax").innerHTML = balanceWax.toFixed(4) + " WAX"
               const amountSwap = parseFloat(document.getElementById("amount-stake").value)
