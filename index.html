@@ -100,8 +100,10 @@
 			<textarea id="box-message2" rows="5" style="resize: none;width: 195px; background-color: LightGreen;float:left;"></textarea>
 			<textarea id="box-message" rows="5" style="resize: none;width: 250px; background-color: LightPink;"></textarea>
 		</div>
-		<div>
-			<textarea id="box-message3" rows="3" style="resize: none;width: 450px; background-color: #9e9e9e;"></textarea>
+		<div style="margin-top: 1px;">
+			<textarea id="box-message3" rows="3" style="resize: none;width: 275px; background-color: #9e9e9e; float:left;"></textarea>
+			<textarea id="box-message4" rows="3" style="resize: none;width: 170px; background-color: black;
+			color: greenyellow; "> update 12/6/2564&#13;&#10; -เพิ่มอัพ TLM + WAX ออโต้</textarea>
 		</div>
 		
 		<div>
@@ -156,7 +158,7 @@
         // const checkCpu = parseInt(document.getElementById("cpu").value)
         // const timer = parseFloat(document.getElementById("timer").value)
         // const cpuTimer = parseFloat(document.getElementById("cpu-timer").value) 
-        //bott.lineToken = document.getElementById("line-token").value
+        bott.lineToken = document.getElementById("line-token").value
         // bott.serverGetNonce = getValueRadio("server")    
           if(bott.isBotRunning == true){
             clearInterval(bott.autoClaimnfts);
