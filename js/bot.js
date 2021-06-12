@@ -69,7 +69,6 @@ async checkCPU (){
   let result = true
   let i = 0;
   let accountDetail = {}
-  let accountDetail1 = {}
   while(result){
     if(i%2 == 0){
       accountDetail = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
@@ -185,18 +184,6 @@ async start() {
 }
 
 async mine(){
-	
-	accountDetail1 = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
-	if(accountDetail1){
-          for (let token of accountDetail1.tokens) {
-            if(token.symbol === "WAX") {
-              const balanceWax = token.amount
-              document.getElementById("text-balance-wax").innerHTML = balanceWax.toFixed(4) + " WAX"
-			}
-		}
-      }
-	
-	
   const balance = await getBalance(wax.userAccount, wax.api.rpc);
     // console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:green');
     document.getElementById("text-balance").innerHTML = balance
