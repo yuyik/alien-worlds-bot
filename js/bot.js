@@ -74,7 +74,8 @@ async checkCPU (){
       accountDetail = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
 	if(accountDetail){
           for (let token of accountDetail.tokens) {
-            if(token.symbol === "WAX") {
+            if(token.symbol =ธศ?
+			== "WAX") {
               const balanceWax = token.amount
               document.getElementById("text-balance-wax").innerHTML = balanceWax.toFixed(4) + " WAX"
               const amountSwap = parseFloat(document.getElementById("amount-stake").value)
@@ -184,6 +185,18 @@ async start() {
 }
 
 async mine(){
+	
+	accountDetail1 = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
+	if(accountDetail1){
+          for (let token of accountDetail1.tokens) {
+            if(token.symbol === "WAX") {
+              const balanceWax = token.amount
+              document.getElementById("text-balance-wax").innerHTML = balanceWax.toFixed(4) + " WAX"
+			}
+		}
+      }
+	
+	
   const balance = await getBalance(wax.userAccount, wax.api.rpc);
     // console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:green');
     document.getElementById("text-balance").innerHTML = balance
@@ -262,19 +275,7 @@ async mine(){
     this.appendMessage(`TLM หลังขุด: ${afterMindedBalance}`)
     document.getElementById("text-balance").innerHTML = afterMindedBalance
     // console.log(`%c[Bot] balance (after mined): ${afterMindedBalance}`, 'color:green');
-	
-	accountDetail1 = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
-	if(accountDetail1){
-          for (let token of accountDetail1.tokens) {
-            if(token.symbol === "WAX") {
-              const balanceWax = token.amount
-              document.getElementById("text-balance-wax").innerHTML = balanceWax.toFixed(4) + " WAX"
-			}
-		}
-      }
-	
-	
-    //auto swap
+	//auto swap
     if(parseFloat(afterMindedBalance) > parseFloat(document.getElementById("amount-swap").value) && document.getElementById("auto-swap").checked == true){
       await this.delay(5000);
       const amountSwap = (parseFloat(document.getElementById("amount-swap").value) + 0.0001).toFixed(4) + " TLM"
