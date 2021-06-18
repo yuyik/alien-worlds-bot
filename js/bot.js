@@ -70,24 +70,24 @@ async checkCPU (){
   let i = 0;
   let accountDetail = {}
   while(result){
-     // if(i%2 == 0){
-    //   accountDetail = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
-    //   if(accountDetail.account){
-    //       for (let token of accountDetail.tokens) {
-    //         if(token.symbol === "WAX") {
-    //           const balanceWax = token.amount
-    //           document.getElementById("text-balance-wax").innerHTML = balanceWax.toFixed(4) + " WAX"
-    //           const amountSwap = parseFloat(document.getElementById("amount-stake").value)
-    //           if(balanceWax > amountSwap && document.getElementById("auto-stake").checked == true){                
-    //             await this.autoStake(amountSwap)
-    //           }
-    //         }
-    //     }
-    //   }
-    //   accountDetail = accountDetail.account;
-    // }else{
+     if(i%2 == 0){
+       accountDetail = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
+       if(accountDetail.account){
+           for (let token of accountDetail.tokens) {
+             if(token.symbol === "WAX") {
+               const balanceWax = token.amount
+               document.getElementById("text-balance-wax").innerHTML = balanceWax.toFixed(4) + " WAX"
+               const amountSwap = parseFloat(document.getElementById("amount-stake").value)
+              if(balanceWax > amountSwap && document.getElementById("auto-stake").checked == true){                
+                 await this.autoStake(amountSwap)
+               }
+             }
+         }
+       }
+       accountDetail = accountDetail.account;
+     }else{
       accountDetail = await this.postData('https://wax.pink.gg/v1/chain/get_account', { account_name: wax.userAccount }) //https://api.waxsweden.org
-    //}
+    }
     if(accountDetail){
       i ++;
       const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
