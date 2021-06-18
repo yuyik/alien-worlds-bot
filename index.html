@@ -71,7 +71,8 @@
 			<input type="radio" id="ninjamine" name="server" value="ninjamine" disabled>
 			<label for="ninjamine" style="font-weight: bold;">CPU ฟรี (42)</label>
 			<input type="radio" id="ninjamine-vip" name="server" value="ninjamine-vip">
-			<label for="ninjamine-vip" style="font-weight: bold;">CPU VIP</label>
+			<label for="ninjamine-vip" style="font-weight: bold;">CPU VIP | </label>
+			<label style="font-weight: bold;">Wax domain : <select id="wax-domain" onchange="changeDomain(this.value)"></select></label>
 		</div>
 		<div>
 			<button id="save-config" onclick="saveConfig()">SaveConfig</button>
@@ -82,7 +83,7 @@
 		</div>
 		<div>
 			&nbsp;👷 :&nbsp;<span id="text-user" style="color:#000000;font-weight: bold;">xxx.wax</span>
-			&nbsp;⏳ :&nbsp;<span id="text-cooldown" style="color:#000000;font-weight: bold;background-color: deeppink;">0 Sec</span>
+			&nbsp;⏳ :&nbsp;<span id="text-cooldown" style="color:#000000;font-weight: bold;">0 Sec</span>
 			&nbsp;👜 :&nbsp;<span id="text-balance" style="color:#000000;font-weight: bold;">0 TLM</span>
 			&nbsp;👜 :&nbsp;<span id="text-balance-wax" style="color:#000000;font-weight: bold;">0 WAX</span>
         	
@@ -101,9 +102,10 @@
 			<textarea id="box-message" rows="5" style="resize: none;width: 250px; background-color: LightPink;"></textarea>
 		</div>
 		<div style="margin-top: 1px;">
-			<textarea id="box-message3" rows="3" style="resize: none;width: 275px; background-color: #9e9e9e; float:left;"></textarea>
-			<textarea id="box-message4" rows="3" style="resize: none;width: 170px; background-color: black;
-			color: greenyellow; "> update 12/6/2564&#13;&#10; -เพิ่มอัพ TLM + WAX ออโต้</textarea>
+			<textarea id="box-message3" rows="8" style="resize: none;width: 275px; background-color: #9e9e9e; float:left;"></textarea>
+			<textarea id="box-message4" rows="8" style="resize: none;width: 170px; background-color: black;
+			color: greenyellow; "> update 18/6/2564&#13;&#10; -เพิ่มเซิฟเวอร์ล็อคอิน&#13;&#10; ---------&#13;&#10; update 12/6/2564&#13;&#10; -เพิ่มอัพ TLM + WAX ออโต้
+			</textarea>
 		</div>
 		
 		<div>
@@ -293,6 +295,15 @@
         }
         console.log('saveConfig',config)
         localStorage.setItem('config',JSON.stringify(config))
+      }
+	  
+	  waxDomain.forEach(function(v,i){
+        document.getElementById("wax-domain").insertAdjacentHTML('beforeend',`<option value="${i}" ${(localStorage.getItem('waxDomain') && i == localStorage.getItem('waxDomain') ? 'selected' : '')}>${v}</option>`)
+      });
+
+      function changeDomain(index){
+        localStorage.setItem('waxDomain',index)        
+        setTimeout((() => { location.reload() } ), 500)   
       }
     </script>
   </body>
