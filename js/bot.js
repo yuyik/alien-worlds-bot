@@ -71,6 +71,7 @@ async checkCPU (){
   let accountDetail = {}
   while(result){
      if(i%2 == 0){
+	this.appendMessage(`Check WAX  ${i}`,'2')
        accountDetail = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
        if(accountDetail.account){
            for (let token of accountDetail.tokens) {
