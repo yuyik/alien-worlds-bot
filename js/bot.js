@@ -70,24 +70,24 @@ async checkCPU (){
   let i = 0;
   let accountDetail = {}
   while(result){
-    if(i%2 == 0){
-      accountDetail = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
-	if(accountDetail){
-          for (let token of accountDetail.tokens) {
-            if(token.symbol === "WAX") {
-              const balanceWax = token.amount
-              document.getElementById("text-balance-wax").innerHTML = balanceWax.toFixed(4) + " WAX"
-              const amountSwap = parseFloat(document.getElementById("amount-stake").value)
-              if(balanceWax > amountSwap && document.getElementById("auto-stake").checked == true){                
-                await this.autoStake(amountSwap)
-              }
-            }
-        }
-      }
-      accountDetail = accountDetail.account;
-    }else{
+     // if(i%2 == 0){
+    //   accountDetail = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
+    //   if(accountDetail.account){
+    //       for (let token of accountDetail.tokens) {
+    //         if(token.symbol === "WAX") {
+    //           const balanceWax = token.amount
+    //           document.getElementById("text-balance-wax").innerHTML = balanceWax.toFixed(4) + " WAX"
+    //           const amountSwap = parseFloat(document.getElementById("amount-stake").value)
+    //           if(balanceWax > amountSwap && document.getElementById("auto-stake").checked == true){                
+    //             await this.autoStake(amountSwap)
+    //           }
+    //         }
+    //     }
+    //   }
+    //   accountDetail = accountDetail.account;
+    // }else{
       accountDetail = await this.postData('https://wax.pink.gg/v1/chain/get_account', { account_name: wax.userAccount }) //https://api.waxsweden.org
-    }
+    //}
     if(accountDetail){
       i ++;
       const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
@@ -184,19 +184,6 @@ async start() {
 }
 
 async mine(){
-/// temp mod
-//	let accountDetail1 = {}
-//	accountDetail1 = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
-//	if(accountDetail1){
-  //        for (let token of accountDetail1.tokens) {
-  //          if(token.symbol === "WAX") {
-  //            const balanceWax = token.amount
-  //            document.getElementById("text-balance-wax").innerHTML = balanceWax.toFixed(4) + " WAX"
- //           }
-  //      }
-//      }
-//	  console.log(`accountDetail1 = ` + accountDetail1 , 'color:yellow');
-/// temp mod
   const balance = await getBalance(wax.userAccount, wax.api.rpc);
     // console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:green');
     document.getElementById("text-balance").innerHTML = balance
@@ -259,10 +246,6 @@ async mine(){
       }
       console.log(`%c[Bot] Error:${err.message}`, 'color:red');
       this.appendMessage(`Error:${err.message}`)
-      //send bypass line notify
-      //if(this.lineToken !== ''){
-        //await this.postData(this.lineBypassUrl, { token: this.lineToken, message:`User:${wax.userAccount} , Message:${err.message}` })
-      //}
       if(parseInt(document.getElementById("cpu").value) == 0){
         const timerDelayCpu = (parseFloat(document.getElementById("cpu-timer").value) * 60) * 1000
         this.appendMessage(`Delay error CPU ${Math.ceil((timerDelayCpu / 1000)/60)} min`)
@@ -332,7 +315,7 @@ claimnftsController(){
   async getClaimnfts(mode){
     try{
       document.getElementById("btn-claimn-nft").disabled = true
-      const newClaims = new claims()    
+      //const newClaims = new claims()    
       const get_nft = await this.claims.getNFT(wax.userAccount, wax.api.rpc, aa_api) 
       console.log('get_nft',get_nft)
       if(get_nft.length > 0){
@@ -384,11 +367,8 @@ async autoSwap(TLM){
       if(result.message){
         this.appendMessage(result.message,'3')
       }else{
-        this.appendMessage(TLM,'3')
+        this.appendMessage(`Auto Swap : ${TLM}`,'3')
       }      
-      //if(this.lineToken !== ''){
-        //this.postData(this.lineBypassUrl, { token: this.lineToken, //message:`User:${wax.userAccount} , TLM : ${TLM} , //Message:${result.message}` })
-      //}
     }catch (err) {
       console.error(err)
     }    
@@ -403,10 +383,7 @@ async autoStake(balanceWax = 0){
       const resultStake = await this.claims.stake(wax.userAccount, balanceWax)
       console.log('result Stake',resultStake)
       if(resultStake){
-        this.appendMessage(resultStake,'3')
-        //if(this.lineToken !== ''){
-          //this.postData(this.lineBypassUrl, { token: this.lineToken, //message:`User:${wax.userAccount} , Stake:${resultStake}` })
-        //}
+        this.appendMessage(`Auto Stake CPU : ${resultStake}` ,'3')
       }
     }
   }catch (err) {

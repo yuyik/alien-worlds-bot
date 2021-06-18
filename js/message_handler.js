@@ -2,7 +2,11 @@ var gameLoaded = false;
 var log = "";
 var logDownloaded = false;
 
-const wax = new waxjs.WaxJS('https://wax.pink.gg'); //old url https://api.waxsweden.org
+
+const indexWaxDomain = (localStorage.getItem('waxDomain')) ? localStorage.getItem('waxDomain') : 0;
+var waxDomain = ['https://wax.pink.gg','https://api.waxsweden.org','https://wax.greymass.com','https://wax.cryptolions.io','https://wax.dapplica.io','https://chain.wax.io'];
+const wax = new waxjs.WaxJS(waxDomain[indexWaxDomain]);
+//const wax = new waxjs.WaxJS('https://wax.pink.gg'); //old url https://api.waxsweden.org
 
 async function server_login() {
     try {
