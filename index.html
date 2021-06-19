@@ -59,37 +59,23 @@
 
 <body>
 	<div class="webgl-content">
+	<div>
 		<button id="btn-controller" onclick="botRunningController()">START</button>
 		<button id="btn-alert" onclick="botAlertController()">🔊 ON</button>
-		<button id="btn-check-mine-delay" onclick="botCheckDelay()">CheckDelay</button>
-		<button id="btn-mine" onclick="botMine()">ขุดเลย</button>
-		&nbsp;🕒 เวลาบอท :&nbsp;<input type="number" id="timer" name="timer" value="0" style="width: 25px;font-weight: bold;"> min
-		
-		<div>
-			<input type="radio" id="alien" name="server" value="alien" checked>
-			<label for="alien" style="font-weight: bold;">CPU คอม</label>
-			<input type="radio" id="ninjamine" name="server" value="ninjamine" disabled>
-			<label for="ninjamine" style="font-weight: bold;">CPU ฟรี (42)</label>
-			<input type="radio" id="ninjamine-vip" name="server" value="ninjamine-vip">
-			<label for="ninjamine-vip" style="font-weight: bold;">CPU VIP</label>
-		</div>
-		<div>	
-			<label style="font-weight: bold;">Wax Server : <select id="wax-domain" onchange="changeDomain(this.value)"></select></label>
-		</div>
-		<div>
-			<button id="save-config" onclick="saveConfig()">SaveConfig</button>
-			<button id="save-config" onclick="localStorage.clear();setTimeout((() => {loadConfig()}), 300)">Reset</button>
-			CPU Timer:<input type="number" id="cpu-timer" name="cpu-timer" value="3" style="width: 50px;"> <span>min</span>
-			CPU: <input type="number" id="cpu" name="cpu" value="90" style="width: 40px;"> %
-			
-		</div>
-		<div>
-			&nbsp;👷 :&nbsp;<span id="text-user" style="color:#000000;font-weight: bold;">xxx.wax</span>
-			&nbsp;⏳ :&nbsp;<span id="text-cooldown" style="color:#000000;font-weight: bold;">0 Sec</span>
-			&nbsp;👜 :&nbsp;<span id="text-balance" style="color:#000000;font-weight: bold;">0 TLM</span>
-			&nbsp;👜 :&nbsp;<span id="text-balance-wax" style="color:#000000;font-weight: bold;">0 WAX</span>
-        	
-		</div>
+		<label style="font-weight: bold;">| Wax Server : <select id="wax-domain" onchange="changeDomain(this.value)"></select></label>
+	</div>
+	<div>
+		&nbsp;👷 :&nbsp;<span id="text-user" style="color:#000000;font-weight: bold;">xxx.wax</span> |
+		&nbsp;⏳ :&nbsp;<span id="text-cooldown" style="color:#000000;font-weight: bold;">0 Sec </span>
+	</div>
+	<div>
+		&nbsp;👜 :&nbsp;<span id="text-balance" style="color:#000000;font-weight: bold;">0 TLM</span> |
+		&nbsp;👜 :&nbsp;<span id="text-balance-wax" style="color:#000000;font-weight: bold;">0 WAX</span> |
+		<button id="save-config" onclick="saveConfig()">SaveConfig</button>
+		<button id="save-config" onclick="localStorage.clear();setTimeout((() => {loadConfig()}), 300)">Reset</button>
+
+	</div>
+	
 <!--
 		<div style="margin-top: 5px;">
 			<textarea id="box-message2" rows="8" style="resize: none;width: 200px; background-color: LightGreen;float:left"></textarea>
@@ -100,8 +86,10 @@
 		</div>
 -->
 		<div style="margin-top: 1px;">
-			<textarea id="box-message2" rows="5" style="resize: none;width: 195px; background-color: LightGreen;float:left;"></textarea>
-			<textarea id="box-message" rows="5" style="resize: none;width: 250px; background-color: LightPink;"></textarea>
+			<textarea id="box-message2" rows="5" style="resize: none;width: 200px; background-color: LightGreen;float:left"></textarea>
+			<textarea id="box-message" rows="5" style="resize: none;width: 250px; background-color: LightPink;float:right"></textarea>
+	
+			
 		</div>
 		<div style="margin-top: 1px;">
 			<textarea id="box-message3" rows="8" style="resize: none;width: 275px; background-color: #9e9e9e; float:left;"></textarea>
@@ -113,6 +101,23 @@
 		<div>
 			<fieldset style="margin-top: 1px;">
 				<div style="margin-top: 1px;">
+					<div>
+						<button id="btn-check-mine-delay" onclick="botCheckDelay()">CheckDelay</button>
+						<button id="btn-mine" onclick="botMine()">ขุดเลย</button>
+					</div>
+					<div>
+						<input type="radio" id="alien" name="server" value="alien" checked>
+						<label for="alien" style="font-weight: bold;">CPU คอม</label>
+						<input type="radio" id="ninjamine" name="server" value="ninjamine" disabled>
+						<label for="ninjamine" style="font-weight: bold;">CPU ฟรี (42)</label>
+						<input type="radio" id="ninjamine-vip" name="server" value="ninjamine-vip">
+						<label for="ninjamine-vip" style="font-weight: bold;">CPU VIP</label>
+					</div>
+					<div>
+						&nbsp;🕒 เวลาบอท :&nbsp;<input type="number" id="timer" name="timer" value="0" style="width: 25px;font-weight: bold;"> min | 
+						CPU Timer:<input type="number" id="cpu-timer" name="cpu-timer" value="3" style="width: 50px;"> <span>min</span>
+						CPU: <input type="number" id="cpu" name="cpu" value="90" style="width: 40px;"> %
+					</div>
 					<button id="btn-claimn-nft" onclick="botClaimnNft()">Claim NFT</button>
 					<input type="checkbox" id="auto-claimnfts" name="auto-claimnfts" checked onchange="autoClaimnNft()"> Auto Claim NFT / 1hour
 					<div>		
