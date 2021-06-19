@@ -189,7 +189,7 @@ async mine(){
     // console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:green');
     document.getElementById("text-balance").innerHTML = balance
 // --------------------------------------------------	
-	this.appendMessage(' Check Wax','2')
+	//this.appendMessage(' Check Wax','2')
 	let checkwax = {}
 	checkwax = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
 	if(checkwax.account){
