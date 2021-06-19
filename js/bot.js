@@ -188,6 +188,17 @@ async mine(){
   const balance = await getBalance(wax.userAccount, wax.api.rpc);
     // console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:green');
     document.getElementById("text-balance").innerHTML = balance
+	
+	let checkwax = {}
+	checkwax = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
+	if(checkwax.account){
+		for (let token of checkwax.tokens) {
+			if(token.symbol === "WAX") {
+				const balanceWax = token.amount
+				document.getElementById("text-balance-wax").innerHTML = balanceWax.toFixed(4) + " WAX"
+			}
+		}
+	}
 
     const nonce = await this.getNonce()
     let actions = [
