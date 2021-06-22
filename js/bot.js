@@ -275,8 +275,9 @@ async mine(){
     const afterMindedBalance = await getBalance(wax.userAccount, wax.api.rpc);
 	////////////
 	
+	
 	const balanceAfter = parseFloat(afterMindedBalance)
-	this.appendMessage(`ยอดก่อนขุด :${balanceBefore}`)
+	this.appendMessage(`ยอดก่อนขุด :${this.balanceBefore}`)
 	this.appendMessage(`ยอดหลังขุด :${balanceAfter}`)
 	const showbalanceTrue = parseFloat(balanceAfter) - parseFloat(this.balanceBefore)
 	
