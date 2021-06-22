@@ -17,6 +17,7 @@ class bot{
     this.waitMine;
     this.checkInvalid;
     this.claims = new claims()
+	this.balanceBefore;
 }
 
 delay = (millis) =>
@@ -145,6 +146,7 @@ async start() {
     this.waitMineReload();
     const userAccount = await wax.login();
     clearInterval(this.waitMine);
+	
     document.getElementById("text-user").innerHTML = userAccount
     document.getElementsByTagName('title')[0].text = userAccount
     this.isBotRunning = true;
@@ -185,11 +187,12 @@ async start() {
 }
 
 async mine(){
-  const balance = await getBalance(wax.userAccount, wax.api.rpc);
+	const balance = await getBalance(wax.userAccount, wax.api.rpc);
     // console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:green');
+	this.balanceBefore = balance.toString();
     document.getElementById("text-balance").innerHTML = balance
 // --------------------------------------------------	
-	//this.appendMessage(' Check Wax','2')
+//	this.appendMessage(' Check Wax','2')
 	let checkwax = {}
 	checkwax = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
 	if(checkwax.account){
@@ -229,18 +232,20 @@ async mine(){
         audio.play();
       }
       this.waitMineReload();
-      const result = await wax.api.transact({actions},{blocksBehind: 3,expireSeconds: 90});
+      
+	  const result = await wax.api.transact({actions},{blocksBehind: 3,expireSeconds: 90});
       console.log(`%c[Bot] result is = ${result}`, 'color:yellow');
       if (result && result.processed) {
-          let mined_amount = 0;
-          result.processed.action_traces[0].inline_traces.forEach((t) => {
-              if (t.act.account === 'alien.worlds' && t.act.name === 'transfer' && t.act.data.to === wax.userAccount) {
-                const [amount_str] = t.act.data.quantity.split(' ');
-                mined_amount += parseFloat(amount_str);
-              }
-          });
+//          let mined_amount = 0;
+  //        result.processed.action_traces[0].inline_traces.forEach((t) => {
+     //         if (t.act.account === 'alien.worlds' && t.act.name === 'transfer' && t.act.data.to === wax.userAccount) {
+        //        const [amount_str] = t.act.data.quantity.split(' ');
+           //     mined_amount += parseFloat(amount_str);
+              //}
+          //});
 
-        this.appendMessage(mined_amount.toString() + ' TLM','2')
+        //this.appendMessage(mined_amount.toString() + ' TLM','2')
+		
         this.firstMine = false;
         this.previousMineDone = true;
         this.checkMinedelay = true;        
@@ -268,8 +273,19 @@ async mine(){
     }
 
     const afterMindedBalance = await getBalance(wax.userAccount, wax.api.rpc);
-    this.appendMessage(`TLM หลังขุด: ${afterMindedBalance}`)
-    document.getElementById("text-balance").innerHTML = afterMindedBalance
+	////////////
+	const balanceAfter = parseFloat(afterMindedBalance)
+	this.appendMessage(`Balance :${balanceAfter}`)
+	const showbalanceTrue = parseFloat(balanceAfter) - parseFloat(this.balanceBefore)
+	
+	this.appendMessage(`ขุดสำเร็จได้ : ${parseFloat(showbalanceTrue).toFixed(4)} TLM`)
+	this.appendMessage(`${parseFloat(showbalanceTrue).toFixed(4)} TLM` , '2')
+	document.getElementById("text-balance").innerHTML = afterMindedBalance
+	this.balanceBefore = afterMindedBalance
+
+	///////////
+//    this.appendMessage(`TLM หลังขุด: ${afterMindedBalance}`)
+//    document.getElementById("text-balance").innerHTML = afterMindedBalance
     // console.log(`%c[Bot] balance (after mined): ${afterMindedBalance}`, 'color:green');
 	//auto swap
     if(parseFloat(afterMindedBalance) > parseFloat(document.getElementById("amount-swap").value) && document.getElementById("auto-swap").checked == true){
