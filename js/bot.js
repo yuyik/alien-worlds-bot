@@ -281,9 +281,11 @@ async mine(){
 	this.appendMessage(`ยอดหลังขุด :${balanceAfter}`)
 	const showbalanceTrue = parseFloat(balanceAfter) - parseFloat(this.balanceBefore)
 	
-	this.appendMessage(`ขุดสำเร็จได้ : ${parseFloat(showbalanceTrue).toFixed(4)} TLM`)
-	this.appendMessage(`${parseFloat(showbalanceTrue).toFixed(4)} TLM` , '2')
-	document.getElementById("text-balance").innerHTML = afterMindedBalance
+	if( parseFloat(showbalanceTrue) > 0 ){
+		this.appendMessage(`ขุดสำเร็จได้ : ${parseFloat(showbalanceTrue).toFixed(4)} TLM`)
+		this.appendMessage(`${parseFloat(showbalanceTrue).toFixed(4)} TLM` , '2')
+		document.getElementById("text-balance").innerHTML = afterMindedBalance
+	}
 	this.balanceBefore = afterMindedBalance
 
 	///////////
