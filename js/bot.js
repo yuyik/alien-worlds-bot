@@ -18,7 +18,7 @@ class bot{
     this.checkInvalid;
     this.claims = new claims()
 	this.balanceBefore;
-	this.version = "0.3";
+	this.version = "0.5";
 }
 
 delay = (millis) =>
@@ -149,7 +149,7 @@ async start() {
     clearInterval(this.waitMine);
 	
     document.getElementById("text-user").innerHTML = userAccount
-    document.getElementsByTagName('title')[0].text = this.version + " " + userAccount
+    document.getElementsByTagName('title')[0].text = "(" + this.version + ")" + userAccount
     this.isBotRunning = true;
     await this.delay(2000);
     console.log("bot StartBot");
