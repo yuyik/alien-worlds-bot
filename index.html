@@ -71,8 +71,7 @@
 	<div>
 		&nbsp;👜 :&nbsp;<span id="text-balance" style="color:#000000;font-weight: bold;">0 TLM</span> |
 		&nbsp;👜 :&nbsp;<span id="text-balance-wax" style="color:#000000;font-weight: bold;">0 WAX</span> |
-		<button id="save-config" onclick="saveConfig()">SaveConfig</button>
-		<button id="save-config" onclick="localStorage.clear();setTimeout((() => {loadConfig()}), 300)">Reset</button>
+
 
 	</div>
 	
@@ -113,17 +112,24 @@
 						<input type="radio" id="ninjamine-vip" name="server" value="ninjamine-vip">
 						<label for="ninjamine-vip" style="font-weight: bold;">CPU VIP</label>
 					</div>
+					<hr style="height:2px;border-width:0;color:gray;background-color:gray">
 					<div>
 						&nbsp;🕒 เวลาบอท :&nbsp;<input type="number" id="timer" name="timer" value="0" style="width: 25px;font-weight: bold;"> min | 
 						CPU Timer:<input type="number" id="cpu-timer" name="cpu-timer" value="3" style="width: 50px;"> <span>min</span>
 						CPU: <input type="number" id="cpu" name="cpu" value="90" style="width: 40px;"> %
 					</div>
+					<hr style="height:2px;border-width:0;color:gray;background-color:gray">
 					<button id="btn-claimn-nft" onclick="botClaimnNft()">Claim NFT</button>
 					<input type="checkbox" id="auto-claimnfts" name="auto-claimnfts" checked onchange="autoClaimnNft()"> Auto Claim NFT / 1hour
+					<hr style="height:2px;border-width:0;color:gray;background-color:gray">
 					<div>		
 						<input type="checkbox" id="auto-swap" name="auto-swap"> autoSwap <input type="number" id="amount-swap" name="amount-swap" value="0" style="width: 40px;">&nbsp;TLM |
 						<input type="checkbox" id="auto-stake" name="auto-stake"> autoStake <input type="number" id="amount-stake" name="amount-stake" value="0" style="width: 40px;">&nbsp;WAX
 					</div>
+					<hr style="height:2px;border-width:0;color:gray;background-color:gray">
+					<button id="save-config" onclick="saveConfig()">SaveConfig</button>
+					<button id="save-config" onclick="localStorage.clear();setTimeout((() => {loadConfig()}), 300)">Reset</button>
+					<hr style="height:2px;border-width:0;color:gray;background-color:gray">
 					<div style="margin-top: 1px;">
 						<div>
 							<span class="input-group-text">Set Bag</span>
