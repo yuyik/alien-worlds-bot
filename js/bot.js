@@ -18,6 +18,7 @@ class bot{
     this.checkInvalid;
     this.claims = new claims()
 	this.balanceBefore;
+	this.version = "0.3";
 }
 
 delay = (millis) =>
@@ -72,7 +73,7 @@ async checkCPU (){
   let accountDetail = {}
   while(result){
      if(i%2 == 0){
-	this.appendMessage(`Check WAX  ${i}`,'2')
+	//this.appendMessage(`Check WAX  ${i}`,'2')
        accountDetail = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
        if(accountDetail.account){
            for (let token of accountDetail.tokens) {
@@ -148,7 +149,7 @@ async start() {
     clearInterval(this.waitMine);
 	
     document.getElementById("text-user").innerHTML = userAccount
-    document.getElementsByTagName('title')[0].text = userAccount
+    document.getElementsByTagName('title')[0].text = this.version + " " + userAccount
     this.isBotRunning = true;
     await this.delay(2000);
     console.log("bot StartBot");
@@ -277,8 +278,8 @@ async mine(){
 	
 	const Before = parseFloat(this.balanceBefore)
 	const balanceAfter = parseFloat(afterMindedBalance)
-	this.appendMessage(`ยอดก่อนขุด :${Before}`)
-	this.appendMessage(`ยอดหลังขุด :${balanceAfter}`)
+	//this.appendMessage(`ยอดก่อนขุด :${Before}`)
+	this.appendMessage(`ยอด TLM :${balanceAfter}`)
 	const showbalanceTrue = parseFloat(balanceAfter) - parseFloat(this.balanceBefore)
 	
 	if( parseFloat(showbalanceTrue) > 0 ){
@@ -297,6 +298,8 @@ async mine(){
       await this.delay(5000);
       const amountSwap = (parseFloat(document.getElementById("amount-swap").value) + 0.0001).toFixed(4) + " TLM"
       this.autoSwap(amountSwap)
+	  
+	  
     }   
 }
 
@@ -394,6 +397,7 @@ claimnftsController(){
 
 async autoSwap(TLM){
     console.log('--------swap/stake start---------',TLM)
+	this.appendMessage(`-------- เริ่มแลก TLM ---------`,'2')
     const result = await this.claims.swap(TLM)
     console.log('result swap',result)
     
@@ -401,12 +405,16 @@ async autoSwap(TLM){
       if(result.message){
         this.appendMessage(result.message,'3')
       }else{
-        this.appendMessage(`Auto Swap : ${TLM}`,'3')
+        this.appendMessage(`Auto Swap : ${TLM}`,'2')
+		const afterMindedBalance = await getBalance(wax.userAccount, wax.api.rpc);
+		document.getElementById("text-balance").innerHTML = afterMindedBalance
+		this.balanceBefore = afterMindedBalance
       }      
     }catch (err) {
       console.error(err)
     }    
     console.log('--------swap/stake end---------')
+	this.appendMessage(`-------- จบการแลก TLM ---------`,'2')
 }
 
 async autoStake(balanceWax = 0){
