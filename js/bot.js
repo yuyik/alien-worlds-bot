@@ -11,14 +11,14 @@ class bot{
     this.previousMineDone = false;
     //this.lineToken = '';
     //this.lineBypassUrl = 'https://notify-gateway.vercel.app/api/notify';
-    this.serverGetNonce = '';
+    // this.serverGetNonce = 'alien';
     this.interval;
     this.autoClaimnfts;
     this.waitMine;
     this.checkInvalid;
     this.claims = new claims()
 	this.balanceBefore;
-	this.version = "v0.24";
+	this.version = "0.5";
 }
 
 delay = (millis) =>
@@ -41,24 +41,15 @@ async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'a
       const response = await fetch(url, init).then(function(response) {
           if(response.ok)
           {
-		console.log('fetch normal - ',response);
             return response.text(); 
           }
+    
           throw new Error('Something went wrong.');
       })  
       .then(function(text) {
         console.log('Request successful', text);
-	// Request successful {"nonce": "0e8f5233887cf411", "hash": "0000309d8058f035c692f2f033b449ab24a0df6e3b8ad4d845ac289162883f81", "mining_time": 0.64, "credit": "https://www.facebook.com/Thanet.Siriboon/"}
-	const serverGetNonce = document.querySelector('input[name="server"]:checked').value
-	if (serverGetNonce == 'kiat-vip') {
-		var json = JSON.parse(text);
-		console.log('kiattttttttttt ',json.nonce);
-		return json.nonce;
-	}else{
-		console.log('Other - ',text);
-        	return text;
-      	}
-}) 
+        return text;
+      })  
       .catch(function(error) {
         console.log('Request failed', error);
         return '';
@@ -316,40 +307,20 @@ async mine(){
     try{
       let nonce = null;
       let message = ''
-	// https://awfreemine.cf/?waxaccount=wam12.wam&difficulty=3&lastMineTx=145cca698c70b51f35ccf46a68fb191b40b94c09709f584baa9dbc8b587726c0		
-	//		-------------------------------------------------------------
-		const bagDifficulty = await getBagDifficulty(wax.userAccount);
-		const landDifficulty = await getLandDifficulty(wax.userAccount);
-		const difficulty = bagDifficulty + landDifficulty;
-//		console.log('difficulty ********', difficulty);
-        const last_mine_tx = await lastMineTx(mining_account, wax.userAccount, wax.api.rpc);
-		console.log(`%caccount =  ${wax.userAccount}`, 'color:yellow');
-		console.log(`%cdifficulty =  ${difficulty}`, 'color:yellow');
-		console.log(`%clast_mine_tx =  ${last_mine_tx}`, 'color:yellow');
-//		-------------------------------------------------------------
-    const serverGetNonce = document.querySelector('input[name="server"]:checked').value
-    if(serverGetNonce !== 'alien'){
-		let urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine?' + '?wallet='+wax.userAccount     
-		if(serverGetNonce == 'ninjamine-vip'){
-			urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine_vip' +'?wallet='+wax.userAccount
-		}else if(serverGetNonce == 'kiat-vip'){
-			urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
-		}
-		console.log('urlNinJa',urlNinJa)
-		console.log('serverGetNonce ----------- ',serverGetNonce)
-		nonce = await this.postData(urlNinJa, {}, 'GET',{Origin : ""}, 'raw')
-		
-		if(nonce !== ''){
-			if(serverGetNonce == 'ninjamine'){
-				message = 'Ninja limit : ' + nonce
-			} else if (serverGetNonce == 'kiat-vip') {
-				message = 'Kiat VIP : ' + nonce
-				var json = JSON.parse(response.nonce());
-				console.log('kiattttttttttt',json[0]);
-				
-			}else{
-				message = 'Ninja VIP : ' + nonce
-			}      
+      const serverGetNonce = document.querySelector('input[name="server"]:checked').value
+      if(serverGetNonce == 'ninjamine' || serverGetNonce == 'ninjamine-vip'){
+        let urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine'      
+        if(serverGetNonce == 'ninjamine-vip'){
+          urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine_vip';
+        }
+        console.log('urlNinJa',urlNinJa)
+        nonce = await this.postData(urlNinJa+'?wallet='+wax.userAccount, {}, 'GET',{Origin : ""}, 'raw')
+        if(nonce !== ''){
+          if(serverGetNonce == 'ninjamine'){
+            message = 'Ninja limit : ' + nonce
+          }else{
+            message = 'Ninja VIP : ' + nonce
+          }      
         }
         console.log('nonce-ninjamine',nonce)
       }
