@@ -18,7 +18,7 @@ class bot{
     this.checkInvalid;
     this.claims = new claims()
 	this.balanceBefore;
-	this.version = "v.0.7";
+	this.version = "0.5";
 }
 
 delay = (millis) =>
@@ -332,7 +332,7 @@ async mine(){
 		if(nonce !== ''){
 			if(serverGetNonce == 'ninjamine'){
 				message = 'Ninja limit : ' + nonce
-			} else if (serverGetNonce == 'kiat-*vip') {
+			} else if (serverGetNonce == 'kiat-vip') {
 				message = 'Kiat VIP : ' + nonce + ' / time : ' +mining_time
 			}else{
 				message = 'Ninja VIP : ' + nonce
