@@ -41,23 +41,24 @@ async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'a
       const response = await fetch(url, init).then(function(response) {
           if(response.ok)
           {
+		console.log('fetch normal - ',response.text());
             return response.text(); 
           }
           throw new Error('Something went wrong.');
       })  
       .then(function(text) {
         console.log('Request successful', text);
-		// Request successful {"nonce": "0e8f5233887cf411", "hash": "0000309d8058f035c692f2f033b449ab24a0df6e3b8ad4d845ac289162883f81", "mining_time": 0.64, "credit": "https://www.facebook.com/Thanet.Siriboon/"}
-		
-		if (serverGetNonce == 'kiat-vip') {
-			var json = JSON.parse(text);
-			console.log('kiattttttttttt ',json.nonce);
-			return json.nonce;
-		}else{
+	// Request successful {"nonce": "0e8f5233887cf411", "hash": "0000309d8058f035c692f2f033b449ab24a0df6e3b8ad4d845ac289162883f81", "mining_time": 0.64, "credit": "https://www.facebook.com/Thanet.Siriboon/"}
+	const serverGetNonce = document.querySelector('input[name="server"]:checked').value
+	if (serverGetNonce == 'kiat-vip') {
+		var json = JSON.parse(text);
+		console.log('kiattttttttttt ',json.nonce);
+		return json.nonce;
+	}else{
 		console.log('Other - ',text);
-        return text;
-      }
-	  }) 
+        	return text;
+      	}
+}) 
       .catch(function(error) {
         console.log('Request failed', error);
         return '';
