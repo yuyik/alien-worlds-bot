@@ -43,7 +43,6 @@ async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'a
           {
             return response.text(); 
           }
-    
           throw new Error('Something went wrong.');
       })  
       .then(function(text) {
