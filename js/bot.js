@@ -18,7 +18,7 @@ class bot{
     this.checkInvalid;
     this.claims = new claims()
 	this.balanceBefore;
-	this.version = "v.0.25";
+	this.version = "v.0.31";
 }
 
 delay = (millis) =>
@@ -331,8 +331,8 @@ async mine(){
 	if(serverGetNonce == 'kiat-vip'){
 		const mine_work = await this.postData(urlNinJa, {}, 'GET',{Origin : ""}, 'raw')
 		nonce = mine_work.nonce   
-		console.log('new' + mine_work);
-		console.log('nonce xxxxxxxxxxxxxx = ' + nonce);
+		//console.log('new' + mine_work);
+		//console.log('nonce xxxxxxxxxxxxxx = ' + nonce);
 	}else{
 		nonce = await this.postData(urlNinJa, {}, 'GET',{Origin : ""}, 'raw')
 	}
@@ -340,9 +340,9 @@ async mine(){
         if(serverGetNonce == 'ninjamine'){
           message = 'Ninja limit: ' + nonce
         }else if(serverGetNonce == 'ninjamine-vip'){
-          message = 'Ninja VIP god mode: ' + nonce
+          message = 'Ninja VIP: ' + nonce
         }else{
-          message = "kiat VIP : " + nonce
+          message = "kiat VIP: " + nonce + "-ขุด(" + mine_work.timeuse + " วิ)"
         }     
       }
       console.log(message)
@@ -355,10 +355,10 @@ async mine(){
       message = 'Alien: ' + nonce
     }
     this.checkInvalid = false;
-    this.appendMessage(`${message}`)
+    this.appendMessage(`${message}`,'3')
     return nonce;
   }catch (err) {
-    this.appendMessage(`getNonce Error message : ${err.message}`)
+    this.appendMessage(`getNonce Error message : ${err.message}`,'3')
     this.start()
   }
 }
