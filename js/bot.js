@@ -254,11 +254,11 @@ async mine(){
     } catch (err) {
       clearInterval(this.waitMine);
       this.previousMineDone = false;
-		if(err.message.indexOf("Mine too soon") > -1){
-        this.checkMinedelay = true;
-      }else{
-      this.checkMinedelay = false;
-      }
+	if(err.message.indexOf("Mine too soon") > -1){
+        	this.checkMinedelay = true;
+      	}else{
+      		this.checkMinedelay = false;
+      	}
       if(err.message.indexOf("INVALID_HASH") > -1){
         this.checkInvalid = true;
       }
