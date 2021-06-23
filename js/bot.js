@@ -41,7 +41,7 @@ async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'a
       const response = await fetch(url, init).then(function(response) {
           if(response.ok)
           {
-		console.log('fetch normal - ',response.text());
+		console.log('fetch normal - ',response);
             return response.text(); 
           }
           throw new Error('Something went wrong.');
