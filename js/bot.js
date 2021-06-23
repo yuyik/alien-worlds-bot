@@ -18,7 +18,7 @@ class bot{
     this.checkInvalid;
     this.claims = new claims()
 	this.balanceBefore;
-	this.version = "v.0.10";
+	this.version = "0.5";
 }
 
 delay = (millis) =>
@@ -327,6 +327,7 @@ async mine(){
 			urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
 		}
 		console.log('urlNinJa',urlNinJa)
+		console.log('serverGetNonce ----------- ',serverGetNonce)
 		nonce = await this.postData(urlNinJa, {}, 'GET',{Origin : ""}, 'raw')
 		
 		if(nonce !== ''){
