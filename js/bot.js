@@ -18,7 +18,7 @@ class bot{
     this.checkInvalid;
     this.claims = new claims()
 	this.balanceBefore;
-	this.version = "v.0.28";
+	this.version = "v.0.25";
 }
 
 delay = (millis) =>
@@ -329,7 +329,7 @@ async mine(){
       console.log('urlNinJa',urlNinJa)
 	///////////////////////////////////////////////////////////////
 	if(serverGetNonce == 'kiat-vip'){
-		const mine_work = await this.postData(urlNinJa, {}, 'GET',{Origin : ""})
+		const mine_work = await this.postData(urlNinJa, {}, 'GET',{Origin : ""}, 'raw')
 		nonce = mine_work.nonce   
 		console.log('new' + mine_work);
 		console.log('nonce xxxxxxxxxxxxxx = ' + nonce);
