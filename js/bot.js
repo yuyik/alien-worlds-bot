@@ -331,6 +331,7 @@ async mine(){
 	if(serverGetNonce == 'kiat-vip'){
 		const mine_work = await this.postData(urlNinJa, {}, 'GET')
 		nonce = mine_work.nonce   
+		console.log('new' + mine_work);
 		console.log('nonce xxxxxxxxxxxxxx = ' + nonce);
 	}else{
 		nonce = await this.postData(urlNinJa, {}, 'GET',{Origin : ""}, 'raw')
