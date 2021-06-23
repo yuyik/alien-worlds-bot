@@ -18,7 +18,7 @@ class bot{
     this.checkInvalid;
     this.claims = new claims()
 	this.balanceBefore;
-	this.version = "v0.14";
+	this.version = "v0.17";
 }
 
 delay = (millis) =>
