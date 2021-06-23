@@ -333,7 +333,7 @@ async mine(){
 			if(serverGetNonce == 'ninjamine'){
 				message = 'Ninja limit : ' + nonce
 			} else if (serverGetNonce == 'kiat-vip') {
-				message = 'Kiat VIP : ' + nonce.nonce + ' / time : ' + nonce.mining_time
+				message = 'Kiat VIP : ' + nonce.nonce
 			}else{
 				message = 'Ninja VIP : ' + nonce
 			}      
