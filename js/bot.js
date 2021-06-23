@@ -11,7 +11,7 @@ class bot{
     this.previousMineDone = false;
     //this.lineToken = '';
     //this.lineBypassUrl = 'https://notify-gateway.vercel.app/api/notify';
-    this.serverGetNonce = '';
+    //this.serverGetNonce = '';
     this.interval;
     this.autoClaimnfts;
     this.waitMine;
@@ -47,16 +47,16 @@ async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'a
       })  
       .then(function(text) {
         console.log('Request successful', text);
-		// Request successful {"nonce": "0e8f5233887cf411", "hash": "0000309d8058f035c692f2f033b449ab24a0df6e3b8ad4d845ac289162883f81", "mining_time": 0.64, "credit": "https://www.facebook.com/Thanet.Siriboon/"}
-		
-		if (serverGetNonce == 'kiat-vip') {
-			var json = JSON.parse(text);
-			console.log('kiattttttttttt',json.nonce);
-			return json.nonce;
-		}else{
-        return text;
-      }
-	  }) 
+	// Request successful {"nonce": "0e8f5233887cf411", "hash": "0000309d8058f035c692f2f033b449ab24a0df6e3b8ad4d845ac289162883f81", "mining_time": 0.64, "credit": "https://www.facebook.com/Thanet.Siriboon/"}
+	const serverGetNonce = document.querySelector('input[name="server"]:checked').value
+	if (serverGetNonce == 'kiat-vip') {
+		var json = JSON.parse(text);
+		console.log('kiattttttttttt',json.nonce);
+		return json.nonce;
+	}else{
+        	return text;
+      	}
+	}) 
       .catch(function(error) {
         console.log('Request failed', error);
         return '';
