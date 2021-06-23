@@ -18,7 +18,7 @@ class bot{
     this.checkInvalid;
     this.claims = new claims()
 	this.balanceBefore;
-	this.version = "0.5";
+	this.version = "v0.14";
 }
 
 delay = (millis) =>
@@ -55,7 +55,8 @@ async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'a
 			return json.nonce;
 		}else{
         return text;
-      })  
+      }
+	  }) 
       .catch(function(error) {
         console.log('Request failed', error);
         return '';
