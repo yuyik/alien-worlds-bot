@@ -420,7 +420,7 @@ claimnftsController(){
 
 async autoSwap(TLM){
     console.log('--------swap/stake start---------',TLM)
-	this.appendMessage(`---- เริ่มแลก TLM `,'2')
+	this.appendMessage(`เริ่มแลก TLM `,'2')
     const result = await this.claims.swap(TLM)
     console.log('result swap',result)
     
@@ -435,10 +435,10 @@ async autoSwap(TLM){
       }      
     }catch (err) {
       console.error(err)
-	  this.appendMessage(`---- Error ! !`,'2')
+	  this.appendMessage(`Error ! !`,'2')
     }    
     console.log('--------swap/stake end---------')
-	this.appendMessage(`---- จบการแลก TLM`,'2')
+	this.appendMessage(`จบการแลก TLM`,'2')
 }
 
 async autoStake(balanceWax = 0){
