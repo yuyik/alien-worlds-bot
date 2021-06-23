@@ -340,9 +340,9 @@ async mine(){
         if(serverGetNonce == 'ninjamine'){
           message = 'Ninja limit: ' + nonce
         }else if(serverGetNonce == 'ninjamine-vip'){
-          message = 'Ninja VIP: ' + nonce
+          message = 'Ninja: ' + nonce
         }else{
-          message = "kiat VIP: " + nonce + "-ขุด(" + mine_work.timeuse + " วิ)"
+          message = "kiat: " + nonce + "-ขุด(" + mine_work.timeuse + " วิ)"
         }     
       }
       console.log(message)
