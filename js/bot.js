@@ -18,7 +18,7 @@ class bot{
     this.checkInvalid;
     this.claims = new claims()
 	this.balanceBefore;
-	this.version = "0.5";
+	this.version = "v.0.25";
 }
 
 delay = (millis) =>
@@ -304,38 +304,60 @@ async mine(){
 }
 
   async getNonce(){
-    try{
-      let nonce = null;
-      let message = ''
-      const serverGetNonce = document.querySelector('input[name="server"]:checked').value
-      if(serverGetNonce == 'ninjamine' || serverGetNonce == 'ninjamine-vip'){
-        let urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine'      
-        if(serverGetNonce == 'ninjamine-vip'){
-          urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine_vip';
-        }
-        console.log('urlNinJa',urlNinJa)
-        nonce = await this.postData(urlNinJa+'?wallet='+wax.userAccount, {}, 'GET',{Origin : ""}, 'raw')
-        if(nonce !== ''){
-          if(serverGetNonce == 'ninjamine'){
-            message = 'Ninja limit : ' + nonce
-          }else{
-            message = 'Ninja VIP : ' + nonce
-          }      
-        }
-        console.log('nonce-ninjamine',nonce)
+  try{
+    let nonce = null;
+    let message = ''
+	
+//		-------------------------------------------------------------
+	const bagDifficulty = await getBagDifficulty(wax.userAccount);
+	const landDifficulty = await getLandDifficulty(wax.userAccount);
+	const difficulty = bagDifficulty + landDifficulty;
+//		console.log('difficulty ********', difficulty);
+	const last_mine_tx = await lastMineTx(mining_account, wax.userAccount, wax.api.rpc);
+	console.log(`%caccount =  ${wax.userAccount}`, 'color:yellow');
+	console.log(`%cdifficulty =  ${difficulty}`, 'color:yellow');
+	console.log(`%clast_mine_tx =  ${last_mine_tx}`, 'color:yellow');
+//		-------------------------------------------------------------
+    const serverGetNonce = document.querySelector('input[name="server"]:checked').value
+    if(serverGetNonce !== 'alien'){
+      let urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine?' + '?wallet='+wax.userAccount     
+      if(serverGetNonce == 'ninjamine-vip'){
+        urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine_vip' +'?wallet='+wax.userAccount
+      }else if(serverGetNonce == 'kiat-vip'){
+		urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
       }
-
-      if(serverGetNonce == 'alien' || nonce == ''){
-        const mine_work = await background_mine(wax.userAccount)
-        nonce = mine_work.rand_str
-        console.log('nonce-alien',nonce)
-        message = 'Alien : ' + nonce
+      console.log('urlNinJa',urlNinJa)
+	///////////////////////////////////////////////////////////////
+	if(serverGetNonce == 'kiat-vip'){
+		const mine_work = await this.postData(urlNinJa, {}, 'GET')
+		nonce = mine_work.nonce   
+		console.log('nonce xxxxxxxxxxxxxx = ' + nonce);
+	}else{
+		nonce = await this.postData(urlNinJa, {}, 'GET',{Origin : ""}, 'raw')
+	}
+      if(nonce !== ''){
+        if(serverGetNonce == 'ninjamine'){
+          message = 'Ninja limit: ' + nonce
+        }else if(serverGetNonce == 'ninjamine-vip'){
+          message = 'Ninja VIP god mode: ' + nonce
+        }else{
+          message = "kiat VIP : " + nonce
+        }     
       }
+      console.log(message)
+    }
+///////////////////////////////////////////////////
+    if(serverGetNonce == 'alien' || nonce == ''){
+      const mine_work = await background_mine(wax.userAccount)
+      nonce = mine_work.rand_str
+      console.log('nonce-alien',nonce)
+      message = 'Alien: ' + nonce
+    }
     this.checkInvalid = false;
-    this.appendMessage(`${message}`,'3')
+    this.appendMessage(`${message}`)
     return nonce;
   }catch (err) {
-    this.appendMessage(`getNonce Error message : ${err.message}`,'3')
+    this.appendMessage(`getNonce Error message : ${err.message}`)
     this.start()
   }
 }
