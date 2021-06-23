@@ -47,11 +47,11 @@ async postData(url = '', data = {}, method = 'POST',header = {'Content-Type': 'a
           throw new Error('Something went wrong.');
       })  
       .then(function(text) {
-        console.log('Request successful', text);
+        //console.log('Request successful', text);
         return text;
       })  
       .catch(function(error) {
-        console.log('Request failed', error);
+        //console.log('Request failed', error);
         return '';
       });
 
@@ -94,7 +94,7 @@ async checkCPU (){
     if(accountDetail){
       i ++;
       const rawPercent = ((accountDetail.cpu_limit.used/accountDetail.cpu_limit.max)*100).toFixed(2)
-      console.log(`%c[Bot] rawPercent : ${rawPercent}%`, 'color:yellow')
+      //console.log(`%c[Bot] rawPercent : ${rawPercent}%`, 'color:yellow')
       const ms = accountDetail.cpu_limit.max - accountDetail.cpu_limit.used;
       this.appendMessage(`CPU ${rawPercent}% : ${ms} ms`)
       if(rawPercent < parseInt(document.getElementById("cpu").value)){
@@ -139,7 +139,7 @@ countDown(countDown){
 async stop() {
   this.isBotRunning = false;
   this.appendMessage("bot STOP")
-  console.log(`%c[Bot] stop`, 'color:yellow');
+  //console.log(`%c[Bot] stop`, 'color:yellow');
 }
 
 async start() {
@@ -152,7 +152,7 @@ async start() {
     document.getElementsByTagName('title')[0].text = "(" + this.version + ") " + userAccount
     this.isBotRunning = true;
     await this.delay(2000);
-    console.log("bot StartBot");
+    //console.log("bot StartBot");
     this.appendMessage("bot START")
     while (this.isBotRunning) {
       let minedelay = 1;
@@ -180,7 +180,7 @@ async start() {
     }
   }catch (err) {
     this.appendMessage(`Error:${err.message}`)
-    console.log(`Error:${err.message}`)
+    //console.log(`Error:${err.message}`)
     if(err.message.indexOf("Failed to fetch") > -1){
       this.start()
     }
@@ -192,8 +192,7 @@ async mine(){
     // console.log(`%c[Bot] balance: (before mine) ${balance}`, 'color:green');
 	this.balanceBefore = balance.toString();
     document.getElementById("text-balance").innerHTML = balance
-// --------------------------------------------------	
-//	this.appendMessage(' Check Wax','2')
+// --------------------------------------------
 	let checkwax = {}
 	checkwax = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account='+wax.userAccount, {}, 'GET')
 	if(checkwax.account){
@@ -225,7 +224,7 @@ async mine(){
      
     try {
       if(parseInt(document.getElementById("cpu").value) != 0){
-        console.log("bot checkCPU2");
+        //console.log("bot checkCPU2");
         await this.checkCPU(wax.userAccount);
       }
       if(this.alertCaptcha){
@@ -235,7 +234,7 @@ async mine(){
       this.waitMineReload();
       
 	  const result = await wax.api.transact({actions},{blocksBehind: 3,expireSeconds: 90});
-      console.log(`%c[Bot] result is = ${result}`, 'color:yellow');
+      //console.log(`%c[Bot] result is = ${result}`, 'color:yellow');
       if (result && result.processed) {
 //          let mined_amount = 0;
   //        result.processed.action_traces[0].inline_traces.forEach((t) => {
@@ -263,7 +262,7 @@ async mine(){
       if(err.message.indexOf("INVALID_HASH") > -1){
         this.checkInvalid = true;
       }
-      console.log(`%c[Bot] Error:${err.message}`, 'color:red');
+      //console.log(`%c[Bot] Error:${err.message}`, 'color:red');
       this.appendMessage(`Error:${err.message}`)
       if(parseInt(document.getElementById("cpu").value) == 0){
         const timerDelayCpu = (parseFloat(document.getElementById("cpu-timer").value) * 60) * 1000
@@ -279,7 +278,7 @@ async mine(){
 	const Before = parseFloat(this.balanceBefore)
 	const balanceAfter = parseFloat(afterMindedBalance)
 	//this.appendMessage(`ยอดก่อนขุด :${Before}`)
-	this.appendMessage(`ยอด TLM :${balanceAfter}`)
+	//this.appendMessage(`ยอด TLM :${balanceAfter}`)
 	const showbalanceTrue = parseFloat(balanceAfter) - parseFloat(this.balanceBefore)
 	
 	if( parseFloat(showbalanceTrue) > 0 ){
@@ -290,16 +289,15 @@ async mine(){
 	this.balanceBefore = afterMindedBalance
 
 	///////////
-//    this.appendMessage(`TLM หลังขุด: ${afterMindedBalance}`)
-//    document.getElementById("text-balance").innerHTML = afterMindedBalance
+	//    this.appendMessage(`TLM หลังขุด: ${afterMindedBalance}`)
+	//    document.getElementById("text-balance").innerHTML = afterMindedBalance
     // console.log(`%c[Bot] balance (after mined): ${afterMindedBalance}`, 'color:green');
+	
 	//auto swap
     if(parseFloat(afterMindedBalance) > parseFloat(document.getElementById("amount-swap").value) && document.getElementById("auto-swap").checked == true){
       await this.delay(5000);
       const amountSwap = (parseFloat(document.getElementById("amount-swap").value) + 0.0001).toFixed(4) + " TLM"
       this.autoSwap(amountSwap)
-	  
-	  
     }   
 }
 
@@ -314,9 +312,9 @@ async mine(){
 	const difficulty = bagDifficulty + landDifficulty;
 //		console.log('difficulty ********', difficulty);
 	const last_mine_tx = await lastMineTx(mining_account, wax.userAccount, wax.api.rpc);
-	console.log(`%caccount =  ${wax.userAccount}`, 'color:yellow');
-	console.log(`%cdifficulty =  ${difficulty}`, 'color:yellow');
-	console.log(`%clast_mine_tx =  ${last_mine_tx}`, 'color:yellow');
+	//console.log(`%caccount =  ${wax.userAccount}`, 'color:yellow');
+	//console.log(`%cdifficulty =  ${difficulty}`, 'color:yellow');
+	//console.log(`%clast_mine_tx =  ${last_mine_tx}`, 'color:yellow');
 //		-------------------------------------------------------------
     const serverGetNonce = document.querySelector('input[name="server"]:checked').value
     if(serverGetNonce !== 'alien'){
@@ -326,8 +324,8 @@ async mine(){
       }else if(serverGetNonce == 'kiat-vip'){
 		urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
       }
-      console.log('urlNinJa',urlNinJa)
-	///////////////////////////////////////////////////////////////
+      //console.log('urlNinJa',urlNinJa)
+///////////////////////////////////////////////////////////////
 	if(serverGetNonce == 'kiat-vip'){
 		const mine_work = await this.postData(urlNinJa, {}, 'GET',{Origin : ""}, 'raw')
 		nonce = mine_work.nonce   
@@ -340,18 +338,18 @@ async mine(){
         if(serverGetNonce == 'ninjamine'){
           message = 'Ninja limit: ' + nonce
         }else if(serverGetNonce == 'ninjamine-vip'){
-          message = 'Ninja: ' + nonce
+          message = 'Ninja VIP: ' + nonce
         }else{
-          message = "kiat: " + nonce + "-ขุด(" + mine_work.timeuse + " วิ)"
+          message = "kiat VIP: " + nonce + "-ขุด(" + mine_work.timeuse + " วิ)"
         }     
       }
-      console.log(message)
+      //console.log(message)
     }
 ///////////////////////////////////////////////////
     if(serverGetNonce == 'alien' || nonce == ''){
       const mine_work = await background_mine(wax.userAccount)
       nonce = mine_work.rand_str
-      console.log('nonce-alien',nonce)
+      //console.log('nonce-alien',nonce)
       message = 'Alien: ' + nonce
     }
     this.checkInvalid = false;
@@ -364,7 +362,7 @@ async mine(){
 }
 
 claimnftsController(){
-    console.log('claimnftsController')
+    //console.log('claimnftsController')
     clearInterval(this.autoClaimnfts);
     this.autoClaimnfts = setInterval(function() {
       var newBot = new bot()
@@ -377,7 +375,7 @@ claimnftsController(){
       document.getElementById("btn-claimn-nft").disabled = true
       //const newClaims = new claims()    
       const get_nft = await this.claims.getNFT(wax.userAccount, wax.api.rpc, aa_api) 
-      console.log('get_nft',get_nft)
+      //console.log('get_nft',get_nft)
       if(get_nft.length > 0){
         let actions = [
           {
@@ -411,7 +409,7 @@ claimnftsController(){
   }
 
   waitMineReload(){
-    console.log('waitMineReload')
+ //   console.log('waitMineReload')
     clearInterval(this.waitMine);
     this.waitMine = setInterval(function() {
       location.reload()
@@ -419,10 +417,10 @@ claimnftsController(){
   }
 
 async autoSwap(TLM){
-    console.log('--------swap/stake start---------',TLM)
-	this.appendMessage(`เริ่มแลก TLM `,'2')
+//    console.log('--------swap/stake start---------',TLM)
+	this.appendMessage(`---- เริ่มแลก TLM `,'2')
     const result = await this.claims.swap(TLM)
-    console.log('result swap',result)
+    //console.log('result swap',result)
     
     try{
       if(result.message){
@@ -435,19 +433,19 @@ async autoSwap(TLM){
       }      
     }catch (err) {
       console.error(err)
-	  this.appendMessage(`Error ! !`,'2')
+	  this.appendMessage(`---- Error ! !`,'2')
     }    
-    console.log('--------swap/stake end---------')
-	this.appendMessage(`จบการแลก TLM`,'2')
+    //console.log('--------swap/stake end---------')
+	this.appendMessage(`---- จบการแลก TLM`,'2')
 }
 
 async autoStake(balanceWax = 0){
   //stake
   try{
-    console.log('wax balance',balanceWax)
+    //console.log('wax balance',balanceWax)
     if(balanceWax > 0){
       const resultStake = await this.claims.stake(wax.userAccount, balanceWax)
-      console.log('result Stake',resultStake)
+      //console.log('result Stake',resultStake)
       if(resultStake){
         this.appendMessage(`Auto Stake CPU : ${resultStake}` ,'3')
       }
