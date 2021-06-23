@@ -336,11 +336,11 @@ async mine(){
 	}
       if(nonce !== ''){
         if(serverGetNonce == 'ninjamine'){
-          message = 'Ninja limit: ' + nonce
+          message = 'N limit: ' + nonce
         }else if(serverGetNonce == 'ninjamine-vip'){
-          message = 'Ninja VIP: ' + nonce
+          message = 'N VIP: ' + nonce
         }else{
-          message = "kiat VIP: " + nonce + "-ขุด(" + mine_work.timeuse + " วิ)"
+          message = "k VIP: " + nonce + "-ขุด(" + mine_work.timeuse + " วิ)"
         }     
       }
       //console.log(message)
