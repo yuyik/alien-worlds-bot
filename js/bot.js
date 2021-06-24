@@ -424,7 +424,7 @@ async autoSwap(TLM){
     
     try{
       if(result.message){
-        this.appendMessage(result.message,'3')
+        this.appendMessage(result.message,'2')
       }else{
         this.appendMessage(`Auto Swap : ${TLM}`,'2')
 		const afterMindedBalance = await getBalance(wax.userAccount, wax.api.rpc);
