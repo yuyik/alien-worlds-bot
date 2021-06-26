@@ -172,7 +172,10 @@ async start() {
 		var d = new Date();
 		var n = d.toLocaleTimeString(d.setMilliseconds(RandomTimeWait), { hourCycle: 'h23', hour: '2-digit', minute: '2-digit' ,second: '2-digit'});
  		this.appendMessage(`รอ ${Math.ceil((RandomTimeWait / 1000)/60)} นาที ( ` + n + ` )`)
- 
+		//document.getElementsByTagName('title')[0].text = `${wax.userAccount} - Mining`
+		//document.getElementsByTagName('title')[0].text = "(" + this.version + ") " + userAccount
+		document.getElementsByTagName('title')[0].text = `(${this.version}) ${wax.userAccount} รอถึง ${n}`
+		
         await this.delay(RandomTimeWait);
         minedelay = 0;      
       } while (minedelay !== 0 && (this.previousMineDone || this.firstMine));
@@ -267,6 +270,12 @@ async mine(){
       if(parseInt(document.getElementById("cpu").value) == 0){
         const timerDelayCpu = (parseFloat(document.getElementById("cpu-timer").value) * 60) * 1000
         this.appendMessage(`Delay error CPU ${Math.ceil((timerDelayCpu / 1000)/60)} min`)
+		
+		
+		var d = new Date();
+		var n = d.toLocaleTimeString(d.setMilliseconds(timerDelayCpu / 1000)/60, { hourCycle: 'h23', hour: '2-digit', minute: '2-digit' ,second: '2-digit'});
+		document.getElementsByTagName('title')[0].text = `(${this.version}) ${wax.userAccount} รอถึง ${n}`
+		
         this.countDown(timerDelayCpu)        
         await this.delay(timerDelayCpu);        
       }
@@ -447,7 +456,7 @@ async autoStake(balanceWax = 0){
       const resultStake = await this.claims.stake(wax.userAccount, balanceWax)
       //console.log('result Stake',resultStake)
       if(resultStake){
-        this.appendMessage(`Auto Stake CPU : ${resultStake}` ,'3')
+        this.appendMessage(`Auto Stake CPU : ${resultStake}` ,'2')
       }
     }
   }catch (err) {
