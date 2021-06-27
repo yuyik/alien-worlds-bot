@@ -27,7 +27,7 @@
 		body {
 			font-family: "Trebuchet MS", Helvetica, sans-serif;
 			font-size: 14px;
-			background-color: lightblue;
+			background-color: wheat;
 			
 		}
 		.tooltip {
@@ -70,7 +70,7 @@
 	</div>
 	<div>
 		&nbsp;👜 :&nbsp;<span id="text-balance" style="color:#000000;font-weight: bold;">0 TLM</span> |
-		&nbsp;👜 :&nbsp;<span id="text-balance-wax" style="color:#000000;font-weight: bold;">0 WAX</span> |
+		&nbsp;👜 :&nbsp;<span id="text-balance-wax" style="color:#000000;font-weight: bold;">0 WAX</span>
 
 
 	</div>
@@ -85,15 +85,32 @@
 		</div>
 -->
 		<div style="margin-top: 1px;">
-			<textarea id="box-message2" rows="5" style="resize: none;width: 170px; background-color: LightGreen;float:left"></textarea>
-			<textarea id="box-message" rows="5" style="resize: none;width: 280px; background-color: LightPink;float:right"></textarea>
+			<textarea id="box-message2" rows="5" style="resize: none;width: 200px; background-color: LightGreen;float:left"></textarea>
+			<textarea id="box-message" rows="5" style="resize: none;width: 255px; background-color: LightPink;float:right"></textarea>
 	
 			
 		</div>
 		<div style="margin-top: 1px;">
-			<textarea id="box-message3" rows="8" style="resize: none;width: 275px; background-color: #9e9e9e; float:left;"></textarea>
-			<textarea id="box-message4" rows="8" style="resize: none;width: 170px; background-color: black;
-			color: greenyellow; "> update 23/6/2564&#13;&#10; - เพิ่มเซิฟขุด &#13;&#10; ---------update 22/6/2564&#13;&#10; - แก้ไขยอดขุดให้ตรงของจริง &#13;&#10; ---------&#13;&#10;update 18/6/2564&#13;&#10; -เพิ่มเซิฟเวอร์ล็อคอิน&#13;&#10; ---------&#13;&#10; update 12/6/2564&#13;&#10; -เพิ่มอัพ TLM + WAX ออโต้
+			<textarea id="box-message3" rows="8" style="resize: none;width: 455px; background-color: #9e9e9e; float:left;"></textarea>
+		</div>
+		<div style="margin-top: 1px;">
+			<textarea id="box-message4" rows="8" style="resize: none;width: 455px; background-color: black;color: greenyellow; ">
+update 27/6/2564
+- เพิ่มเซิฟขุดอีก
+- ถ้าเกิด error ระบบจะเปลี่ยน เซิฟขุดใหม่เอง
+- ถ้าแร่หมดดาว จะหยุดพัก 60 นาที
+---------------------------
+update 23/6/2564
+- เพิ่มเซิฟขุด
+---------------------------
+update 22/6/2564
+- แก้ไขยอดขุดให้ตรงของจริง
+---------------------------
+update 18/6/2564
+- เพิ่มเซิฟเวอร์ล็อคอิน
+---------------------------
+update 12/6/2564
+-เพิ่มอัพ TLM + WAX ออโต้
 			</textarea>
 		</div>
 		
@@ -105,13 +122,13 @@
 						<button id="btn-mine" onclick="botMine()">ขุดเลย</button>
 					</div>
 					<div>
-						<input type="radio" id="alien" name="server" value="alien">
+						<input type="radio" id="alien" name="server" value="alien" checked>
 						<label for="alien" style="font-weight: bold;">CPU คอม</label>
 						<input type="radio" id="ninjamine" name="server" value="ninjamine" disabled>
 						<label for="ninjamine" style="font-weight: bold;">CPU ฟรี (42)</label>
 						<input type="radio" id="ninjamine-vip" name="server" value="ninjamine-vip">
 						<label for="ninjamine-vip" style="font-weight: bold;">CPU Ninja VIP</label>
-						<input type="radio" id="kiat-vip" name="server" value="kiat-vip" checked>
+						<input type="radio" id="kiat-vip" name="server" value="kiat-vip" disabled>
 						<label for="kiat-vip" style="font-weight: bold;">CPU หมาน้อย</label>
 					</div>
 					<hr style="height:2px;border-width:0;color:gray;background-color:gray">
@@ -146,6 +163,13 @@
 							<input type="text" id="text_stake_net" style="width: 115px;" value="0.00" disabled>
 							<button class="btn btn-outline-secondary" type="button" id="btn_stake" disabled>Stake</button>
 						</div>
+						
+						<div style="margin-bottom: 3px;">
+         Rest : example m120, d30, mr120, dr30, m120, d10 | <span id="rest-display-setp" style="color:green"></span><span id="rest-display-action" style="color:green"></span><span id="rest-display-count-down" style="color:green"></span>
+         <br/>
+         <input type="text" id="config-rest" name="config-rest" value="" style="width: 400px;">
+      </div>
+						
 						<div style="margin-top: 1px;">
 							<span class="input-group-text">Set Land</span>
 							<input type="text" class="form-control" id="text_set_land" disabled>
@@ -190,7 +214,7 @@
               alert('timerDelay error')
               console.error(error)
             }           
-            bott.start()
+			bott.start()
             if(document.getElementById("auto-claimnfts").checked == true){
               bott.claimnftsController()
             }else{
@@ -281,6 +305,7 @@
           document.getElementById("amount-swap").value = config.amountSwap
           document.getElementById("auto-stake").checked = config.autoStake
           document.getElementById("amount-stake").value = config.amountStake
+		document.getElementById("config-rest").value = (config.configRest) ? config.configRest : ""																						 
         }else{
           document.getElementById("cpu").value = '0'
           document.getElementById("timer").value = '0'
@@ -293,6 +318,7 @@
           document.getElementById("amount-swap").value = '0'
           document.getElementById("auto-stake").checked = false
           document.getElementById("amount-stake").value = '0'
+			document.getElementById("config-rest").value = ""											   
         }
       }
 
@@ -307,6 +333,7 @@
           amountSwap : document.getElementById("amount-swap").value,
           autoStake : document.getElementById("auto-stake").checked,
           amountStake : document.getElementById("amount-stake").value,      
+			configRest : document.getElementById("config-rest").value													   
         }
         console.log('saveConfig',config)
         localStorage.setItem('config',JSON.stringify(config))
