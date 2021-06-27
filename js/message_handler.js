@@ -5,20 +5,21 @@ var logDownloaded = false;
 const indexWaxDomain = (localStorage.getItem('waxDomain')) ? localStorage.getItem('waxDomain') : 0;
 var waxDomain = [
 'https://wax.pink.gg',
-'http://api-wax.eosauthority.com',
 'https://wax.greymass.com',
 'https://wax.cryptolions.io',
 'https://wax.dapplica.io',
-'http://wax.eosdublin.io',
-'http://wax.eoseoul.io',
-'http://wax.eosn.io',
-'http://wax.eosphere.io',
-'http://wax.eosrio.io',
 'https://api.wax.alohaeos.com',
-'https://api.wax.bountyblok.io',
 'https://api.wax.liquidstudios.io',
 'https://api.waxeastern.cn',
 'https://api.waxeastern.cn',
+'http://api.waxsweden.org',
+'http://apiwax.3dkrender.com',
+'http://api-wax.eosauthority.com',
+'http://hyperion.sentnl.io',
+'http://wax.blacklusion.io',
+'http://wax.blokcrafters.io',
+'http://wax.cryptolions.io',
+'http://wax.csx.io',
 'https://chain.wax.io'
 ];
 
