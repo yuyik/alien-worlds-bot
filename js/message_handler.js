@@ -2,9 +2,33 @@ var gameLoaded = false;
 var log = "";
 var logDownloaded = false;
 
-
 const indexWaxDomain = (localStorage.getItem('waxDomain')) ? localStorage.getItem('waxDomain') : 0;
-var waxDomain = ['https://wax.pink.gg','https://api.waxsweden.org','https://wax.greymass.com','https://wax.cryptolions.io','https://wax.dapplica.io','https://chain.wax.io'];
+var waxDomain = [
+'https://wax.pink.gg',
+'http://api-wax.eosauthority.com',
+'https://wax.greymass.com',
+'https://wax.cryptolions.io',
+'https://wax.dapplica.io',
+'http://wax.eosdublin.io',
+'http://wax.eoseoul.io',
+'http://wax.eosn.io',
+'http://wax.eosphere.io',
+'http://wax.eosrio.io',
+'https://api.wax.alohaeos.com',
+'https://api.wax.bountyblok.io',
+'https://api.wax.liquidstudios.io',
+'https://api.waxeastern.cn',
+'https://api.waxeastern.cn',
+'https://chain.wax.io'
+];
+
+//'https://wax.pink.gg',
+//'https://api.waxsweden.org',
+//'https://wax.greymass.com',
+//'https://wax.cryptolions.io',
+//'https://wax.dapplica.io',
+//'https://chain.wax.io'
+
 const wax = new waxjs.WaxJS(waxDomain[indexWaxDomain]);
 //const wax = new waxjs.WaxJS('https://wax.pink.gg'); //old url https://api.waxsweden.org
 
@@ -359,11 +383,15 @@ const background_mine = async (account) => {
     console.log('difficulty', difficulty);
 
     console.log('start doWork = ' + Date.now());
+	let today = new Date().toLocaleString().slice(11, 18)
+	bott.appendMessage(`เริ่มขุด ${today}`, '3')
     const last_mine_tx = await lastMineTx(mining_account, account, wax.api.rpc);
 
     doWorkWorker({ mining_account, account, difficulty, last_mine_tx }).then(
       (mine_work) => {
         console.log('end doWork = ' + Date.now());
+		let today = new Date().toLocaleString().slice(11, 18)
+		bott.appendMessage(`จบการขุด ${today}`, '3')
         resolve(mine_work);
       }
     );
@@ -372,6 +400,7 @@ const background_mine = async (account) => {
 
 async function server_mine(account) {
   try {
+	 
     background_mine(account).then((mine_work) => {
       unityInstance.SendMessage(
         'Controller',

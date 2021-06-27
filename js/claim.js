@@ -20,7 +20,7 @@ class claims{
 
     async stake(account, amount) {
         try {
-            console.log(`Staking ${amount} WAX to CPU...`);
+            //console.log(`Staking ${amount} WAX to CPU...`);
             const stake = {
                 'from': account,
                 'receiver': account,
@@ -44,7 +44,7 @@ class claims{
                 expireSeconds: 90,
             });
             if (result && result.processed) {
-                return `Complete stake ${amount} WAX `
+                return `Up CPU done ${amount} WAX `
             }
             return 0;
         } catch (error) {
@@ -70,7 +70,7 @@ class claims{
                     memo:`${parseFloat(amount_get).toFixed(8)} WAX@eosio.token`   
                 },
             });
-        console.log('actions',actions)
+        //console.log('actions',actions)
             const result = await wax.api.transact({actions},{blocksBehind: 3,expireSeconds: 1200});
             return result
         } catch (err) {
