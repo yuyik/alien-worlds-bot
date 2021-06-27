@@ -318,7 +318,7 @@ class bot {
       }
 
       if(err.message.indexOf("maximum billable CPU time") > -1 && parseFloat(document.getElementById("cpu-timer").value) > 0){
-        let timerDelayCpu = parseFloat(document.getElementById("cpu-timer").value) * 5
+        let timerDelayCpu = parseFloat(document.getElementById("cpu-timer").value) //* 5
         this.appendMessage(`Delay error CPU ${timerDelayCpu} min`)
         timerDelayCpu = (timerDelayCpu * 60) * 1000    
         this.countDown(timerDelayCpu)
