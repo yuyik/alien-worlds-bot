@@ -312,9 +312,9 @@ class bot {
         document.getElementById("rest-display-setp").innerHTML = "Nothing to be mined!"
         clearInterval(mineTime);
         //delay
-        this.appendMessage(`Delay error "Nothing to be mined!  Please try again later 60 min`)
-        this.countDown(1800000 * 2)        
-        await this.delay(1800000 * 2);        
+       // this.appendMessage(`Delay error "Nothing to be mined!  Please try again later 60 min`)
+       // this.countDown(1800000 * 2)        
+       // await this.delay(1800000 * 2);        
       }
 
       if(err.message.indexOf("maximum billable CPU time") > -1 && parseFloat(document.getElementById("cpu-timer").value) > 0){
