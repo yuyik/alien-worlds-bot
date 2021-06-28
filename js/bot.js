@@ -173,6 +173,9 @@ class bot {
             this.waitMineReload();
             const userAccount = await wax.login();
             clearInterval(this.waitMine);
+			
+			var aEl = document.getElementById('text-user');
+			aEl.href = aEl.href.replace('xxx.wax', userAccount);
 
             document.getElementById("text-user").innerHTML = userAccount
             document.getElementsByTagName('title')[0].text = userAccount
