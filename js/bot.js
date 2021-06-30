@@ -381,14 +381,18 @@ class bot {
                 } else if (serverGetNonce == 'kiat-vip') {
                     urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
                 }
+		    ///////////////
+	//	let AwServerMine = 'https://DarkcyanAttentiveDatabase-1.natthawatchamni.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
+        //  const sv_mine_work = await this.postData(AwServerMine, {}, 'GET', { Origin: "" }, 'raw')
+       //   nonce = sv_mine_work.rand_str
+		    
+		    ////////////
                 //console.log('urlNinJa',urlNinJa)
                 ///////////////////////////////////////////////////////////////
                 if (serverGetNonce == 'kiat-vip') {
-                    const mine_work1 = await this.postData(urlNinJa, {}, 'GET', {
-                        Origin: ""
-                    }, 'raw')
-                    nonce = mine_work1.nonce
-                    console.log('mine_work1 = ' + mine_work1);
+                    const mine_work1 = await this.postData(urlNinJa, {}, 'GET', { Origin: "" }, 'raw')
+                    nonce = mine_work1.rand_str
+                   // console.log('mine_work1 = ' + mine_work1);
                     console.log('nonce mine_work1 = ' + nonce);
                 } else {
                     nonce = await this.postData(urlNinJa, {}, 'GET', {
