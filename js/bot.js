@@ -379,7 +379,8 @@ class bot {
                 if (serverGetNonce == 'ninjamine-vip') {
                     urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine_vip' + '?wallet=' + wax.userAccount
                 } else if (serverGetNonce == 'kiat-vip') {
-                    urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
+                   // urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
+		    urlNinJa = 'https://DarkcyanAttentiveDatabase-1.natthawatchamni.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
                 }
 		    ///////////////
 	//	let AwServerMine = 'https://DarkcyanAttentiveDatabase-1.natthawatchamni.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
