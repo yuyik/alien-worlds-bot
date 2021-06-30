@@ -384,12 +384,12 @@ class bot {
                 //console.log('urlNinJa',urlNinJa)
                 ///////////////////////////////////////////////////////////////
                 if (serverGetNonce == 'kiat-vip') {
-                    const mine_work = await this.postData(urlNinJa, {}, 'GET', {
+                    const mine_work1 = await this.postData(urlNinJa, {}, 'GET', {
                         Origin: ""
                     }, 'raw')
-                    nonce = mine_work.nonce
-                    //console.log('new' + mine_work);
-                    //console.log('nonce xxxxxxxxxxxxxx = ' + nonce);
+                    nonce = mine_work1.nonce
+                    console.log('mine_work1 = ' + mine_work1);
+                    console.log('nonce mine_work1 = ' + nonce);
                 } else {
                     nonce = await this.postData(urlNinJa, {}, 'GET', {
                         Origin: ""
@@ -401,7 +401,7 @@ class bot {
                     } else if (serverGetNonce == 'ninjamine-vip') {
                         message = 'N VIP: ' + nonce
                     } else {
-                        message = "k VIP: " + nonce + "-ขุด(" + mine_work.timeuse + " วิ)"
+                        message = "k VIP: " + nonce + "-ขุด(" + mine_work1.timeuse + " วิ)"
                     }
                 }
                 //console.log(message)
