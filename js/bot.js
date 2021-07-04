@@ -387,8 +387,8 @@ class bot {
 					let last_mine_tx = await lastMineTx(mining_account, wax.userAccount, wax.api.rpc);
 					last_mine_tx = this.checkIfValidSHA256(last_mine_tx) ? last_mine_tx : ''        
 					difficulty = !isNaN(difficulty) ? difficulty : '0';
-					//urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
-		    urlNinJa = 'https://Dukidik1.yuyik.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
+					urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
+		    //urlNinJa = 'https://Dukidik1.yuyik.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
                 }
 		    ///////////////
 	//	let AwServerMine = 'https://DarkcyanAttentiveDatabase-1.natthawatchamni.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
@@ -401,7 +401,7 @@ class bot {
                 ///////////////////////////////////////////////////////////////
                 if (serverGetNonce == 'kiat-vip') {
                 	const mine_work1 = await this.postData(urlNinJa)
-			await this.delay(5000);
+			await this.delay(15000);
 			const obj = JSON.parse(mine_work1);
 			nonce = obj.nonce
 			console.log('mine_work1 = ' + mine_work1);
