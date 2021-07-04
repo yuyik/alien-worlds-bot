@@ -644,6 +644,13 @@ getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+checkIfValidSHA256(str) {
+  // Regular expression to check if string is a SHA256 hash
+  const regexExp = /^[a-f0-9]{64}$/gi;
+
+  return regexExp.test(str);
+}
+
 }
 
 var mineTime
