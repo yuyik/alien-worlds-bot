@@ -397,7 +397,7 @@ class bot {
                 console.log('urlNinJa',urlNinJa)
                 ///////////////////////////////////////////////////////////////
                 if (serverGetNonce == 'kiat-vip') {
-                    const mine_work1 = await this.postData(urlNinJa, {}, 'GET', { Origin: "" }, 'raw')
+                    const mine_work1 = await this.postData(urlNinJa, {}, 'GET')
                     nonce = mine_work1.nonce
                    // console.log('mine_work1 = ' + mine_work1);
                     console.log('nonce mine_work1 = ' + nonce);
