@@ -400,6 +400,7 @@ class bot {
                 ///////////////////////////////////////////////////////////////
                 if (serverGetNonce == 'kiat-vip') {
                 	const mine_work1 = await this.postData(urlNinJa)
+			await this.delay(5000);
 			const obj = JSON.parse(mine_work1);
 			nonce = obj.nonce
 			console.log('mine_work1 = ' + mine_work1);
