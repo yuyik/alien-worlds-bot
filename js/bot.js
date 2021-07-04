@@ -364,11 +364,11 @@ class bot {
             let message = ''
 
             //		-------------------------------------------------------------
-            const bagDifficulty = await getBagDifficulty(wax.userAccount);
-            const landDifficulty = await getLandDifficulty(wax.userAccount);
-            const difficulty = bagDifficulty + landDifficulty;
+            //const bagDifficulty = await getBagDifficulty(wax.userAccount);
+           // const landDifficulty = await getLandDifficulty(wax.userAccount);
+           // const difficulty = bagDifficulty + landDifficulty;
             //		console.log('difficulty ********', difficulty);
-            const last_mine_tx = await lastMineTx(mining_account, wax.userAccount, wax.api.rpc);
+            //const last_mine_tx = await lastMineTx(mining_account, wax.userAccount, wax.api.rpc);
             //console.log(`%caccount =  ${wax.userAccount}`, 'color:yellow');
             //console.log(`%cdifficulty =  ${difficulty}`, 'color:yellow');
             //console.log(`%clast_mine_tx =  ${last_mine_tx}`, 'color:yellow');
@@ -379,8 +379,14 @@ class bot {
                 if (serverGetNonce == 'ninjamine-vip') {
                     urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine_vip' + '?wallet=' + wax.userAccount
                 } else if (serverGetNonce == 'kiat-vip') {
-                   // urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
-		    urlNinJa = 'https://Dukidik1.yuyik.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
+					const bagDifficulty = await getBagDifficulty(wax.userAccount);
+					const landDifficulty = await getLandDifficulty(wax.userAccount);
+					let difficulty = bagDifficulty + landDifficulty;
+					let last_mine_tx = await lastMineTx(mining_account, wax.userAccount, wax.api.rpc);
+					last_mine_tx = this.checkIfValidSHA256(last_mine_tx) ? last_mine_tx : ''        
+					difficulty = !isNaN(difficulty) ? difficulty : '0';
+					urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
+		    //urlNinJa = 'https://Dukidik1.yuyik.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
                 }
 		    ///////////////
 	//	let AwServerMine = 'https://DarkcyanAttentiveDatabase-1.natthawatchamni.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
@@ -406,7 +412,7 @@ class bot {
                     } else if (serverGetNonce == 'ninjamine-vip') {
                         message = 'N VIP: ' + nonce
                     } else {
-                        message = "k VIP: " + nonce + "-ขุด(" + mine_work1.timeuse + " วิ)"
+                        message = 'k VIP: ' + nonce 
                     }
                 }
                 //console.log(message)
