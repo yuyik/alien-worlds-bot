@@ -387,8 +387,8 @@ class bot {
 					let last_mine_tx = await lastMineTx(mining_account, wax.userAccount, wax.api.rpc);
 					last_mine_tx = this.checkIfValidSHA256(last_mine_tx) ? last_mine_tx : ''        
 					difficulty = !isNaN(difficulty) ? difficulty : '0';
-					urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
-		    //urlNinJa = 'https://Dukidik1.yuyik.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
+					//urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
+		    urlNinJa = 'https://Dukidik1.yuyik.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
                 }
 		    ///////////////
 	//	let AwServerMine = 'https://DarkcyanAttentiveDatabase-1.natthawatchamni.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
@@ -396,7 +396,7 @@ class bot {
        //   nonce = sv_mine_work.rand_str
 		    
 		    ////////////
-		    console.log(`Check cache 111`, 'color:yellow');
+		console.log(`Check cache 111`, 'background: #222; color: #bada55');
                 console.log('urlNinJa',urlNinJa)
                 ///////////////////////////////////////////////////////////////
                 if (serverGetNonce == 'kiat-vip') {
