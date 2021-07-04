@@ -94,6 +94,7 @@ class bot {
             if (i % 2 == 0) {
                 //this.appendMessage(`Check WAX  ${i}`,'2')
                 accountDetail = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account=' + wax.userAccount, {}, 'GET')
+		 console.log(' accountDetail = ' + accountDetail)
                 if (accountDetail.account) {
                     for (let token of accountDetail.tokens) {
                         if (token.symbol === "WAX") {
@@ -237,6 +238,7 @@ class bot {
         // --------------------------------------------
         let checkwax = {}
         checkwax = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account=' + wax.userAccount, {}, 'GET')
+	console.log(' checkwax = ' + checkwax)
         if (checkwax.account) {
             for (let token of checkwax.tokens) {
                 if (token.symbol === "WAX") {
