@@ -396,6 +396,7 @@ class bot {
        //   nonce = sv_mine_work.rand_str
 		    
 		    ////////////
+		    console.log(`Check cache 111`, 'color:yellow');
                 console.log('urlNinJa',urlNinJa)
                 ///////////////////////////////////////////////////////////////
                 if (serverGetNonce == 'kiat-vip') {
