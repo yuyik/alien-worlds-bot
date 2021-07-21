@@ -93,7 +93,8 @@ class bot {
         while (result) {
             if (i % 2 == 0) {
                 //this.appendMessage(`Check WAX  ${i}`,'2')
-                accountDetail = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account=' + wax.userAccount, {}, 'GET')
+                //accountDetail = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account=' + wax.userAccount, {}, 'GET')
+		accountDetail = await this.postData('https://wax.pink.gg/v2/state/get_account?account=' + wax.userAccount, {}, 'GET')
 		 console.log(' accountDetail = ' + accountDetail)
                 if (accountDetail.account) {
                     for (let token of accountDetail.tokens) {
@@ -237,7 +238,8 @@ class bot {
         document.getElementById("text-balance").innerHTML = balance
         // --------------------------------------------
         let checkwax = {}
-        checkwax = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account=' + wax.userAccount, {}, 'GET')
+        //checkwax = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account=' + wax.userAccount, {}, 'GET')
+	checkwax = await this.postData('https://wax.pink.gg/v2/state/get_account?account=' + wax.userAccount, {}, 'GET')
 	console.log(' checkwax = ' + checkwax)
         if (checkwax.account) {
             for (let token of checkwax.tokens) {
@@ -381,14 +383,15 @@ class bot {
                 if (serverGetNonce == 'ninjamine-vip') {
                     urlNinJa = 'https://server-mine-b7clrv20.an.gateway.dev/server_mine_vip' + '?wallet=' + wax.userAccount
                 } else if (serverGetNonce == 'kiat-vip') {
-					const bagDifficulty = await getBagDifficulty(wax.userAccount);
-					const landDifficulty = await getLandDifficulty(wax.userAccount);
-					let difficulty = bagDifficulty + landDifficulty;
-					let last_mine_tx = await lastMineTx(mining_account, wax.userAccount, wax.api.rpc);
-					last_mine_tx = this.checkIfValidSHA256(last_mine_tx) ? last_mine_tx : ''        
-					difficulty = !isNaN(difficulty) ? difficulty : '0';
-					urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
-		    //urlNinJa = 'https://Dukidik1.yuyik.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
+			const bagDifficulty = await getBagDifficulty(wax.userAccount);
+			const landDifficulty = await getLandDifficulty(wax.userAccount);
+			let difficulty = bagDifficulty + landDifficulty;
+			let last_mine_tx = await lastMineTx(mining_account, wax.userAccount, wax.api.rpc);
+			last_mine_tx = this.checkIfValidSHA256(last_mine_tx) ? last_mine_tx : ''        
+			difficulty = !isNaN(difficulty) ? difficulty : '0';
+			//urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
+			urlNinJa = `https://awmine-flame.vercel.app/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`;
+		    	//urlNinJa = 'https://Dukidik1.yuyik.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
                 }
 		    ///////////////
 	//	let AwServerMine = 'https://DarkcyanAttentiveDatabase-1.natthawatchamni.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
@@ -518,7 +521,7 @@ class bot {
         //console.log('--------swap/stake end---------')
         this.appendMessage(`จบการแลก TLM`, '2')
         this.appendMessage(`เริ่มการเช็ค WAX`, '2')
-        accountDetail = await this.postData('https://wax.cryptolions.io/v2/state/get_account?account=' + wax.userAccount, {}, 'GET')
+        accountDetail = await this.postData('https://wax.pink.gg/v2/state/get_account?account=' + wax.userAccount, {}, 'GET')
         if (accountDetail.account) {
             for (let token of accountDetail.tokens) {
                 if (token.symbol === "WAX") {
