@@ -4,7 +4,7 @@ var logDownloaded = false;
 
 const indexWaxDomain = (localStorage.getItem('waxDomain')) ? localStorage.getItem('waxDomain') : 0;
 var waxDomain = [
-'https://chain.wax.io'
+'https://chain.wax.io',
 'https://wax.pink.gg',
 'https://wax.cryptolions.io',
 'https://wax.dapplica.io',
