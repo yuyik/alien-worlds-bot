@@ -405,10 +405,13 @@ class bot {
                 ///////////////////////////////////////////////////////////////
                 if (serverGetNonce == 'kiat-vip') {
                 	const mine_work1 = await this.postData(urlNinJa, {}, 'GET', { Origin: "" }, 'raw')
-			//await this.delay(15000);
+			await this.delay(15000);
+			console.log('mine_work1 -1 = ' + mine_work1);
 			const obj = JSON.parse(mine_work1);
+			console.log('mine_work1 - 2 = ' + mine_work1);
+			console.log('mine_work1 = ' + obj.nonce);
 			nonce = obj.nonce
-			//console.log('mine_work1 = ' + mine_work1);
+			
 			console.log('nonce mine_work1 = ' + nonce);
                 } else {
                     nonce = await this.postData(urlNinJa, {}, 'GET', {
