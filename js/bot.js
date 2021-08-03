@@ -411,6 +411,7 @@ class bot {
 			console.log('mine_work1 - 2 = ' + mine_work1);
 			//console.log('mine_work1 = ' + obj.nonce);
 			//nonce = obj.nonce
+			nonce = mine_work1.rand_str
 			
 			console.log('nonce mine_work1 = ' + nonce);
                 } else {
