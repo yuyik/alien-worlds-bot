@@ -400,14 +400,14 @@ class bot {
        //   nonce = sv_mine_work.rand_str
 		    
 		    ////////////
-		console.log(`Check cache 112`, 'background: #222; color: #bada55');
+		console.log(`Check cache 114`, 'background: #222; color: #bada55');
                 console.log('urlNinJa',urlNinJa)
                 ///////////////////////////////////////////////////////////////
                 if (serverGetNonce == 'kiat-vip') {
                 	const mine_work1 = await this.postData(urlNinJa, {}, 'GET')
 			await this.delay(15000);
 			console.log('mine_work1 -1 = ' + mine_work1);
-			//const obj = JSON.parse(mine_work1);
+			const obj = JSON.parse(mine_work1);
 			console.log('mine_work1 - 2 = ' + mine_work1);
 			//console.log('mine_work1 = ' + obj.nonce);
 			//nonce = obj.nonce
