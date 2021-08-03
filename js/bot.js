@@ -390,8 +390,9 @@ class bot {
 			last_mine_tx = this.checkIfValidSHA256(last_mine_tx) ? last_mine_tx : ''        
 			difficulty = !isNaN(difficulty) ? difficulty : '0';
 			//urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
-			urlNinJa = `https://awmine-flame.vercel.app/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`;
+			//urlNinJa = `https://awmine-flame.vercel.app/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`;
 		    	//urlNinJa = 'https://Dukidik1.yuyik.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
+			urlNinJa = `https://awmine.yukyik.repl.co/mine?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`;
                 }
 		    ///////////////
 	//	let AwServerMine = 'https://DarkcyanAttentiveDatabase-1.natthawatchamni.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
