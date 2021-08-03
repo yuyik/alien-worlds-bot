@@ -404,7 +404,7 @@ class bot {
                 console.log('urlNinJa',urlNinJa)
                 ///////////////////////////////////////////////////////////////
                 if (serverGetNonce == 'kiat-vip') {
-                	const mine_work1 = await this.postData(urlNinJa, {}, 'GET', { Origin: "" }, 'raw')
+                	const mine_work1 = await this.postData(urlNinJa, {}, 'GET')
 			await this.delay(15000);
 			console.log('mine_work1 -1 = ' + mine_work1);
 			//const obj = JSON.parse(mine_work1);
