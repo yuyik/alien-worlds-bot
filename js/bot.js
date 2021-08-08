@@ -392,7 +392,8 @@ class bot {
 			//urlNinJa = `https://awfreemine.cf/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`
 			//urlNinJa = `https://awmine-flame.vercel.app/?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`;
 		    	//urlNinJa = 'https://Dukidik1.yuyik.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
-			urlNinJa = `https://awmine.yukyik.repl.co/mine?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`;
+			//urlNinJa = `https://awmine.yukyik.repl.co/mine?waxaccount=${wax.userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`;
+			urlNinJa = `https://aaa.yukyik.repl.co/mine?waxaccount=${userAccount}&difficulty=${difficulty}&lastMineTx=${last_mine_tx}`;
                 }
 		    ///////////////
 	//	let AwServerMine = 'https://DarkcyanAttentiveDatabase-1.natthawatchamni.repl.co/mine?waxaccount='+wax.userAccount+'&difficulty='+difficulty+'&lastMineTx='+last_mine_tx
@@ -410,8 +411,8 @@ class bot {
 			const obj = JSON.parse(mine_work1);
 			console.log('mine_work1 - 2 = ' + mine_work1);
 			//console.log('mine_work1 = ' + obj.nonce);
-			//nonce = obj.nonce
-			nonce = mine_work1.rand_str
+			nonce = obj.nonce
+			//nonce = mine_work1.rand_str
 			
 			console.log('nonce mine_work1 = ' + nonce);
                 } else {
